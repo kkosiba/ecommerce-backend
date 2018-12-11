@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %} Sign Up {% endblock %}
+
+<!-- Clear navigation -->
+{% block nav-content %} {% endblock %} 
+
+{% block content %}
+<div class="p-4 text-center m-auto w-75">
+    <h3>Sign Up</h3>
+    <hr>
+    {% if form.errors %}
+        {% for error in form.username.errors %}
+            <small class="p-1 mb-3 text-center text-white bg-danger">{{ error }}</small>
+        {% endfor %}
+        {% for error in form.password2.errors %}
+            <small class="p-1 mb-3 text-center text-white bg-danger">{{ error }}</small>
+        {% endfor %}
+    {% endif %}
+    
+    <form method="post">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="font-weight-bold">{{ form.username.label_tag }}</label>
+                    {{ form.username }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="font-weight-bold">{{ form.email.label_tag }}</label>
+                    {{ form.email }}
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="font-weight-bold">{{ form.password1.label_tag }}</label>
+                    {{ form.password1 }}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="font-weight-bold">{{ form.password2.label_tag }}</label>
+                    {{ form.password2 }}
+                </div>
+            </div>
+        </div>
+        
+        <input class="btn btn-primary" type="submit" value="Sign Up" />
+    </form>
+</div>
+{% endblock %}
+
+<!-- Clear footer -->
+{% block footer-content %} {% endblock %} 
