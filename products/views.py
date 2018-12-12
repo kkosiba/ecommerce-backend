@@ -62,7 +62,7 @@ class ProductDeleteView(LoginRequiredMixin,
         """
         Only let the user delete object if they own the object being deleted
         """
-        return self.get_object().author.username == self.request.user.username
+        return self.get_object().owner.username == self.request.user.username
 
 
 class ProductUpdateView(LoginRequiredMixin,
@@ -76,7 +76,7 @@ class ProductUpdateView(LoginRequiredMixin,
         Only let the user update object if they own the object being updated
 
         """
-        return self.get_object().author.username == self.request.user.username
+        return self.get_object().owner.username == self.request.user.username
 
     def get_context_data(self, **kwargs):
         """
