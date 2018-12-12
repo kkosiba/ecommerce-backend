@@ -1,6 +1,9 @@
 from django.db import models
 from django.urls import reverse
 
+from django.contrib.auth.models import User
+
+
 # Create your models here.
 
 class Category(models.Model):
@@ -26,6 +29,9 @@ class Product(models.Model):
     price        = models.DecimalField(decimal_places=2,
                                        max_digits=20,
                                        default=0)
+    owner        = models.ForeignKey(User,
+                                     on_delete=models.CASCADE,
+                                     related_name='products')
 
     def __str__(self):
         return self.name
