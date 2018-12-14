@@ -3,16 +3,22 @@ from django.shortcuts import render
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import (
-    CreateView, DeleteView, UpdateView, FormView)
+    CreateView,
+    DeleteView,
+    UpdateView,
+    FormView, )
 
 from django.contrib.auth.mixins import (
-    LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin)
+    LoginRequiredMixin,
+    UserPassesTestMixin,
+    PermissionRequiredMixin, )
 
 from .models import Product
 from .forms import ProductForm
 
 from django.db.models import Q
 
+from django.urls import reverse_lazy
 
 
 # Create your views here.
@@ -101,3 +107,11 @@ class ProductSearchView(ListView):
                 Q(name__icontains=search_query) |
                 Q(description__icontains=search_query)).distinct()
         return results
+
+
+class ProductByTag(ListView):
+    pass
+
+
+class ProductByCategory(ListView):
+    pass
