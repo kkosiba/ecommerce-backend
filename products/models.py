@@ -3,6 +3,9 @@ from django.urls import reverse
 
 from django.contrib.auth.models import User
 
+# tags
+from taggit.managers import TaggableManager
+
 
 # Create your models here.
 
@@ -23,6 +26,7 @@ class Category(models.Model):
 class Product(models.Model):
     category     = models.ManyToManyField(Category,
                                           blank=False)
+    tags         = TaggableManager(blank=True) # tags mechanism
     name         = models.CharField(max_length=150,
                                     default='Empty name.')
     description  = models.TextField(default='Empty description.')

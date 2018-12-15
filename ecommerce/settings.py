@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'accounts',
     'products',
+    'taggit',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -130,3 +131,7 @@ STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'static')
 # Media files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'media')
+
+
+### CUSTOM SETTINGS
+TAGGIT_CASE_INSENSITIVE = True
