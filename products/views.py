@@ -33,6 +33,7 @@ class ProductListView(ListView):
 class ProductDetailView(DetailView):
     model               = Product
     template_name       = 'products/products_detail.html'
+    context_object_name = 'product'
 
 
 # Create, delete and update product views
@@ -41,7 +42,7 @@ class ProductCreateView(PermissionRequiredMixin,
                         CreateView):
     form_class          = ProductForm
     permission_required = 'product.add_product'
-    template_name       = 'products/product_form.html'
+    template_name       = 'products/products_form.html'
 
     # to process request.user in the form
     def form_valid(self, form):
@@ -72,7 +73,7 @@ class ProductDeleteView(LoginRequiredMixin,
 
 
 class ProductUpdateView(LoginRequiredMixin,
-                        UserPassesTestMixin, 
+                        UserPassesTestMixin,
                         UpdateView):
     model               = Product
     form_class          = ProductForm
@@ -110,8 +111,46 @@ class ProductSearchView(ListView):
 
 
 class ProductByTag(ListView):
-    pass
+    model               = Product
+    context_object_name = 'products'
+    template_name       = 'products/products_by_tag.html'
+    paginate_by         = 10
+
+    def get_queryset(self):
+        tag = self.kwargs.get('tag', None)
+        results = []
+        if tag:
+            results = Product.objects.filter(
+                tags__name=tag)
+        return results
+
+    def get_context_data(self, **kwargs):
+        """
+        Pass tag name to the context
+        """
+        context = super().get_context_data(**kwargs)
+        context['tag'] = self.kwargs.get('tag', None)
+        return context
 
 
 class ProductByCategory(ListView):
-    pass
+    model               = Product
+    context_object_name = 'products'
+    template_name       = 'products/products_by_category.html'
+    paginate_by         = 10
+
+    def get_queryset(self):
+        category = self.kwargs.get('name', None)
+        results = []
+        if category:
+            results = Product.objects.filter(
+                category__name=category)
+        return results
+
+    def get_context_data(self, **kwargs):
+        """
+        Pass category's name to the context
+        """
+        context = super().get_context_data(**kwargs)
+        context['category'] = self.kwargs.get('name', None)
+        return context
