@@ -29,8 +29,9 @@ class Product(models.Model):
     tags         = TaggableManager(blank=True) # tags mechanism
     name         = models.CharField(max_length=150,
                                     default='Empty name.')
-    description  = models.TextField(default='Empty description.')
-    picture      = models.ImageField(upload_to='products/images',
+    description  = models.CharField(max_length=500,
+                                    default='Empty description.')
+    picture      = models.ImageField(upload_to='media/products/images',
                                      null=True,
                                      blank=True)
     price        = models.DecimalField(decimal_places=2,
