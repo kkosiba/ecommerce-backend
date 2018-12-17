@@ -42,7 +42,7 @@ class User(AbstractBaseUser):
     is_active       = models.BooleanField(default=True)
     is_admin        = models.BooleanField(default=False)
 
-    objects             = UserManager()
+    objects         = UserManager()
 
     USERNAME_FIELD  = 'email'
     REQUIRED_FIELDS = [] # USERNAME_FIELD and password are always prompted for
