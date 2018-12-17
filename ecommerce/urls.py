@@ -19,10 +19,21 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 
+from .views import (
+    MainTemplateView,
+    AboutTemplateView,
+    ContactTemplateView, )
+
+
 urlpatterns = [
+    path('', MainTemplateView.as_view(), name='index'),
+    path('about/', AboutTemplateView.as_view(), name='about'),
+    path('contact/', ContactTemplateView.as_view(), name='contact'),
+
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls', namespace='accounts')),
     path('products/', include('products.urls')),
+    path('cart/', include('cart.urls')),
 ]
 
 # to load static/media files in development environment
