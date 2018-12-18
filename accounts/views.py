@@ -1,51 +1,56 @@
 from django.shortcuts import render
+
 from django.views.generic.edit import CreateView
-from django.views import View
-from django.utils.decorators import method_decorator
-from django.db import transaction
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+from .forms import UserCreationForm
 
-from .forms import (
-	SignUpForm, UserForm, )
 
 from django.urls import reverse_lazy
 
 # Create your views here.
 
-class SignUp(CreateView):
-    template_name = 'registration/signup.html'
-    form_class = SignUpForm
+class AccountDetailView(LoginRequiredMixin, DetailView):
+    """
+    Detailed account information view
+    """
+    template_name = 'accounts/account_detail.html'
+
+    def get_object(self):
+        return self.request.user
+
+
+class AccountCreateView(CreateView):
+    """
+    Sign up view
+    """
+    template_name = 'accounts/account_create.html'
+    form_class = UserCreationForm
     success_url = reverse_lazy('accounts:login')
 
-    # prevents signed in user to sign up
+    # prevents signed in user from signing up
     def dispatch(self, *args, **kwargs):
         if self.request.user.is_authenticated:
             return redirect('/')
         return super().dispatch(*args, **kwargs)
 
 
-# class UpdateProfile(LoginRequiredMixin, View):
-#     """
-#     Update user and profile simult.
-#     """
-#     def get(self, request, *args, **kwargs):
-#         user_form = UserForm(instance=request.user)
-#         profile_form = ProfileForm(instance=profile)
-#         return render(request, 'profiles/profile.html', {
-#             'user_form': user_form,
-#             'profile_form': profile_form,
-#             })
+class AccountUpdateView(LoginRequiredMixin, UpdateView):
+    """
+    View and change account information
+    """
+    template_name = 'accounts/account_update.html'
+    form_class = UserUpdateForm
+    success_url = reverse_lazy('accounts:detail')
 
-#     @method_decorator(transaction.atomic)
-#     def post(self, request, *args, **kwargs):
-#         user_form = UserForm(request.POST, instance=request.user)
-#         profile_form = ProfileForm(request.POST, instance=request.user.profile)
-#         if user_form.is_valid() and profile_form.is_valid():
-#             user_form.save()
-#             profile_form.save()
-#             return redirect('accounts:profile')
-#         return render(request, 'profiles/profile.html', {
-#             'user_form': user_form,
-#             'profile_form': profile_form,
-#             })
+    def get_object(self):
+        return self.request.user
+
+
+class LoginView(FormView):
+    """
+    Login user
+    """
+    template_name = 'accounts/account_login.html'
+    form_class = LoginForm
+    success_url = '/'
