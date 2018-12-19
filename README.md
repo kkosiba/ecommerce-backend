@@ -7,18 +7,18 @@ Main requirements
 
 1. `python` 3.5, 3.6, 3.7
 2. `Django` 2.1.4
-3. `PostgresSQL` 11.1
+3. `PostgreSQL` 11.1
 
-This project also uses a few external packages (see `requirements.txt` file for details). 
-For instance, tag support is provided by [django-taggit](https://github.com/alex/django-taggit), 
+This project also uses a few external packages (see `requirements.txt` file for details).
+For instance, tag support is provided by [django-taggit](https://github.com/alex/django-taggit),
 image processing if thanks to [Pillow](https://github.com/python-pillow/Pillow).
 
 Usage
 -----
 
-0. Firstly, one needs to setup PostgresSQL on a local machine. This process may be vary from one OS to another, eg. on Arch Linux one can follow the straightforward guide [here](https://wiki.archlinux.org/index.php/PostgreSQL). 
+0. Firstly, one needs to setup PostgreSQL on a local machine. This process may be vary from one OS to another, eg. on Arch Linux one can follow the straightforward guide [here](https://wiki.archlinux.org/index.php/PostgreSQL).
 
-Note: The database name specified in `ecommerce\settings.py` is `eCommerceDjango`. 
+Note: The database name specified in `ecommerce\settings.py` is `eCommerceDjango`.
 
 1. Once PostgresSQL is installed and configured, create a new directory and change to it:
 
