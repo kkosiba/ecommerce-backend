@@ -1,14 +1,17 @@
 from django.db import models
+from django.conf import settings
 
 from products.models import Product
-from django.contrib.auth.models import User
+
+User = settings.AUTH_USER_MODEL
 
 # Create your models here.
 
 class Cart(models.Model):
     customer  = models.ForeignKey(User,
                                   null=True,
-                                  blank=True)
+                                  blank=True,
+                                  on_delete=models.CASCADE)
     products  = models.ManyToManyField(Product,
                                        blank=True)
     total     = models.DecimalField(default=0.00,
