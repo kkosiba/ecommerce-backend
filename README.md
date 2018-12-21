@@ -40,4 +40,4 @@ The project is all set up. Run a local server with
 
 `python3 manage.py runserver`
 
-The blog should be available at `localhost:8000`.
+The website should be available at `localhost:8000`.
