@@ -1,22 +1,41 @@
 from django.db import models
-from django.conf import settings
 
 from products.models import Product
 
-User = settings.AUTH_USER_MODEL
 
-# Create your models here.
+class CartItem(models.Model):
+    """
+    Contains information about each product in a cart
+    """
+    cart_id = models.CharField(max_length=50)
 
-class Cart(models.Model):
-    customer  = models.ForeignKey(User,
-                                  null=True,
-                                  blank=True,
-                                  on_delete=models.CASCADE)
-    products  = models.ManyToManyField(Product,
-                                       blank=True)
-    total     = models.DecimalField(default=0.00,
-                                    max_digits=100,
-                                    decimal_places=2)
+    date_added = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return str(self.id)
+    product = models.ForeignKey(Product,
+                                unique=False,
+                                on_delete=models.CASCADE)
+
+    quantity = models.IntegerField(default=1)
+
+    class Meta:
+        ordering = ('date_added', )
+
+    @property
+    def total(self):
+        return self.quantity * self.product.price
+
+    @property
+    def name(self):
+        return self.product.name
+
+    @property
+    def price(self):
+        return self.product.price
+
+    def get_absolute_url(self):
+        return self.product.get_absolute_url()
+
+    def increase_product_quantity(self, quantity):
+        self.quantity += quantity
+        self.save()
+        return self.quantity
