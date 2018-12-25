@@ -1,0 +1,30 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="{% url 'index' %}">Django eCommerce</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item mr-4">
+                    <a class="nav-link text-white" href="{# url 'cart:cart_index' #}"><i class="fas fa-shopping-cart"></i>&nbsp;({{ cart.count }} items) </a>
+                </li>
+            </ul>
+            {% if user.is_authenticated %}
+                <div class="text-center">
+                    <div class="btn-group btn-group-sm">
+                        <a href="{% url 'accounts:details' %}" type="button" class="btn btn-success"><b>{{ user.email }}</b> <i class="fas fa-user"></i></a>
+                        <a href="{% url 'accounts:logout' %}?next={{ request.path | urlencode }}" class="btn btn-warning">Logout <i class="fas fa-sign-out-alt"></i></a>
+                    </div>
+                </div>
+            {% else %}
+            <div class="text-center">
+                <div class="btn-group btn-group-sm" role="group">
+                    <a href="{% url 'accounts:login' %}?next={{ request.path | urlencode }}" class="btn btn-secondary">Login<i class="fas fa-sign-in-alt"></i></a>
+                    <a href="{% url 'accounts:register' %}" class="btn btn-outline-secondary">Register <i class="fas fa-user-plus"></i></a>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,13 @@
+<div class="container">
+    <div class="row bg-warning py-2">
+        <div class="col-md-10 text-left">
+            <ul class="list-unstyled list-inline h6 font-weight-bold">
+                {% for category in categories %}
+                    <li class="list-inline-item">
+                        <a href="{% url 'products:product_by_category' name=category.name %}">{{ category.name }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>

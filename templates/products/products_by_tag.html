@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Products tagged '{{ tag }}'
+{% endblock %}
+
+{% block content %}
+<h3>Products tagged '{{ tag }}':</h3>
+<hr>
+<div class='row'>
+    <!-- Generic product listing template -->
+    {% include 'products/products_list_generic.html' %}
+    <!-- PAGINATION -->
+    {% include 'products/pagination.html' %}
+</div>
+{% endblock %}
