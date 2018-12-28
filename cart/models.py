@@ -38,4 +38,3 @@ class CartItem(models.Model):
     def increase_product_quantity(self, quantity):
         self.quantity += quantity
         self.save()
-        return self.quantity
