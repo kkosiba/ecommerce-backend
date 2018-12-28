@@ -5,6 +5,8 @@ import decimal
 
 from django.shortcuts import get_object_or_404
 
+from .models import CartItem
+from products.models import Product
 
 CART_ID_SESSION_KEY = 'cart_id'
 
@@ -22,7 +24,7 @@ def get_or_set_cart_id(request):
 
 
 def add_to_cart(request):
-    product_slug = request.POST.get('product_slug')
+    product_slug = request.POST.get('slug')
 
     # get quantity added, default to 1 if empty
     quantity = request.POST.get('quantity', 1)
