@@ -5,100 +5,77 @@ import decimal
 
 from django.shortcuts import get_object_or_404
 
-from .models import CartItem
 from products.models import Product
 
-CART_ID_SESSION_KEY = 'cart_id'
 
-
-def get_or_set_cart_id(request):
+class CartItem:
     """
-    Get the current user's cart id or sets new one if empty
+    A class representing a single cart's item
     """
-    if not request.session.get(CART_ID_SESSION_KEY):
-        characters = string.ascii_letters + string.digits
-        # Generate random cart_id of lenth 50
-        request.session[CART_ID_SESSION_KEY] = ''.join(
-            random.choices(characters, k=50))
-    return request.session[CART_ID_SESSION_KEY]
+    cart = None  # reference to the instance of cart
+
+    def __init__(self, item, quantity=1):
+        self._quantity = quantity
+        self._price = item.price  # assuming item has price attribute (it does)
+        self._item = item
+
+    @property
+    def quantity(self):
+        return self._quantity
+
+    @quantity.setter
+    def quantity(self, value):
+        self._quantity = value
+
+    @property
+    def price(self):
+        return self._price
+
+    @property
+    def total(self):
+        return self.quantity * self.price
 
 
-def add_to_cart(request):
-    product_slug = request.POST.get('slug')
-
-    # get quantity added, default to 1 if empty
-    quantity = request.POST.get('quantity', 1)
-
-    product = get_object_or_404(Product, slug=product_slug)
-
-    # get products in cart
-    cart_products = get_cart_items(request)
-
-    # check to see if item is already in cart
-    is_product_in_cart = False
-    for cart_item in cart_products:
-        if cart_item.product.id == product.id:
-            # update the quantity if found
-            cart_item.increase_product_quantity(quantity)
-            is_product_in_cart = True
-    if not is_product_in_cart:
-        # create and save a new cart item
-        new_cart_item = CartItem()
-        new_cart_item.product = product
-        new_cart_item.quantity = quantity
-        new_cart_item.cart_id = get_or_set_cart_id(request)
-        new_cart_item.save()
-
-
-def get_cart_items(request):
-    return CartItem.objects.filter(cart_id=get_or_set_cart_id(request))
-
-
-def get_single_item(request, item_id):
-    return get_object_or_404(CartItem, id=item_id, cart_id=get_or_set_cart_id(request))
-
-
-def update_cart(request):
-    item_id = request.POST.get('item_id')
-    quantity = request.POST.get('quantity')
-    item = get_single_item(request, item_id)
-    if item:
-        if quantity > 0:
-            item.quantity = quantity
-            item.save()
-        else:
-            remove_from_cart(request)
-
-
-def remove_from_cart(request):
-    item_id = request.POST.get('item_id')
-    item = get_single_item(request, item_id)
-    if item:
-        item.delete()
-
-
-def cart_subtotal(request):
+class Cart:
     """
-    Calculates the subtotal value of the current cart
+    A class representing user's cart
     """
-    subtotal = decimal.Decimal('0.00')
-    products = get_cart_items(request)
-    for item in products:
-        subtotal += item.product.price * item.quantity
-    return subtotal
 
+    def __init__(self, request):
+        self.request = request
+        self.CartItem.cart = self  # hooks up Cart with CartItem
+        session_data = request.session.setdefault(session_key, {})
+        session_items = session_data.setdefault('items', {})
+        self.items = self.create_items(session_items)
+        self.item_count = session_data.get('itemCount', 0)
+        self.total_price = session_data.get('totalPrice', 0)
 
-def cart_distinct_item_count(request):
-    return get_cart_items(request).count()
+    def add(self, item_id, quantity=1):
+        """
+        Add item to the cart
+        """
+        pass
 
+    def remove(self, item_id):
+        """
+        Remove item from the cart
+        """
+        pass
 
-def is_empty(request):
-    return cart_distinct_item_count(request) == 0
+    def update_quantity(self, item_id, quantity):
+        """
+        Update item's quantity
+        """
+        pass
 
+    def empty(self):
+        """
+        Empty cart
+        """
+        pass
 
-def empty_cart(request):
-    """
-    Empties the cart
-    """
-    items = get_cart_items(request)
-    items.delete()  # bulk delete
+    def list_items(self):
+        """
+        Returns a list of items stored in the cart
+        """
+        return list(self.items.values())
