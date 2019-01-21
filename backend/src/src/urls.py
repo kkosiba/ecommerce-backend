@@ -20,7 +20,8 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('products/api/', include('products.api.urls')),
+    path('api/auth/', include('knox.urls')),
+    path('api/', include('products.api.urls')),
 ]
 
 # to load static/media files in development environment
