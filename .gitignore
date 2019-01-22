@@ -1,6 +1,8 @@
 env/
 __pycache__/
 
+.vscode
+
 *.log
 *.pyc
 
@@ -11,6 +13,7 @@ migrations/
 node_modules/
 .pnp/
 .pnp.js
+package-lock.json
 
 # testing
 coverage/
