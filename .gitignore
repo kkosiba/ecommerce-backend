@@ -8,7 +8,6 @@ __pycache__/
 
 db.sqlite3
 migrations/
-backend/src/media/
 
 # Node-related
 node_modules/
