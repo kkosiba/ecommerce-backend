@@ -24,7 +24,7 @@ Then, clone this repository to the current directory:
 
 `git clone https://github.com/ncunx/eCommerce-django.git .`
 
-1. Backend
+### Setting up backend
 
 For the backend to work, one needs to setup PostgreSQL on a local machine. This process may vary from one OS to another, eg. on Arch Linux one can follow a straightforward guide [here](https://wiki.archlinux.org/index.php/PostgreSQL).
 
@@ -52,6 +52,6 @@ The backend is set up. Run a local server with
 
 The backend API should be available at `localhost:8000/api/`.
 
-2. Frontend
+### Setting up frontend
 
 ...todo
