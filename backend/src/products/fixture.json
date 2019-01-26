@@ -1,0 +1,213 @@
+[
+  { "model": "products.category", "pk": 1, "fields": { "name": "Plants" } },
+  {
+    "model": "products.product",
+    "pk": 1,
+    "fields": {
+      "name": "Apricot Globemallow",
+      "slug": "apricot-globemallow",
+      "description": "Maecenas ut massa quis augue luctus tincidunt. Nulla mollis molestie lorem. Quisque ut erat. Curabitur gravida nisi at nibh. In hac habitasse platea dictumst. Aliquam augue quam, sollicitudin vitae, consectetuer eget, rutrum at, lorem.",
+      "picture": "products/images/Apricot_globemallow.jpg",
+      "price": "30.65",
+      "quantity": 38,
+      "featured": true,
+      "category": [1]
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 2,
+    "fields": {
+      "name": "Cone Peak Bedstraw",
+      "slug": "cone-peak-bedstraw",
+      "description": "Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.",
+      "picture": "products/images/Cone_Peak_Bedstraw.jpg",
+      "price": "30.72",
+      "quantity": 97,
+      "featured": true,
+      "category": [1]
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 3,
+    "fields": {
+      "name": "Blutaparon",
+      "slug": "blutaparon",
+      "description": "Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.",
+      "picture": "products/images/Blutaparon.jpg",
+      "price": "14.05",
+      "quantity": 10,
+      "featured": false,
+      "category": [1]
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 4,
+    "fields": {
+      "name": "Chamisso Sedge",
+      "slug": "chamisso-sedge",
+      "description": "Maecenas leo odio, condimentum id, luctus nec, molestie sed, justo. Pellentesque viverra pede ac diam. Cras pellentesque volutpat dui.",
+      "picture": "products/images/Chamisso_Sedge.jpeg",
+      "price": "8.80",
+      "quantity": 17,
+      "featured": false,
+      "category": [1]
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 5,
+    "fields": {
+      "name": "Marsh Straw Sedge",
+      "slug": "marsh-straw-sedge",
+      "description": "Proin leo odio, porttitor id, consequat in, consequat ut, nulla. Sed accumsan felis. Ut at dolor quis odio consequat varius.",
+      "picture": "products/images/Marsh_Straw_Sedge.jpg",
+      "price": "17.21",
+      "quantity": 91,
+      "featured": true,
+      "category": [1]
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 6,
+    "fields": {
+      "name": "Largeflower False Rosemary",
+      "slug": "largeflower-false-rosemary",
+      "description": "Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Etiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem.",
+      "picture": "products/images/Largeflower_False_Rosemary.jpg",
+      "price": "8.46",
+      "quantity": 96,
+      "featured": true,
+      "category": [1]
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 7,
+    "fields": {
+      "name": "Oregon Bleeding Heart",
+      "slug": "oregon-bleeding-heart",
+      "description": "Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi.",
+      "picture": "products/images/Oregon_Bleeding_Heart.jpg",
+      "price": "39.31",
+      "quantity": 43,
+      "featured": false,
+      "category": [1]
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 8,
+    "fields": {
+      "name": "Pore Lichen",
+      "slug": "pore-lichen",
+      "description": "Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.",
+      "picture": "products/images/Pore_Lichen.jpg",
+      "price": "6.80",
+      "quantity": 14,
+      "featured": false,
+      "category": [1]
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 9,
+    "fields": {
+      "name": "Chinese Haw",
+      "slug": "chinese-haw",
+      "description": "Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo.",
+      "picture": "products/images/chinese_haw.jpg",
+      "price": "10.72",
+      "quantity": 67,
+      "featured": true,
+      "category": [1]
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 10,
+    "fields": {
+      "name": "Toringo Crab",
+      "slug": "toringo-crab",
+      "description": "In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus. Nulla ut erat id mauris vulputate elementum. Nullam varius. Nulla facilisi.",
+      "picture": "products/images/Toringo_Crab.jpg",
+      "price": "23.86",
+      "quantity": 59,
+      "featured": true,
+      "category": [1]
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 11,
+    "fields": {
+      "name": "Kauai Hau Kuahiwi",
+      "slug": "kauai-hau-kuahiwi",
+      "description": "Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.",
+      "picture": "products/images/Kauai_Hau_Kuahiwi.jpg",
+      "price": "20.38",
+      "quantity": 87,
+      "featured": false,
+      "category": [1]
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 12,
+    "fields": {
+      "name": "Pygmy Goldenweed",
+      "slug": "pygmy-goldenweed",
+      "description": "Integer ac leo. Pellentesque ultrices mattis odio. Donec vitae nisi.",
+      "picture": "products/images/Pygmy_Goldenweed.jpeg",
+      "price": "32.75",
+      "quantity": 48,
+      "featured": true,
+      "category": [1]
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 13,
+    "fields": {
+      "name": "Red-vein Yellow Loosestrife",
+      "slug": "red-vein-yellow-loosestrife",
+      "description": "Vestibulum ac est lacinia nisi venenatis tristique. Fusce congue, diam id ornare imperdiet, sapien urna pretium nisl, ut volutpat sapien arcu sed augue. Aliquam erat volutpat.",
+      "picture": "products/images/Red-vein_Yellow_Loosestrife.jpg",
+      "price": "33.14",
+      "quantity": 12,
+      "featured": false,
+      "category": [1]
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 14,
+    "fields": {
+      "name": "Isachne",
+      "slug": "isachne",
+      "description": "Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl",
+      "picture": "products/images/Isachne.jpg",
+      "price": "30.33",
+      "quantity": 66,
+      "featured": true,
+      "category": [1]
+    }
+  },
+  {
+    "model": "products.product",
+    "pk": 15,
+    "fields": {
+      "name": "Santo Domingo False Willow",
+      "slug": "santo-domingo-false-willow",
+      "description": "Phasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.",
+      "picture": "products/images/Santo_Domingo_False_Willow.jpg",
+      "price": "8.55",
+      "quantity": 10,
+      "featured": true,
+      "category": [1]
+    }
+  }
+]
