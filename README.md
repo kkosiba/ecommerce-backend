@@ -54,4 +54,10 @@ The backend API should be available at `localhost:8000/api/`.
 
 ### Setting up frontend
 
-...todo
+For the frontend it is enough to navigate to `frontend` directory (`eCommerce-django/frontend`) and run
+
+`npm install`
+
+If everything goes well, it will pull essential packages. Then, one can run frontend on `localhost:3000` by issuing
+
+`npm start`
