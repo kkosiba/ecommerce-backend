@@ -20,11 +20,15 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/auth/', include('knox.urls')),
-    path('api/', include('products.api.urls')),
+    path('api/auth/', include('accounts.api.urls')),
+    path('api/products/', include('products.api.urls')),
+    path('api/carts/', include('carts.api.urls')),
+    path('api/orders/', include('orders.api.urls')),
 ]
 
 # to load static/media files in development environment
 if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL,
+                          document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)
