@@ -1,81 +1,74 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import Newsletter from "./Newsletter";
 
 export default class Footer extends Component {
   render() {
     return (
       <footer className="bg-dark text-white">
+        <div className="container bg-light text-center text-dark py-2">
+          <Newsletter />
+        </div>
         <div className="container py-3">
-          <div className="row">
-            <div className="col-md-3">
-              <h4>About Store</h4>
-              <p>
-                Facilis ipsum reprehenderit nemo molestias. Aut cum mollitia
-                reprehenderit. Eos cumque dicta adipisci architecto culpa amet.
-              </p>
-              <p>
-                <ul className="list-inline">
-                  <li className="list-inline-item">
-                    <Link to="/">
-                      <i className="fab fa-twitter pr-2" />
-                    </Link>
-                  </li>
-                  <li className="list-inline-item">
-                    <Link to="/">
-                      <i className="fab fa-facebook-f pr-2" />
-                    </Link>
-                  </li>
-                  <li className="list-inline-item">
-                    <Link to="/">
-                      <i className="fab fa-linkedin pr-2" />
-                    </Link>
-                    >
-                  </li>
-                  <li className="list-inline-item">
-                    <Link to="/">
-                      <i className="fab fa-pinterest" />
-                    </Link>
-                  </li>
-                </ul>
-              </p>
-            </div>
-            <div className="col-md-3">
-              <h4>Customer Support</h4>
-              <p>
-                <ul className="list-unstyled">
-                  <li>
-                    <a href="/">Contact</a>
-                  </li>
-                </ul>
-              </p>
-            </div>
-            <div className="col-md-3">
-              <h4>Information</h4>
-              <p>
-                <ul className="list-unstyled">
-                  <li>
-                    <Link to="/about">About us</Link>
-                  </li>
-                </ul>
-              </p>
-            </div>
-
-            <div className="col-md-3">
-              <h4>Contact Information</h4>
+          <div className="d-flex flex-row flex-wrap">
+            <div className="mr-4">
+              <h4>Customer Service</h4>
               <ul className="list-unstyled">
                 <li>
-                  291 South 21th Street, <br /> Suite 721 New York NY 10016
+                  <Link to="/order_tracking">Order Tracking</Link>
                 </li>
                 <li>
-                  <Link to="tel://1234567920">+ 1235 2355 98</Link>
+                  <Link to="/returns_and_exchanges">Returns and Exchanges</Link>
                 </li>
                 <li>
-                  <Link to="/">Email</Link>
+                  <Link to="/refunds">Refunds</Link>
                 </li>
                 <li>
-                  <Link to="/">yoursite.com</Link>
+                  <Link to="/delivery_and_collections">
+                    Delivery & Collections
+                  </Link>
                 </li>
               </ul>
+            </div>
+            <div className="ml-4">
+              <h4>Information</h4>
+                <ul className="list-unstyled">
+                  <li>
+                    <Link to="/about">About Us</Link>
+                  </li>
+                  <li>
+                    <Link to="/terms">Terms of Use</Link>
+                  </li>
+                  <li>
+                    <Link to="/careers">Careers</Link>
+                  </li>
+                </ul>
+            </div>
+
+            <div className="ml-auto">
+              <h4>Get in Touch</h4>
+              <ul className="list-inline">
+                  <li className="list-inline-item">
+                    <Link to="/">
+                      <i className="fab fa-twitter fa-2x pr-2" />
+                    </Link>
+                  </li>
+                  <li className="list-inline-item">
+                    <Link to="/">
+                      <i className="fab fa-facebook-f fa-2x pr-2" />
+                    </Link>
+                  </li>
+                  <li className="list-inline-item">
+                    <Link to="/">
+                      <i className="fab fa-linkedin fa-2x pr-2" />
+                    </Link>
+                  </li>
+                  <li className="list-inline-item">
+                    <Link to="/">
+                      <i className="fab fa-pinterest fa-2x" />
+                    </Link>
+                  </li>
+                </ul>
             </div>
           </div>
         </div>

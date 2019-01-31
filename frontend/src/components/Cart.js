@@ -1,15 +1,9 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
+
 import { Link } from "react-router-dom";
 import UpdateQuantityInCart from "./UpdateQuantityInCart";
-// import Checkout from "./Checkout";
-// import CheckoutButton from "./CheckoutButton";
 
-const mapStateToProps = state => {
-  return { cart: state.cart };
-};
-
-class ConnectedCart extends Component {
+class Cart extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -19,7 +13,21 @@ class ConnectedCart extends Component {
   }
 
   emptyCart = () => {
-    this.setState({ cart: [] });
+    this.props.emptyCart();
+  };
+
+  updateItemQuantity = (item, value) => {
+    this.props.updateProductQuantity(item, value);
+  };
+
+  incrementItemQuantity = (item) => {
+    const currentValue = item.quantity;
+    this.updateItemQuantity(item, currentValue + 1);
+  };
+
+  decrementItemQuantity = (item) => {
+    const currentValue = item.quantity;
+    this.updateItemQuantity(item, currentValue - 1);
   };
 
   updateItem = (item, quantity) => {
@@ -29,13 +37,7 @@ class ConnectedCart extends Component {
   };
 
   removeItem = item => {
-    const cartItems = this.state.cart;
-    let index = cartItems.indexOf(item);
-    if (index !== -1) { // check if the item exists in cartItems
-      cartItems.splice(index, 1);
-    } else {
-      console.log("Item does not exist!");
-    }
+    this.props.removeProductFromCart(item);
   };
 
   singleItemTotal = item => {
@@ -69,7 +71,7 @@ class ConnectedCart extends Component {
       return (
         <React.Fragment>
           <h3>My Cart</h3>
-          <table className="table table-hover">
+          <table className="table table-hover table-responsive">
             <thead className="text-center">
               <tr>
                 <th scope="col">#</th>
@@ -85,20 +87,23 @@ class ConnectedCart extends Component {
                   <th scope="row">{index + 1}</th>
                   <td>
                     <div className="row">
-                      <div className="col-2 pr-4">
+                      <div className="col-md-2 my-auto">
                         <img
                           className="product-image"
                           alt={item.name}
                           src={item.picture}
                         />
                       </div>
-                      <div className="col-8">
-                        <Link to={`/product/${item.slug}`}>
-                          {item.description}
-                        </Link>
+                      <div className="col-md-8 my-auto">
+                        <div className="pl-2 d-flex flex-column">
+                          <Link to={`/product/${item.slug}`}>
+                            {item.name}
+                          </Link>
+                          <p>{item.description}</p>
+                        </div>
                       </div>
-                      <div className="col-2 text-center pl-2">
-                        <Link to="/cart" onClick={() => this.removeItem(item)}>
+                      <div className="col-md-2 text-center pl-2 my-auto">
+                        <Link to="/cart" onClick={() => this.props.removeProductFromCart(item)}>
                           Remove? <i class="far fa-times-circle text-danger" />
                         </Link>
                       </div>
@@ -106,11 +111,24 @@ class ConnectedCart extends Component {
                   </td>
                   <td>£{item.price}</td>
                   <td>
-                    <UpdateQuantityInCart
-                      quantity={item.quantity}
-                      min="0"
-                      max="10"
-                    /></td>
+                    <div className="d-flex">
+                      <button className="btn" onClick={()=>{this.decrementItemQuantity(item)}}>
+                        <i className="far fa-minus-square"></i>
+                      </button>
+                      <input
+                        type="number"
+                        name="quantity"
+                        value={item.quantity}
+                        min="0"
+                        max="10"
+                        step="1"
+                        onChange={e => {this.updateItemQuantity(item, e.target.value)}}
+                      />
+                      <button className="btn" onClick={()=>{this.incrementItemQuantity(item)}}>
+                        <i className="far fa-plus-square"></i>
+                      </button>
+                    </div>
+                  </td>
                   <td>£{this.singleItemTotal(item).toFixed(2)}</td>
                 </tr>
               ))}
@@ -151,13 +169,13 @@ class ConnectedCart extends Component {
                 className="btn btn-danger"
                 onClick={() => this.emptyCart()}
               >
-                Empty cart
+                <i class="far fa-trash-alt" /> Empty cart
               </Link>
               <Link to="/" className="btn btn-primary">
                 Continue shopping
               </Link>
               <Link to="/checkout" className="btn btn-success">
-                Checkout
+                <i class="far fa-credit-card" />  Checkout
               </Link>
             </div>
           </div>
@@ -166,7 +184,5 @@ class ConnectedCart extends Component {
     }
   }
 }
-
-const Cart = connect(mapStateToProps)(ConnectedCart)
 
 export default Cart;

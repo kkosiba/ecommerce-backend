@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Product from "./Product";
 
 import { connect } from "react-redux";
-import { fetchProducts } from "../actions";
+import { fetchProducts } from "../store/actions";
 
 const mapStateToProps = state => {
   return { products: state.products };

@@ -1,8 +1,22 @@
 import React, { Component } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import * as actions from "../store/actions";
 
-export default class Login extends Component {
+const mapStateToProps = state => {
+  return {
+    loading: state.loading,
+    error: state.error
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onAuth: (username, password) => dispatch(actions.authLogin(username, password))
+  }
+};
+
+class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -13,7 +27,8 @@ export default class Login extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    console.error("Not implemented!");
+    this.props.onAuth(this.state.username, this.state.password);
+    this.props.history.push("/");
   };
 
   render() {
@@ -51,3 +66,5 @@ export default class Login extends Component {
     );
   }
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

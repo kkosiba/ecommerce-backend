@@ -1,13 +1,9 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import BillingDetails from "./BillingDetails";
 
-const mapStateToProps = state => {
-  return { cart: state.cart };
-};
 
-class ConnectedCheckout extends Component {
+class Checkout extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -15,40 +11,6 @@ class ConnectedCheckout extends Component {
       shipping: 5
     };
   }
-      // cart: [
-      //   // sample items for testing. This data will be generated
-      //   // when user clicks on Checkout button in Cart
-      //   // i.e. the table in cart will be 'frozen' and 'jsonified',
-      //   // then passed to this component as props.
-      //   {
-      //     id: 0,
-      //     name: "Shoe",
-      //     slug: "shoe-shoe",
-      //     description:
-      //       "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      //     price: 34.95,
-      //     quantity: 3,
-      //     picture:
-      //       "https://images-na.ssl-images-amazon.com/images/I/61KlTNgPluL._SL1001_.jpg",
-      //     itemTotal: 104.85
-      //   },
-      //   {
-      //     id: 1,
-      //     name: "Shoe2",
-      //     slug: "shoe-shoe2",
-      //     description:
-      //       "Quisque aliquam justo vel enim dignissim, vitae fringilla massa venenatis. Aliquam erat volutpat.",
-      //     price: 20.15,
-      //     quantity: 2,
-      //     picture:
-      //       "https://images-na.ssl-images-amazon.com/images/I/61cbAQatNlL._UY395_.jpg",
-      //     itemTotal: 40.30
-      //   }
-      // ],
-      // subtotal: 145.15,
-      // withTax: 174.18,
-      // shipping: 5,
-      // total: 179.18
 
   calculate = () => {
     // returns an object with attributes subtotal and afterTax
@@ -140,7 +102,7 @@ class ConnectedCheckout extends Component {
               <td>
                 <b>Total</b>
               </td>
-              <td>£{this.totalPrice()}</td>
+              <td>£{this.totalPrice().toFixed(2)}</td>
             </tr>
           </tbody>
         </table>
@@ -161,7 +123,5 @@ class ConnectedCheckout extends Component {
     );
   }
 }
-
-const Checkout = connect(mapStateToProps)(ConnectedCheckout)
 
 export default Checkout;

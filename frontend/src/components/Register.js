@@ -1,37 +1,31 @@
 import React, { Component } from "react";
-import axios from "axios";
-import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import * as actions from "../store/actions";
 
-export default class Register extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      username: "",
-      password: ""
-    };
+const mapStateToProps = state => {
+  return {
+    loading: state.loading,
+    error: state.error
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onAuth: (username, password) => dispatch(actions.authSignup(username, password))
   }
+};
 
-  handleClick = (event) => {
-    const data = {
-      username: this.state.username,
-      password: this.state.password
-    };
-    axios
-      .post("http://localhost:8000/api/auth/register/", data)
-      .then(res => {
-        console.log(res);
-        if (res.data.code === '200') {
-          console.log("Login successful");
-        } else if (res.data.code === '204') {
-          console.log("Username password do not match");
-          alert("username and password do not match");
-        } else {
-          console.log("Username does not exists");
-          alert("Username does not exist");
-        }
-      })
-      .catch(err => console.log(err))
-    };
+class Register extends Component {
+
+  state = {
+    username: "",
+    password: ""
+  };
+
+  handleClick = e => {
+    e.preventDefault();
+    this.props.onAuth(this.state.username, this.state.password);
+  };
 
   render() {
     return (
@@ -65,3 +59,5 @@ export default class Register extends Component {
     );
   }
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register);

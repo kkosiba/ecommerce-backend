@@ -1,13 +1,8 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import SearchForm from "./SearchForm";
 
-const mapStateToProps = state => {
-  return { cart: state.cart };
-};
-
- class ConnectedNavbar extends Component {
+class Navbar extends Component {
 
   cartItemCount() {
     let result = 0;
@@ -23,7 +18,7 @@ const mapStateToProps = state => {
 
           <Link to="/">
             <span className="navbar-brand font-weight-bold">
-              <i class="fas fa-shoe-prints" /> Shoe Store
+              {/*<img src="clover.png" alt="logo" />*/}CloverPlants
             </span>
           </Link>
 
@@ -57,14 +52,26 @@ const mapStateToProps = state => {
                 </Link>
               </li>
               <li className="nav-item pl-4">
-                <div class="btn-group btn-group">
-                  <Link to="/login" className="btn btn-warning">
-                    Login <i class="fas fa-sign-out-alt" />
-                  </Link>
-                  <Link to="/register" className="btn btn-outline-secondary">
-                    Register <i class="fas fa-user-plus" />
-                  </Link>
-                </div>
+                {
+                  this.props.isAuthenticated ?
+                  <div class="btn-group btn-group">
+                    <Link to="/profile" className="btn btn-success">
+                      User <i class="fas fa-user" />
+                    </Link>
+                    <button className="btn btn-warning" onClick={this.props.logout}>
+                      Logout <i class="fas fa-sign-out-alt" />
+                    </button>
+                  </div>
+                  :
+                  <div class="btn-group btn-group">
+                    <Link to="/login" className="btn btn-warning">
+                      Login <i class="fas fa-sign-in-alt" />
+                    </Link>
+                    <Link to="/register" className="btn btn-outline-secondary">
+                      Register <i class="fas fa-user-plus" />
+                    </Link>
+                  </div>
+                }
               </li>
             </ul>
           </div>
@@ -73,7 +80,5 @@ const mapStateToProps = state => {
     );
   }
 }
-
-const Navbar = connect(mapStateToProps)(ConnectedNavbar)
 
 export default Navbar;
