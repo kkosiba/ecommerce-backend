@@ -37,16 +37,30 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
-    'knox',
     # 'webpack_loader',
     'corsheaders',
-    'accounts',
+
     'products',
     'carts',
     'orders',
     'taggit',
+
+    'rest_framework',
+    'rest_framework.authtoken',
+    'rest_auth',
+
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'rest_auth.registration',
+
+    'accounts',
 ]
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -72,6 +86,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                # `allauth` needs this from django
+                'django.template.context_processors.request',
             ],
         },
     },
@@ -97,6 +114,7 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -141,6 +159,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 # CUSTOM SETTINGS
+
 TAGGIT_CASE_INSENSITIVE = True
 
 # Whitelist localhost on port 3000 for Cross-Origin Resource Sharing
@@ -148,7 +167,40 @@ CORS_ORIGIN_WHITELIST = (
     'localhost:3000/'
 )
 
-# knox token authentication
+# authentication related stuff
+AUTH_USER_MODEL = 'accounts.CustomUser'
+
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    "django.contrib.auth.backends.ModelBackend",
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    "allauth.account.auth_backends.AuthenticationBackend",
+)
+
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication',),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
 }
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
+ACCOUNT_SESSION_REMEMBER = True
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_UNIQUE_EMAIL = True
+
+REST_AUTH_SERIALIZERS = {
+    'USER_DETAILS_SERIALIZER': 'accounts.api.serializers.CustomUserDetailsSerializer',
+    'LOGIN_SERIALIZER': 'accounts.api.serializers.CustomLoginSerializer',
+}
+REST_AUTH_REGISTER_SERIALIZERS = {
+    "REGISTER_SERIALIZER": "accounts.api.serializers.CustomRegisterSerializer",
+}
+REST_USE_JWT = True
