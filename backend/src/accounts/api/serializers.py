@@ -1,34 +1,29 @@
+from django.contrib.auth import get_user_model
 from rest_framework import serializers
-from django.contrib.auth import authenticate
-from django.contrib.auth.models import User
+from rest_auth.serializers import LoginSerializer
+from rest_auth.registration.serializers import RegisterSerializer
 
-class CreateUserSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = User
-        fields = ('id', 'username', 'password')
-        extra_kwargs = {'password': {'write_only': True}}
-
-    def create(self, validated_data):
-        user = User.objects.create_user(validated_data['username'],
-                                        None,
-                                        validated_data['password'])
-        return user
+User = get_user_model()
 
 
-class UserSerializer(serializers.ModelSerializer):
+class CustomUserDetailsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'username')
+        fields = ('id', 'name', 'email', )
+        read_only_fields = ('email', )
 
 
-class LoginUserSerializer(serializers.Serializer):
-    username = serializers.CharField()
-    password = serializers.CharField()
+class CustomLoginSerializer(LoginSerializer):
+    # username = serializers.CharField(required=False, allow_blank=True)
+    username = None
+    email = serializers.EmailField(required=False, allow_blank=True)
+    password = serializers.CharField(style={'input_type': 'password'})
 
-    def validate(self, data):
-        user = authenticate(**data)
-        if user and user.is_active:
-            return user
-        raise serializers.ValidationError('Invalid credentials!')
+
+class CustomRegisterSerializer(RegisterSerializer):
+    username = None
+    password1 = serializers.CharField(write_only=True,
+                                      style={'input_type': 'password'})
+    password2 = serializers.CharField(write_only=True,
+                                      style={'input_type': 'password'})
