@@ -1,32 +1,97 @@
-.App {
+/* CUSTOM CSS STYLES */
+html {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+.content {
+  display: flex;
+  min-height: 50vh;
+  flex-direction: column;
+}
+
+.item-grid li .card {
+  margin-bottom: 10px;
+  width: 100%;
+  display: inline-block;
+}
+
+@media (min-width: 576px) {
+  .item-grid {
+    margin: 0 20px 0 20px;
+    -webkit-columns: 2 200px;
+    -moz-columns: 2 200px;
+    columns: 2 200px;
+
+    -webkit-column-gap: 10px;
+    -moz-column-gap: 10px;
+    column-gap: 10px;
+  }
+}
+
+@media (min-width: 768px) {
+  .item-grid {
+    margin: 0 20px 0 20px;
+    -webkit-columns: 3 200px;
+    -moz-columns: 3 200px;
+    columns: 3 200px;
+
+    -webkit-column-gap: 10px;
+    -moz-column-gap: 10px;
+    column-gap: 10px;
+  }
+}
+
+@media (min-width: 992px) {
+  .item-grid {
+    margin: 0 20px 0 20px;
+    -webkit-columns: 4 200px;
+    -moz-columns: 4 200px;
+    columns: 4 200px;
+
+    -webkit-column-gap: 10px;
+    -moz-column-gap: 10px;
+    column-gap: 10px;
+  }
+}
+
+.btn:focus,
+.btn:active:focus,
+.btn.active:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.product-image {
+  max-width: 100px;
+}
+
+input[type="number"] {
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+a {
+  color: #0090C8;
+  text-decoration: none;
 }
 
-.App-link {
-  color: #61dafb;
+a:hover {
+  opacity: .7;
+  text-decoration: none;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.table > tbody > tr > td {
+  vertical-align: middle;
 }
