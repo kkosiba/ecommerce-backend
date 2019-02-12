@@ -22,6 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),  # for testing
     path('api/accounts/', include('accounts.api.urls')),
+    path('api/addresses/', include('addresses.api.urls')),
     path('api/products/', include('products.api.urls')),
     path('api/carts/', include('carts.api.urls')),
     path('api/orders/', include('orders.api.urls')),
