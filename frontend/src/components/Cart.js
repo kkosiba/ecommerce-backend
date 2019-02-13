@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 
 import { Link } from "react-router-dom";
-import UpdateQuantityInCart from "./UpdateQuantityInCart";
 
 class Cart extends Component {
   constructor(props) {
@@ -12,176 +11,177 @@ class Cart extends Component {
     };
   }
 
-  emptyCart = () => {
-    this.props.emptyCart();
-  };
-
-  updateItemQuantity = (item, value) => {
-    this.props.updateProductQuantity(item, value);
-  };
-
-  incrementItemQuantity = (item) => {
-    const currentValue = item.quantity;
-    this.updateItemQuantity(item, currentValue + 1);
-  };
-
-  decrementItemQuantity = (item) => {
-    const currentValue = item.quantity;
-    this.updateItemQuantity(item, currentValue - 1);
-  };
-
-  updateItem = (item, quantity) => {
-    // check if item.quantity > 0 and if quantity >= item.quantity
-    // to make sure we're not selling something we don't have ;)
-    // this.setState({cart.item.quantity: quantity});
-  };
-
-  removeItem = item => {
-    this.props.removeProductFromCart(item);
-  };
-
   singleItemTotal = item => {
-    return item.price * item.quantity;
+    const res = item.price * item.quantity;
+    return res.toFixed(2);
   };
 
   calculate = () => {
-    // returns an object with attributes subtotal and afterTax
+    // returns an object with attributes subtotal, afterTax and totalPrice
     const { cart } = this.props;
     let subtotal = 0.0;
-    cart.map(item => (subtotal += this.singleItemTotal(item)));
+    cart.map(item => (subtotal += item.price * item.quantity));
     const afterTax = this.state.tax * subtotal;
-    return { subtotal: subtotal, afterTax: afterTax };
-  };
-
-  totalPrice = () => {
-    return (
-      this.calculate().subtotal +
-      this.calculate().afterTax +
-      this.state.shipping
-    );
+    const totalPrice = subtotal + afterTax + this.state.shipping;
+    return {
+      subtotal: subtotal.toFixed(2),
+      afterTax: afterTax.toFixed(2),
+      totalPrice: totalPrice.toFixed(2)
+    };
   };
 
   render() {
     const { cart } = this.props;
-    if (cart.length === 0) {
-      return (
-        <p className="pt-2">Your cart is empty. Why not add something? :)</p>
-      );
-    } else {
-      return (
-        <React.Fragment>
-          <h3>My Cart</h3>
-          <table className="table table-hover table-responsive">
-            <thead className="text-center">
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Item</th>
-                <th scope="col">Price</th>
-                <th scope="col">Quantity</th>
-                <th scope="col">Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              {cart.map((item, index) => (
-                <tr key={item.id}>
-                  <th scope="row">{index + 1}</th>
-                  <td>
-                    <div className="row">
-                      <div className="col-md-2 my-auto">
-                        <img
-                          className="product-image"
-                          alt={item.name}
-                          src={item.picture}
-                        />
-                      </div>
-                      <div className="col-md-8 my-auto">
-                        <div className="pl-2 d-flex flex-column">
-                          <Link to={`/product/${item.slug}`}>
-                            {item.name}
+    console.log(cart);
+    return cart.length === 0 ? (
+      <React.Fragment>
+        <h3 className="text-center mt-2">
+          Your cart is empty. Why not add something? :)
+        </h3>
+      </React.Fragment>
+    ) : (
+      <React.Fragment>
+        <h3>My Cart</h3>
+        <div className="row">
+          <div className="col-lg-8">
+            <div className="cart">
+              <div className="cart-wrapper">
+                <div className="cart-header text-center">
+                  <div class="row">
+                    <div class="col-5">Item</div>
+                    <div class="col-2">Price</div>
+                    <div class="col-2">Quantity</div>
+                    <div class="col-2">Total</div>
+                    <div class="col-1"> </div>
+                  </div>
+                </div>
+                <div className="cart-body">
+                  {cart.map((item, index) => (
+                    <div className="cart-item" key={item.id}>
+                      <div className="row d-flex align-items-center text-center">
+                        <div className="col-5">
+                          <div className="d-flex align-items-center">
+                            <img
+                              className="product-image"
+                              alt={item.name}
+                              src={item.picture}
+                            />
+                            <Link
+                              to={`/product/${item.slug}`}
+                              className="cart-title"
+                            >
+                              {item.name}
+                            </Link>
+                          </div>
+                        </div>
+                        <div className="col-2">£{item.price}</div>
+                        <div className="col-2">
+                          <div className="d-flex align-items-center">
+                            <div
+                              className="p-1"
+                              onClick={() =>
+                                this.props.decProductQuantity(item)
+                              }
+                            >
+                              <i className="far fa-minus-square" />
+                            </div>
+                            <input
+                              className="form-control rounded-0"
+                              type="number"
+                              name="quantity"
+                              value={item.quantity}
+                              min="0"
+                              max="10"
+                              step="1"
+                              onChange={e =>
+                                this.props.updateProductQuantity(
+                                  item,
+                                  e.target.value
+                                )
+                              }
+                            />
+                            <div
+                              className="p-1"
+                              onClick={() =>
+                                this.props.incProductQuantity(item)
+                              }
+                            >
+                              <i className="far fa-plus-square" />
+                            </div>
+                          </div>
+                        </div>
+                        <div className="col-2 text-center">
+                          £{this.singleItemTotal(item)}
+                        </div>
+                        <div className="col-1 text-center">
+                          <Link
+                            to="/cart"
+                            onClick={() =>
+                              this.props.removeProductFromCart(item)
+                            }
+                          >
+                            <i class="far fa-times-circle text-danger" />
                           </Link>
-                          <p>{item.description}</p>
                         </div>
                       </div>
-                      <div className="col-md-2 text-center pl-2 my-auto">
-                        <Link to="/cart" onClick={() => this.props.removeProductFromCart(item)}>
-                          Remove? <i class="far fa-times-circle text-danger" />
-                        </Link>
-                      </div>
                     </div>
-                  </td>
-                  <td>£{item.price}</td>
-                  <td>
-                    <div className="d-flex">
-                      <button className="btn" onClick={()=>{this.decrementItemQuantity(item)}}>
-                        <i className="far fa-minus-square"></i>
-                      </button>
-                      <input
-                        type="number"
-                        name="quantity"
-                        value={item.quantity}
-                        min="0"
-                        max="10"
-                        step="1"
-                        onChange={e => {this.updateItemQuantity(item, e.target.value)}}
-                      />
-                      <button className="btn" onClick={()=>{this.incrementItemQuantity(item)}}>
-                        <i className="far fa-plus-square"></i>
-                      </button>
-                    </div>
-                  </td>
-                  <td>£{this.singleItemTotal(item).toFixed(2)}</td>
-                </tr>
-              ))}
-              <tr>
-                <td colspan="3" />
-                <td>
-                  <b>Subtotal</b>
-                </td>
-                <td>£{this.calculate().subtotal.toFixed(2)}</td>
-              </tr>
-              <tr>
-                <td colspan="3" />
-                <td>
-                  <b>Tax (20%)</b>
-                </td>
-                <td>£{this.calculate().afterTax.toFixed(2)}</td>
-              </tr>
-              <tr>
-                <td colspan="3" />
-                <td>
-                  <b>Shipping</b>
-                </td>
-                <td>£5</td>
-              </tr>
-              <tr>
-                <td colspan="3" />
-                <td>
-                  <b>Total</b>
-                </td>
-                <td>£{this.totalPrice().toFixed(2)}</td>
-              </tr>
-            </tbody>
-          </table>
-          <div className="text-right">
-            <div className="btn-group" role="group">
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="d-flex my-4">
               <Link
                 to="/cart"
-                className="btn btn-danger"
-                onClick={() => this.emptyCart()}
+                className="btn btn-sm btn-danger ml-auto"
+                onClick={() => this.props.emptyCart()}
               >
                 <i class="far fa-trash-alt" /> Empty cart
               </Link>
-              <Link to="/" className="btn btn-primary">
-                Continue shopping
-              </Link>
-              <Link to="/checkout" className="btn btn-success">
-                <i class="far fa-credit-card" />  Checkout
-              </Link>
+            </div>
+            
+          </div>
+          <div className="col-lg-4">
+            <div className="bg-light p-4">
+              <h6 className="text-uppercase font-weight-bold px-2">
+                Order Summary
+              </h6>
+              <hr />
+              <div className="d-flex px-2 my-4">
+                <span>Order Subtotal</span>
+                <span className="ml-auto">£{this.calculate().subtotal}</span>
+              </div>
+              <hr />
+              <div className="d-flex px-2 my-4">
+                <span>Shipping</span>
+                <span className="ml-auto">£{this.state.shipping}</span>
+              </div>
+              <hr />
+              <div className="d-flex px-2 my-4">
+                <span>Tax (20%)</span>
+                <span className="ml-auto">£{this.calculate().afterTax}</span>
+              </div>
+              <hr />
+              <div className="d-flex px-2 my-4">
+                <span>Total</span>
+                <span className="ml-auto font-weight-bold">
+                  £{this.calculate().totalPrice}
+                </span>
+              </div>
+
+              <div className="d-flex justify-content-between flex-column flex-lg-row">
+                <Link to="/" className="btn btn-sm btn-default">
+                  <i class="fas fa-chevron-left" /> Continue shopping
+                </Link>
+                <Link to="/checkout" className="btn btn-sm btn-dark">
+                  Checkout <i class="fas fa-chevron-right" />
+                </Link>
+              </div>
             </div>
           </div>
-        </React.Fragment>
-      );
-    }
+        </div>
+      </React.Fragment>
+    );
   }
 }
 
