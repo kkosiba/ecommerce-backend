@@ -19,6 +19,9 @@ import Footer from "./components/Footer";
 import About from "./components/About";
 import SearchResults from "./components/SearchResults";
 
+// scroll page back to top once component updates
+import ScrollToTop from "./components/Utilities/ScrollToTop";
+
 import Login from "./components/Authentication/Login";
 import Register from "./components/Authentication/Register";
 import PrivateRoute from "./components/Authentication/PrivateRoute";
@@ -61,56 +64,58 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <div className="content">
-          <Navbar {...this.props} />
+        <ScrollToTop>
+          <div className="content">
+            <Navbar {...this.props} />
 
-          <MDBContainer className="content py-4 grey lighten-4">
-            <Switch>
-              <Route
-                exact
-                path="/"
-                render={props => <ProductList {...this.props} {...props} />}
-              />
+            <MDBContainer className="content py-4 grey lighten-4">
+              <Switch>
+                <Route
+                  exact
+                  path="/"
+                  render={props => <ProductList {...this.props} {...props} />}
+                />
 
-              <Route
-                exact
-                path="/login"
-                render={props => <Login {...this.props} {...props} />}
-              />
+                <Route
+                  exact
+                  path="/login"
+                  render={props => <Login {...this.props} {...props} />}
+                />
 
-              <Route
-                exact
-                path="/register"
-                render={props => <Register {...this.props} {...props} />}
-              />
+                <Route
+                  exact
+                  path="/register"
+                  render={props => <Register {...this.props} {...props} />}
+                />
 
-              <PrivateRoute path="/profile" component={Profile} />
+                <PrivateRoute path="/profile" component={Profile} />
 
-              <Route path="/product/:slug" component={ProductDetails} />
+                <Route path="/product/:slug" component={ProductDetails} />
 
-              <Route
-                path="/search/:query"
-                render={props => <SearchResults {...props} />}
-              />
+                <Route
+                  path="/search/:query"
+                  render={props => <SearchResults {...props} />}
+                />
 
-              <Route
-                path="/cart"
-                render={props => <Cart {...this.props} {...props} />}
-              />
+                <Route
+                  path="/cart"
+                  render={props => <Cart {...this.props} {...props} />}
+                />
 
-              <PrivateRoute
-                path="/checkout"
-                cart={this.props.cart}
-                component={Checkout}
-              />
+                <PrivateRoute
+                  path="/checkout"
+                  cart={this.props.cart}
+                  component={Checkout}
+                />
 
-              <Route path="/about" component={About} />
-              <Route component={Default} />
-            </Switch>
-          </MDBContainer>
+                <Route path="/about" component={About} />
+                <Route component={Default} />
+              </Switch>
+            </MDBContainer>
 
-          <Footer />
-        </div>
+            <Footer />
+          </div>
+        </ScrollToTop>
       </Router>
     );
   }
