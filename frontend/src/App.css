@@ -71,6 +71,7 @@ html {
 
 input[type="number"] {
   text-align: center;
+  min-width: 40px;
 }
 
 input[type="number"]::-webkit-outer-spin-button,
@@ -94,4 +95,45 @@ a:hover {
 
 .table > tbody > tr > td {
   vertical-align: middle;
+}
+
+.cart {
+  display: block;
+  box-sizing: border-box;
+}
+
+@media (max-width: 991.98px) {
+  .cart {
+      overflow-x: auto;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .cart-wrapper {
+      min-width: 768px;
+  }
+}
+
+.cart-header {
+  text-transform: uppercase;
+  font-weight: bold;
+  padding: 1.2rem 2rem;
+  border-bottom: 1px solid #e9ecef;
+  text-align: center !important;
+}
+
+.cart-body {
+  padding: 0 2rem;
+}
+.cart-item {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.cart-title {
+  margin-left: 1rem;
+  color: rgb(22, 22, 22);
+  font-weight: bold;
+  text-align: left !important;
 }
