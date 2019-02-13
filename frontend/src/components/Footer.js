@@ -2,13 +2,15 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Newsletter from "./Newsletter";
 
+import { MDBContainer } from "mdbreact";
+
 export default class Footer extends Component {
   render() {
     return (
       <footer className="bg-dark text-white">
-        <div className="container bg-light text-center text-dark py-2">
+        <MDBContainer className="grey lighten-4 text-center text-dark py-2">
           <Newsletter />
-        </div>
+        </MDBContainer>
         <div className="container py-3">
           <div className="d-flex flex-row flex-wrap">
             <div className="mr-4">
@@ -32,43 +34,43 @@ export default class Footer extends Component {
             </div>
             <div className="ml-4">
               <h4>Information</h4>
-                <ul className="list-unstyled">
-                  <li>
-                    <Link to="/about">About Us</Link>
-                  </li>
-                  <li>
-                    <Link to="/terms">Terms of Use</Link>
-                  </li>
-                  <li>
-                    <Link to="/careers">Careers</Link>
-                  </li>
-                </ul>
+              <ul className="list-unstyled">
+                <li>
+                  <Link to="/about">About Us</Link>
+                </li>
+                <li>
+                  <Link to="/terms">Terms of Use</Link>
+                </li>
+                <li>
+                  <Link to="/careers">Careers</Link>
+                </li>
+              </ul>
             </div>
 
             <div className="ml-auto">
               <h4>Get in Touch</h4>
               <ul className="list-inline">
-                  <li className="list-inline-item">
-                    <Link to="/">
-                      <i className="fab fa-twitter fa-2x pr-2" />
-                    </Link>
-                  </li>
-                  <li className="list-inline-item">
-                    <Link to="/">
-                      <i className="fab fa-facebook-f fa-2x pr-2" />
-                    </Link>
-                  </li>
-                  <li className="list-inline-item">
-                    <Link to="/">
-                      <i className="fab fa-linkedin fa-2x pr-2" />
-                    </Link>
-                  </li>
-                  <li className="list-inline-item">
-                    <Link to="/">
-                      <i className="fab fa-pinterest fa-2x" />
-                    </Link>
-                  </li>
-                </ul>
+                <li className="list-inline-item">
+                  <Link to="/">
+                    <i className="fab fa-twitter fa-2x pr-2" />
+                  </Link>
+                </li>
+                <li className="list-inline-item">
+                  <Link to="/">
+                    <i className="fab fa-facebook-f fa-2x pr-2" />
+                  </Link>
+                </li>
+                <li className="list-inline-item">
+                  <Link to="/">
+                    <i className="fab fa-linkedin fa-2x pr-2" />
+                  </Link>
+                </li>
+                <li className="list-inline-item">
+                  <Link to="/">
+                    <i className="fab fa-pinterest fa-2x" />
+                  </Link>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
@@ -78,13 +80,6 @@ export default class Footer extends Component {
               <p>
                 <span className="block">
                   Copyright &copy; 2019 by Author. All rights reserved
-                </span>
-                <br />
-                <span className="block">
-                  Images by:{" "}
-                  <Link to="http://unsplash.co/" target="_blank">
-                    Unsplash
-                  </Link>
                 </span>
                 <br />
                 <span className="block">
