@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
+// import { withRouter } from "react-router-dom";
 
 import { connect } from "react-redux";
 import { fetchProducts } from "../store/actions";
@@ -11,7 +11,6 @@ const mapStateToProps = state => {
 };
 
 class SearchResults extends Component {
-
   componentDidMount() {
     const { query } = this.props.match.params;
     this.props.dispatch(fetchProducts(query));
@@ -53,4 +52,4 @@ class SearchResults extends Component {
   }
 }
 
-export default withRouter(connect(mapStateToProps)(SearchResults));
+export default connect(mapStateToProps)(SearchResults);
