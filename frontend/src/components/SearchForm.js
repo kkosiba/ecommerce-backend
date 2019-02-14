@@ -1,46 +1,46 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
-import { MDBFormInline, MDBIcon } from "mdbreact";
+import { Form, Input, InputGroup, InputGroupAddon, Button } from "reactstrap";
 
-export default class SearchForm extends Component {
+class SearchForm extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      query: ""
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
 
-  state = {
-    query: ""
+  handleSubmit = e => {
+    e.preventDefault();
+    this.props.history.push(`/search/${this.state.query}`);
   };
-
 
   renderSearchForm = () => {
     return (
-      <MDBFormInline className="md-form">
-        <div className="input-group">
-          <input
-            className="form-control mr-sm-2"
+      <Form inline onSubmit={this.handleSubmit}>
+        <InputGroup>
+          <Input
+            bsSize="sm"
             type="text"
             placeholder="Search store..."
-            aria-label="Search store..."
+            label="Search store..."
             onChange={e => this.setState({ query: e.target.value })}
           />
-          <div className="input-group-append">
-            <Link to={`/search/${this.state.query}`}>
-              <button
-                type="submit"
-                className="btn btn-outline-secondary"
-              >
-                <MDBIcon className="text-white" icon="search" />
-              </button>
-            </Link>
-          </div>
-        </div>
-      </MDBFormInline>
+          <InputGroupAddon addonType="append">
+            <Button outline color="secondary" size="sm">
+              <i class="fas fa-search text-white" />
+            </Button>
+          </InputGroupAddon>
+        </InputGroup>
+      </Form>
     );
   };
 
   render() {
-    return (
-      <React.Fragment>
-        {this.renderSearchForm()}
-      </React.Fragment>
-    );
+    return <React.Fragment>{this.renderSearchForm()}</React.Fragment>;
   }
 }
+
+export default withRouter(SearchForm);
