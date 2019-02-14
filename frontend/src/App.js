@@ -21,11 +21,11 @@ import SearchResults from "./components/SearchResults";
 
 // scroll page back to top once component updates
 import ScrollToTop from "./components/Utilities/ScrollToTop";
+// private route (requires authentication)
+import PrivateRoute from "./components/Utilities/PrivateRoute";
 
 import Login from "./components/Authentication/Login";
 import Register from "./components/Authentication/Register";
-import PrivateRoute from "./components/Authentication/PrivateRoute";
-
 import Profile from "./components/Profiles/Profile";
 
 import * as actions from "./store/actions";
