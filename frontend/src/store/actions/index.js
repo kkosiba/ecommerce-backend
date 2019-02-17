@@ -1,27 +1,41 @@
 import * as actions from "../constants/action-types";
 import axios from "axios";
-
+import { API_PATH } from "../../backend_url";
 
 export function addProductToCart(item, quantity) {
   return {
     type: actions.ADD_PRODUCT_TO_CART,
-    item,
-    quantity
+    item: item,
+    quantity: quantity
   };
 }
 
 export function removeProductFromCart(item) {
   return {
     type: actions.REMOVE_PRODUCT_FROM_CART,
-    item
+    item: item
   };
 }
 
 export function updateProductQuantity(item, quantity) {
   return {
     type: actions.UPDATE_PRODUCT_QUANTITY,
-    item,
-    quantity
+    item: item,
+    quantity: quantity
+  };
+}
+
+export function incProductQuantity(item) {
+  return {
+    type: actions.INC_PRODUCT_QUANTITY,
+    item: item
+  };
+}
+
+export function decProductQuantity(item) {
+  return {
+    type: actions.DEC_PRODUCT_QUANTITY,
+    item: item
   };
 }
 
@@ -31,22 +45,28 @@ export function emptyCart() {
   };
 }
 
-export function fetchProducts(query="") {
+export function updateStock() {
+  return {
+    type: actions.UPDATE_STOCK
+  };
+}
+
+export function fetchProducts(query = "") {
   return dispatch => {
     if (query === "") {
       return axios
-            .get("http://localhost:8000/api/products/")
-            .then(res => {
-              dispatch(fetchProductsSuccess(res.data));
-            })
-            .catch(err => console.log(err));
+        .get(`${API_PATH}products/`)
+        .then(res => {
+          dispatch(fetchProductsSuccess(res.data));
+        })
+        .catch(err => console.log(err));
     } else {
       return axios
-            .get(`http://localhost:8000/api/products/?search=${query}`)
-            .then(res => {
-              dispatch(fetchProductsSuccess(res.data));
-            })
-            .catch(err => console.log(err));
+        .get(`${API_PATH}products/?search=${query}`)
+        .then(res => {
+          dispatch(fetchProductsSuccess(res.data));
+        })
+        .catch(err => console.log(err));
     }
   };
 }
@@ -57,110 +77,3 @@ export function fetchProductsSuccess(products) {
     products
   };
 }
-
-export function removeProductFromStock(item, quantity) {
-  return {
-    type: actions.REMOVE_PRODUCT_FROM_STOCK,
-    item,
-    quantity
-  };
-}
-
-
-// AUTHENTICATION
-export const authStart = () => {
-  return {
-    type: actions.AUTH_START
-  }
-};
-
-export const authSuccess = (token) => {
-  return {
-    type: actions.AUTH_SUCCESS,
-    token: token
-  }
-};
-
-export const authFail = (error) => {
-  return {
-    type: actions.AUTH_FAIL,
-    error: error
-  }
-};
-
-export const logout = () => {
-  localStorage.removeItem("user");
-  localStorage.removeItem("expirationDate");
-  return {
-    type: actions.AUTH_LOGOUT
-  }
-}
-
-export const checkAuthTimeout = (expirationTime) => {
-  return dispatch => {
-    setTimeout(() => {
-      dispatch(logout())
-    }, expirationTime * 1000)
-  };
-};
-
-export const authLogin = (username, password) => {
-  return dispatch => {
-    dispatch(authStart());
-    axios
-      .post('http://localhost:8000/api/auth/login/', {
-        username: username,
-        password: password
-      })
-      .then(res => {
-        const token = res.data.token;
-        const expirationDate = new Date(new Date().getTime() + 3600 * 1000);
-        localStorage.setItem("token", token);
-        localStorage.setItem("expirationDate", expirationDate);
-        dispatch(authSuccess(token));
-        dispatch(checkAuthTimeout(3600));
-      })
-      .catch(err => {
-        dispatch(authFail(err));
-      })
-  };
-};
-
-export const authSignup = (username, password) => {
-  return dispatch => {
-    dispatch(authStart());
-    axios
-      .post('http://localhost:8000/api/auth/register/', {
-        username: username,
-        password: password
-      })
-      .then(res => {
-        const token = res.data.key;
-        const expirationDate = new Date(new Date().getTime() + 3600 * 1000);
-        localStorage.setItem("token", token);
-        localStorage.setItem("expirationDate", expirationDate);
-        dispatch(authSuccess(token));
-        dispatch(checkAuthTimeout(3600));
-      })
-      .catch(err => {
-        dispatch(authFail(err));
-      })
-  };
-};
-
-export const authCheckState = () => {
-  return dispatch => {
-    const token = localStorage.getItem("token");
-    if (token === undefined) {
-      dispatch(logout());
-    } else {
-      const expirationDate = new Date(localStorage.getItem("expirationDate"));
-      if (expirationDate <= new Date()) {
-        dispatch(logout());
-      } else {
-        dispatch(authSuccess(token));
-        dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime()) / 1000));
-      }
-    }
-  }
-};
