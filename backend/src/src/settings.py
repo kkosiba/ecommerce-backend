@@ -57,6 +57,8 @@ INSTALLED_APPS = [
 
     'accounts',
     'addresses',
+
+    'newsletter',
 ]
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
