@@ -1,24 +1,49 @@
 import React, { Component } from "react";
-// import { Link } from "react-router-dom";
+import { InputGroup, InputGroupAddon, Input, Button } from "reactstrap";
+import axios from "axios";
+import { API_PATH } from "../backend_url";
 
 export default class Newsletter extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: ""
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleSubmit = e => {
+    e.preventDefault();
+    axios
+      .post(`${API_PATH}newsletter/add/`, { email: this.state.email })
+      .then(res => alert("Successfully subscribed!"))
+      .catch(err =>
+        alert(`The email ${this.state.email} is already a subscriber!`)
+      );
+  };
+
   render() {
     return (
       <React.Fragment>
-        <h5 className="font-weight-bold">Subscribe to our newsletter!</h5>
-        <form className="form-inline justify-content-center">
-          <div className="input-group">
-            <input
-              type="text"
-              className="form-control"
+        <h5 className="font-weight-bold text-white">
+          Subscribe to our newsletter!
+        </h5>
+        <form
+          className="form-inline justify-content-center"
+          onSubmit={this.handleSubmit}
+        >
+          <InputGroup>
+            <Input
+              type="email"
               placeholder="Your email address"
+              onChange={e => this.setState({ email: e.target.value })}
             />
-            <div className="input-group-append">
-              <button className="btn btn-outline-secondary" type="button">
-                Subscribe!
-              </button>
-            </div>
-          </div>
+            <InputGroupAddon addonType="append">
+              <Button className="btn btn-secondary">
+                Subscribe! <i class="fas fa-paper-plane" />
+              </Button>
+            </InputGroupAddon>
+          </InputGroup>
         </form>
       </React.Fragment>
     );
