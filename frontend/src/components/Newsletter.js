@@ -40,7 +40,7 @@ export default class Newsletter extends Component {
             />
             <InputGroupAddon addonType="append">
               <Button className="btn btn-secondary">
-                Subscribe! <i class="fas fa-paper-plane" />
+                Subscribe! <i className="fas fa-paper-plane" />
               </Button>
             </InputGroupAddon>
           </InputGroup>
