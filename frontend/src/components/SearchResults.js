@@ -7,7 +7,7 @@ import { fetchProducts } from "../store/actions";
 import Product from "./Product";
 
 const mapStateToProps = state => {
-  return { products: state.products };
+  return { products: state.store.products };
 };
 
 class SearchResults extends Component {
