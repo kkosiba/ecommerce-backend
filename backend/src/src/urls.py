@@ -25,7 +25,7 @@ urlpatterns = [
     path('api/products/', include('products.api.urls')),
     path('api/carts/', include('carts.api.urls')),
     path('api/orders/', include('orders.api.urls')),
-    # path('api/newsletter/', include('newsletter.api.urls')),
+    path('api/newsletter/', include('newsletter.api.urls')),
 ]
 
 # to load static/media files in development environment
