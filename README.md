@@ -1,5 +1,21 @@
 # eCommerce-django
-eCommerce Project in Django with REST Framework API and React+Redux frontend.
+eCommerce Project in Django with REST Framework and React+Redux.
+
+This project is built using Django REST Framework to provide the backend API, which is consumed by the React frontend. All API calls are made via [axios](https://github.com/axios/axios).
+
+The deployed version is available at ... (TO DO...)
+
+Features
+--------
+1. Products are fetched from the products API endpoint available at `localhost:8000/api/products/`.
+2. Simple newsletter functionality: superuser can view the list of all subscribers in Django admin panel; any visitor can subscribe. The relevant API endpoint is available at `localhost:8000/api/newsletter/`.
+3. Fully operational shopping cart: adding & removing products, incrementing/decrementing quantity of an item in cart (limited by stock availibility), clearing cart.
+4. Four-step checkout process: selection of invoice and/or shipping addresses, delivery method, payment method (currently only PayPal), finalizing order.
+4. Payments processed via [PayPal's sandbox](https://developer.paypal.com/developer/accounts/). Dummy buyer account for testing has credentials: 
+
+`(login, password): (ecommerce.paypal.test@gmail.com, ecommercetest)`
+
+Once the payment goes through it is being POSTed to `localhost:8000/api/orders/` API endpoint for further processing. At the same time, cart is cleared and invoice is displayed.
 
 
 Main requirements
@@ -13,7 +29,7 @@ This project also uses a few external packages (see `requirements.txt` file for 
 For instance, tag support is provided by [django-taggit](https://github.com/alex/django-taggit),
 image processing if thanks to [Pillow](https://github.com/python-pillow/Pillow).
 
-How to use
+How to set up
 -----
 
 Firstly, create a new directory and change to it:
@@ -61,3 +77,5 @@ For the frontend it is enough to navigate to `frontend` directory (`eCommerce-dj
 If everything goes well, it will pull essential packages. Then, one can run frontend on `localhost:3000` by issuing
 
 `npm start`
+
+For PayPal to work, one needs to provide `REACT_APP_PAYPAL_SANDBOX_ID` environment variable in `frontend/.env.development`. The ID can be obtained [here](https://developer.paypal.com/developer/accounts/).
