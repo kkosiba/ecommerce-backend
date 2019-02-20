@@ -1,33 +1,49 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+
 import { Link } from "react-router-dom";
 import SearchForm from "./SearchForm";
 import jwt_decode from "jwt-decode"; // for decoding JWT tokens
 
 import {
-  MDBNavbar,
-  MDBNavbarBrand,
-  MDBNavbarNav,
-  MDBNavItem,
-  MDBNavLink,
-  MDBNavbarToggler,
-  MDBCollapse
-} from "mdbreact";
+  Navbar as NavBar,
+  NavbarBrand,
+  Nav,
+  NavItem,
+  NavbarToggler,
+  Collapse,
+  Container
+} from "reactstrap";
+
+const mapStateToProps = state => {
+  return {
+    token: state.auth.token,
+    isAuthenticated: state.auth.token !== null,
+    cartItems: state.store.cart.items
+  };
+};
 
 class Navbar extends Component {
-  state = {
-    isOpen: false
-  };
+  constructor(props) {
+    super(props);
 
-  toggleCollapse = () => {
-    this.setState({ isOpen: !this.state.isOpen });
-  };
-
-  cartItemCount() {
-    let result = 0;
-    const { cart } = this.props;
-    cart.map(item => (result += item.quantity));
-    return result;
+    this.toggle = this.toggle.bind(this);
+    this.state = {
+      isOpen: false
+    };
   }
+
+  toggle() {
+    this.setState({
+      isOpen: !this.state.isOpen
+    });
+  }
+
+  cartItemCount = () => {
+    let result = 0;
+    this.props.cartItems.map(item => result += item.quantity);
+    return result;
+  };
 
   render() {
     let decoded_token = undefined;
@@ -36,58 +52,61 @@ class Navbar extends Component {
     }
 
     return (
-      <MDBNavbar color="black" dark expand="md">
-        <div className="container">
-          <MDBNavbarBrand>
-            <strong className="white-text">
-              <Link to="/">CloverPlants</Link>
-            </strong>
-          </MDBNavbarBrand>
-          <MDBNavbarToggler onClick={this.toggleCollapse} />
-          <MDBCollapse id="navbarCollapse3" isOpen={this.state.isOpen} navbar>
-            <MDBNavbarNav left>
-              <MDBNavItem>
-                <SearchForm />
-              </MDBNavItem>
-            </MDBNavbarNav>
-            <MDBNavbarNav right>
-              <MDBNavItem className="mr-2 pt-1">
-                <MDBNavLink to="/cart">
-                  <i className="fas fa-shopping-cart" />
-                  <strong>Cart</strong> ({this.cartItemCount()})
-                </MDBNavLink>
-              </MDBNavItem>
-
-              <MDBNavItem>
-                {this.props.isAuthenticated ? (
-                  <div class="btn-group btn-group">
-                    <Link to="/profile" className="btn btn-success">
-                      {decoded_token.username} <i class="fas fa-user" />
-                    </Link>
-                    <button
-                      className="btn btn-warning"
-                      onClick={this.props.logout}
-                    >
-                      Logout <i class="fas fa-sign-out-alt" />
-                    </button>
-                  </div>
-                ) : (
-                  <div class="btn-group btn-group">
-                    <Link to="/login" className="btn btn-warning">
-                      Login <i class="fas fa-sign-in-alt" />
-                    </Link>
-                    <Link to="/register" className="btn btn-info">
-                      Register <i class="fas fa-user-plus" />
-                    </Link>
-                  </div>
-                )}
-              </MDBNavItem>
-            </MDBNavbarNav>
-          </MDBCollapse>
+      <React.Fragment>
+        <div className="bg-light text-center text-dark py-1">
+          <i className="fas fa-truck" /> <em>Free delivery on orders over £100!</em>
         </div>
-      </MDBNavbar>
+        <NavBar color="dark" dark expand="lg">
+          <Container className="py-1">
+            <NavbarBrand tag={Link} to={"/"} className="mr-4 text-light font-weight-bold">
+                eCommerce
+            </NavbarBrand>
+            <NavbarToggler onClick={this.toggle} />
+            <Collapse isOpen={this.state.isOpen} navbar>
+              <SearchForm />
+              <Nav className="ml-auto align-items-center">
+                <NavItem>
+                  <Link to="/cart" className="text-light mr-3">
+                    <i className="fas fa-shopping-cart" />
+                    <span className="font-weight-bold"> Cart</span> (
+                    {this.cartItemCount()})
+                  </Link>
+                </NavItem>
+
+                <NavItem>
+                  {this.props.isAuthenticated ? (
+                    <div className="btn-group">
+                      <Link to="/profile" className="btn btn-sm btn-success">
+                        {decoded_token.username !== "" // if user has username...
+                          ? decoded_token.username // display it or use email
+                          : decoded_token.email}{" "}
+                        <i className="fas fa-user" />
+                      </Link>
+                      <button
+                        className="btn btn-sm btn-warning"
+                        onClick={this.props.logout}
+                      >
+                        Logout <i className="fas fa-sign-out-alt" />
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="btn-group">
+                      <Link to="/login" className="btn btn-sm btn-warning">
+                        Login <i className="fas fa-sign-in-alt" />
+                      </Link>
+                      <Link to="/register" className="btn btn-sm btn-info">
+                        Register <i className="fas fa-user-plus" />
+                      </Link>
+                    </div>
+                  )}
+                </NavItem>
+              </Nav>
+            </Collapse>
+          </Container>
+        </NavBar>
+      </React.Fragment>
     );
   }
 }
 
-export default Navbar;
+export default connect(mapStateToProps)(Navbar);

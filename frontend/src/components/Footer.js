@@ -2,15 +2,15 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Newsletter from "./Newsletter";
 
-import { MDBContainer } from "mdbreact";
+import { Container } from "reactstrap";
 
 export default class Footer extends Component {
   render() {
     return (
       <footer className="bg-dark text-white">
-        <MDBContainer className="grey lighten-4 text-center text-dark py-2">
+        <Container className="grey lighten-4 text-center text-dark py-2">
           <Newsletter />
-        </MDBContainer>
+        </Container>
         <div className="container py-3">
           <div className="d-flex flex-row flex-wrap">
             <div className="mr-4">

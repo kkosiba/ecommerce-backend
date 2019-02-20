@@ -30,7 +30,7 @@ class SearchForm extends Component {
           />
           <InputGroupAddon addonType="append">
             <Button outline color="secondary" size="sm">
-              <i class="fas fa-search text-white" />
+              <i className="fas fa-search text-white" />
             </Button>
           </InputGroupAddon>
         </InputGroup>

@@ -1,23 +1,24 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-
 import { connect } from "react-redux";
 
-import "@fortawesome/fontawesome-free/css/all.min.css";
-import "bootstrap-css-only/css/bootstrap.min.css";
-import "mdbreact/dist/css/mdb.css";
-// import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
 import Navbar from "./components/Navbar";
 import ProductList from "./components/ProductList";
 import ProductDetails from "./components/ProductDetails";
 import Cart from "./components/Cart";
-import Checkout from "./components/Checkout";
-import Default from "./components/Default";
+import Address from "./components/Checkout/Address";
+import Delivery from "./components/Checkout/Delivery";
+import Payment from "./components/Checkout/Payment";
+import OrderReview from "./components/Checkout/OrderReview";
+// import OrderSuccess from "./components/Checkout/OrderSuccess";
+
 import Footer from "./components/Footer";
 import About from "./components/About";
 import SearchResults from "./components/SearchResults";
+import Default from "./components/Default";
 
 // scroll page back to top once component updates
 import ScrollToTop from "./components/Utilities/ScrollToTop";
@@ -29,15 +30,20 @@ import Register from "./components/Authentication/Register";
 import Profile from "./components/Profiles/Profile";
 
 import * as actions from "./store/actions";
+import * as auth from "./store/actions/auth";
 
-import { MDBContainer } from "mdbreact";
+import { Container } from "reactstrap";
 
 const mapStateToProps = state => {
   return {
-    cart: state.cart,
-    products: state.products,
-    token: state.token,
-    isAuthenticated: state.token !== null
+    token: state.auth.token,
+    isAuthenticated: state.auth.token !== null,
+    products: state.store.products,
+
+    cartItems: state.store.cart.items,
+    cartSubtotal: state.store.cart.subtotal,
+
+    checkout: state.store.checkout
   };
 };
 
@@ -51,8 +57,9 @@ const mapDispatchToProps = dispatch => {
     incProductQuantity: item => dispatch(actions.incProductQuantity(item)),
     decProductQuantity: item => dispatch(actions.decProductQuantity(item)),
     emptyCart: () => dispatch(actions.emptyCart()),
-    onTryAutoSignup: () => dispatch(actions.authCheckState()),
-    logout: () => dispatch(actions.logout())
+    calculateCart: () => dispatch(actions.calculateCart()),
+    onTryAutoSignup: () => dispatch(auth.authCheckState()),
+    logout: () => dispatch(auth.logout())
   };
 };
 
@@ -65,56 +72,49 @@ class App extends Component {
     return (
       <Router>
         <ScrollToTop>
-          <div className="content">
-            <Navbar {...this.props} />
+          <Navbar {...this.props} />
 
-            <MDBContainer className="content py-4 grey lighten-4">
-              <Switch>
-                <Route
-                  exact
-                  path="/"
-                  render={props => <ProductList {...this.props} {...props} />}
-                />
+          <Container className="content my-4">
+            <Switch>
+              <Route
+                exact
+                path="/"
+                render={props => <ProductList {...this.props} {...props} />}
+              />
 
-                <Route
-                  exact
-                  path="/login"
-                  render={props => <Login {...this.props} {...props} />}
-                />
+              <Route exact path="/login" component={Login} />
 
-                <Route
-                  exact
-                  path="/register"
-                  render={props => <Register {...this.props} {...props} />}
-                />
+              <Route
+                exact
+                path="/register"
+                render={props => <Register {...this.props} {...props} />}
+              />
 
-                <PrivateRoute path="/profile" component={Profile} />
+              <PrivateRoute path="/profile" component={Profile} />
 
-                <Route path="/product/:slug" component={ProductDetails} />
+              <Route path="/product/:slug" component={ProductDetails} />
 
-                <Route
-                  path="/search/:query"
-                  render={props => <SearchResults {...props} />}
-                />
+              <Route
+                path="/search/:query"
+                render={props => <SearchResults {...props} />}
+              />
 
-                <Route
-                  path="/cart"
-                  render={props => <Cart {...this.props} {...props} />}
-                />
+              <Route path="/cart" component={Cart} />
 
-                <PrivateRoute
-                  path="/checkout"
-                  cart={this.props.cart}
-                  component={Checkout}
-                />
+              <PrivateRoute path="/checkout/step1" component={Address} />
 
-                <Route path="/about" component={About} />
-                <Route component={Default} />
-              </Switch>
-            </MDBContainer>
+              <PrivateRoute path="/checkout/step2" component={Delivery} />
 
-            <Footer />
-          </div>
+              <PrivateRoute path="/checkout/step3" component={Payment} />
+
+              <PrivateRoute path="/checkout/step4" component={OrderReview} />
+
+              <Route path="/about" component={About} />
+              <Route component={Default} />
+            </Switch>
+          </Container>
+
+          <Footer />
         </ScrollToTop>
       </Router>
     );
