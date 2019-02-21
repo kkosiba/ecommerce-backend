@@ -7,7 +7,6 @@ __pycache__/
 *.pyc
 
 db.sqlite3
-migrations/
 
 # Node-related
 node_modules/
