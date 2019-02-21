@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
+import django_heroku
+
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -153,7 +155,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'assets'), )
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'), )
 
 
 # Media files
@@ -213,3 +215,6 @@ REST_USE_JWT = True
 #     # Authorization:Token xxx
 #     'JWT_AUTH_HEADER_PREFIX': 'Token',
 # }
+
+# Activate Django-Heroku.
+django_heroku.settings(locals())
