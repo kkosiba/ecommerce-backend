@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'corsheaders',
 
     'products',
-    'carts',
+    # 'carts',
     'orders',
     'taggit',
 
@@ -58,7 +58,7 @@ INSTALLED_APPS = [
     'rest_auth.registration',
 
     'accounts',
-    'addresses',
+    # 'addresses',
 
     'newsletter',
 ]
