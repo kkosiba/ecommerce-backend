@@ -172,7 +172,8 @@ TAGGIT_CASE_INSENSITIVE = True
 
 # Whitelist localhost on port 3000 for Cross-Origin Resource Sharing
 CORS_ORIGIN_WHITELIST = (
-    'localhost:3000/'
+    'localhost:3000/',
+    'http://ecommerce-django-react.s3-website.eu-west-2.amazonaws.com/'
 )
 
 # authentication related stuff
