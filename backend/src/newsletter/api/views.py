@@ -1,10 +1,11 @@
-from rest_framework import generics, permissions, status
+from rest_framework import generics, status
 from rest_framework.response import Response
 
 from newsletter.models import Subscriber
 from .serializers import SubscriberSerializer
+from .permissions import IsPostOrIsAdmin
 
-class ListSubscribers(generics.ListAPIView):
+class Subscribers(generics.ListCreateAPIView):
     """
     API view for listing all existing subscribers.
 
@@ -15,17 +16,4 @@ class ListSubscribers(generics.ListAPIView):
 
     queryset = Subscriber.objects.all()
     serializer_class = SubscriberSerializer
-    permission_classes = (permissions.IsAdminUser, ) # only for admin to view
-
-
-class AddSubscriber(generics.CreateAPIView):
-    """
-    API view for adding new subscriber.
-
-    Available via POST request only, no permission restrictions.
-
-    Checks if provided email already exists in the database and raises
-    suitable error.
-    """
-    serializer_class = SubscriberSerializer
-    permission_classes = (permissions.AllowAny, )
+    permission_classes = (IsPostOrIsAdmin, ) # GET for admin, POST for everyone
