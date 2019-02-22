@@ -10,7 +10,9 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
-import django_heroku
+# import django_heroku
+
+import dj_database_url
 
 import os
 
@@ -216,5 +218,8 @@ REST_USE_JWT = True
 #     'JWT_AUTH_HEADER_PREFIX': 'Token',
 # }
 
-# Activate Django-Heroku.
-django_heroku.settings(locals())
+db_from_env = dj_database_url.config(conn_max_age=600)
+DATABASES['default'].update(db_from_env)
+
+# # Activate Django-Heroku.
+# django_heroku.settings(locals())
