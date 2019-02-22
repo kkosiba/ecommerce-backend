@@ -18,14 +18,12 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
+# from django.views.generic.base import TemplateView
+
 urlpatterns = [
+    # path('', TemplateView.as_view(template_name='templates/base.html'), name='index'),
+    path('api/', include('api.urls')),
     path('admin/', admin.site.urls),
-    path('api/accounts/', include('accounts.api.urls')),
-    # path('api/addresses/', include('addresses.api.urls')),
-    path('api/products/', include('products.api.urls')),
-    # path('api/carts/', include('carts.api.urls')),
-    # path('api/orders/', include('orders.api.urls')),
-    path('api/newsletter/', include('newsletter.api.urls')),
 ]
 
 # to load static/media files in development environment
