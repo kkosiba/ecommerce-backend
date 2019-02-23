@@ -170,11 +170,12 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 TAGGIT_CASE_INSENSITIVE = True
 
+CORS_ORIGIN_ALLOW_ALL = True
 # Whitelist localhost on port 3000 for Cross-Origin Resource Sharing
-CORS_ORIGIN_WHITELIST = (
-    'localhost:3000/',
-    'http://ecommerce-django-react.s3-website.eu-west-2.amazonaws.com/'
-)
+# CORS_ORIGIN_WHITELIST = (
+#     'localhost:3000/',
+#     'http://ecommerce-django-react.s3-website.eu-west-2.amazonaws.com/'
+# )
 
 # authentication related stuff
 AUTH_USER_MODEL = 'accounts.CustomUser'
