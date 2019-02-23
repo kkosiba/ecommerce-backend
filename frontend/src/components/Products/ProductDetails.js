@@ -1,0 +1,175 @@
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
+
+import { connect } from "react-redux";
+import * as actions from "../../store/actions";
+
+import { API_PATH } from "../../backend_url";
+
+const mapStateToProps = state => {
+  return { cartItems: state.store.cart.items };
+};
+
+function mapDispatchToProps(dispatch) {
+  return {
+    addProductToCart: item => dispatch(actions.addProductToCart(item, 1)),
+    removeProductFromCart: item => dispatch(actions.removeProductFromCart(item))
+  };
+}
+
+class ProductDetails extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      product: {},
+      quantity: 0,
+      selectValue: 1
+    };
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  componentDidMount() {
+    const {
+      match: { params }
+    } = this.props;
+    axios
+      .get(`${API_PATH}products/${params.slug}`)
+      .then(res => this.setState({ product: res.data }))
+      .catch(err => console.log(err));
+  }
+
+  inCart = () => {
+    const items = this.props.cartItems;
+    const res = items.find(e => e.id === this.state.product.id);
+    if (res) {
+      return res.quantity;
+    } else {
+      return 0;
+    }
+  };
+
+  quantityRange = product => {
+    let result = [];
+    if (product.quantity > 0) {
+      for (let i = 1; i <= product.quantity; i++) {
+        result.push(i);
+      }
+      return result;
+    }
+    return result;
+  };
+
+  handleChange = e => {
+    e.preventDefault();
+    this.setState({ selectValue: e.target.value });
+  };
+
+  addMultiple = (item, qnt) => {
+    for (let i = 0; i < qnt; i++) {
+      this.props.addProductToCart(item);
+    }
+  };
+
+  render() {
+    const { product } = this.state;
+    const productQuantityRange = this.quantityRange(product);
+
+    return (
+      <div className="row">
+        <div className="col-md-6">
+          <div className="card rounded-0">
+            <img
+              className="card-img-top rounded-0"
+              src={product.picture}
+              alt={product.name}
+            />
+          </div>
+        </div>
+        <div className="col-md-6">
+          <div className="card rounded-0">
+            <div className="card-body">
+              <h3>
+                <strong>{product.name}</strong>
+              </h3>
+              <p className="card-text pt-2">{product.description}</p>
+              <p className="card-text pt-2">
+                <strong>Price:</strong> £{product.price}
+              </p>
+              <p className="card-text pt-2">
+                <strong>Availability:</strong>
+                {product.quantity > 0 ? (
+                    product.quantity > 20 ? " Plenty in stock!" : " Just a few left!"
+                ) : (
+                  " Out of stock"
+                )}
+              </p>
+
+              <hr />
+
+              <div className="input-group justify-content-center">
+                <div className="input-group-prepend">
+                  <button className="btn btn-info" type="button">
+                    <Link to="/" className="text-white">
+                      <i className="far fa-list-alt" /> All products
+                    </Link>
+                  </button>
+                </div>
+                {product.quantity === 0 ? (
+                  <div className="input-group-append">
+                    <button className="btn btn-success" disabled>
+                      <i className="fas fa-cart-plus" />
+                    </button>
+                  </div>
+                ) : (
+                  <div className="input-group-append">
+                    <select
+                      className="custom-select"
+                      value={this.state.selectValue}
+                      onChange={this.handleChange}
+                    >
+                      {productQuantityRange
+                        .slice(0, 10) // add no more than 10 items to cart regardless of the available amount
+                        .map(item => (
+                          <option value={item} key={item}>
+                            {item}
+                          </option>
+                        ))}
+                    </select>
+                    <button
+                      type="submit"
+                      className="btn btn-success"
+                      onClick={() =>
+                        this.addMultiple(product, this.state.selectValue)
+                      }
+                    >
+                      <i className="fas fa-cart-plus" />
+                    </button>
+                    {this.inCart() > 0 ? (
+                      <button
+                        type="button"
+                        className="btn btn-danger"
+                        onClick={() =>
+                          this.props.removeProductFromCart(product)
+                        }
+                      >
+                        <i className="far fa-trash-alt" />
+                      </button>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ProductDetails);
