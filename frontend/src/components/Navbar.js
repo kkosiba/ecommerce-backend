@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import { Link } from "react-router-dom";
-import SearchForm from "./SearchForm";
+import SearchForm from "./Products/SearchForm";
 import jwt_decode from "jwt-decode"; // for decoding JWT tokens
 
 import {
@@ -41,7 +41,7 @@ class Navbar extends Component {
 
   cartItemCount = () => {
     let result = 0;
-    this.props.cartItems.map(item => result += item.quantity);
+    this.props.cartItems.map(item => (result += item.quantity));
     return result;
   };
 
@@ -54,12 +54,17 @@ class Navbar extends Component {
     return (
       <React.Fragment>
         <div className="bg-light text-center text-dark py-1">
-          <i className="fas fa-truck" /> <em>Free delivery on orders over £100!</em>
+          <i className="fas fa-truck" />{" "}
+          <em>Free delivery on orders over £100!</em>
         </div>
         <NavBar color="dark" dark expand="lg">
           <Container className="py-1">
-            <NavbarBrand tag={Link} to={"/"} className="mr-4 text-light font-weight-bold">
-                eCommerce
+            <NavbarBrand
+              tag={Link}
+              to={"/"}
+              className="mr-4 text-light font-weight-bold"
+            >
+              eCommerce
             </NavbarBrand>
             <NavbarToggler onClick={this.toggle} />
             <Collapse isOpen={this.state.isOpen} navbar>
