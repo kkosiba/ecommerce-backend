@@ -1,38 +1,55 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import * as actions from "../../store/actions";
 
 import { Link } from "react-router-dom";
+
+import OrderSummary from "./OrderSummary";
+
+const mapStateToProps = state => {
+  return {
+    cartItems: state.store.cart.items,
+    cartSubtotal: state.store.cart.subtotal
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    addProductToCart: product => dispatch(actions.addProductToCart(product, 1)),
+    removeProductFromCart: product =>
+      dispatch(actions.removeProductFromCart(product)),
+    updateProductQuantity: (product, qnt) =>
+      dispatch(actions.updateProductQuantity(product, qnt)),
+    incProductQuantity: item => dispatch(actions.incProductQuantity(item)),
+    decProductQuantity: item => dispatch(actions.decProductQuantity(item)),
+    emptyCart: () => dispatch(actions.emptyCart()),
+    calculateCart: () => dispatch(actions.calculateCart())
+  };
+};
 
 class Cart extends Component {
   constructor(props) {
     super(props);
     this.state = {
       tax: 0.2,
-      shipping: 5
+      shipping: 5.0
     };
   }
 
-  singleItemTotal = item => {
-    const res = item.price * item.quantity;
-    return res.toFixed(2);
-  };
+  componentDidMount() {
+    this.props.calculateCart();
+  }
 
-  calculate = () => {
-    // returns an object with attributes subtotal, afterTax and totalPrice
-    const { cart } = this.props;
-    let subtotal = 0.0;
-    cart.map(item => (subtotal += item.price * item.quantity));
-    const afterTax = this.state.tax * subtotal;
-    const totalPrice = subtotal + afterTax + this.state.shipping;
-    return {
-      subtotal: subtotal.toFixed(2),
-      afterTax: afterTax.toFixed(2),
-      totalPrice: totalPrice.toFixed(2)
-    };
-  };
+  componentDidUpdate() {
+    this.props.calculateCart();
+  }
 
   render() {
-    const { cart } = this.props;
-    console.log(cart);
+    const subtotal = this.props.cartSubtotal;
+    const afterTax = this.state.tax * subtotal;
+    const totalPrice = subtotal + afterTax + this.state.shipping;
+    const cart = this.props.cartItems;
+
     return cart.length === 0 ? (
       <React.Fragment>
         <h3 className="text-center mt-2">
@@ -47,12 +64,12 @@ class Cart extends Component {
             <div className="cart">
               <div className="cart-wrapper">
                 <div className="cart-header text-center">
-                  <div class="row">
-                    <div class="col-5">Item</div>
-                    <div class="col-2">Price</div>
-                    <div class="col-2">Quantity</div>
-                    <div class="col-2">Total</div>
-                    <div class="col-1"> </div>
+                  <div className="row">
+                    <div className="col-5">Item</div>
+                    <div className="col-2">Price</div>
+                    <div className="col-2">Quantity</div>
+                    <div className="col-2">Total</div>
+                    <div className="col-1"> </div>
                   </div>
                 </div>
                 <div className="cart-body">
@@ -86,13 +103,10 @@ class Cart extends Component {
                               <i className="far fa-minus-square" />
                             </div>
                             <input
+                              disabled
                               className="form-control rounded-0"
                               type="number"
-                              name="quantity"
                               value={item.quantity}
-                              min="0"
-                              max="10"
-                              step="1"
                               onChange={e =>
                                 this.props.updateProductQuantity(
                                   item,
@@ -111,7 +125,7 @@ class Cart extends Component {
                           </div>
                         </div>
                         <div className="col-2 text-center">
-                          £{this.singleItemTotal(item)}
+                          £{(item.price * item.quantity).toFixed(2)}
                         </div>
                         <div className="col-1 text-center">
                           <Link
@@ -120,7 +134,7 @@ class Cart extends Component {
                               this.props.removeProductFromCart(item)
                             }
                           >
-                            <i class="far fa-times-circle text-danger" />
+                            <i className="far fa-times-circle text-danger" />
                           </Link>
                         </div>
                       </div>
@@ -136,48 +150,18 @@ class Cart extends Component {
                 className="btn btn-sm btn-danger ml-auto"
                 onClick={() => this.props.emptyCart()}
               >
-                <i class="far fa-trash-alt" /> Empty cart
+                <i className="far fa-trash-alt" /> Empty cart
               </Link>
             </div>
-            
           </div>
           <div className="col-lg-4">
-            <div className="bg-light p-4">
-              <h6 className="text-uppercase font-weight-bold px-2">
-                Order Summary
-              </h6>
-              <hr />
-              <div className="d-flex px-2 my-4">
-                <span>Order Subtotal</span>
-                <span className="ml-auto">£{this.calculate().subtotal}</span>
-              </div>
-              <hr />
-              <div className="d-flex px-2 my-4">
-                <span>Shipping</span>
-                <span className="ml-auto">£{this.state.shipping}</span>
-              </div>
-              <hr />
-              <div className="d-flex px-2 my-4">
-                <span>Tax (20%)</span>
-                <span className="ml-auto">£{this.calculate().afterTax}</span>
-              </div>
-              <hr />
-              <div className="d-flex px-2 my-4">
-                <span>Total</span>
-                <span className="ml-auto font-weight-bold">
-                  £{this.calculate().totalPrice}
-                </span>
-              </div>
-
-              <div className="d-flex justify-content-between flex-column flex-lg-row">
-                <Link to="/" className="btn btn-sm btn-default">
-                  <i class="fas fa-chevron-left" /> Continue shopping
-                </Link>
-                <Link to="/checkout" className="btn btn-sm btn-dark">
-                  Checkout <i class="fas fa-chevron-right" />
-                </Link>
-              </div>
-            </div>
+            <OrderSummary
+              subtotal={subtotal}
+              shipping={this.state.shipping}
+              afterTax={afterTax}
+              totalPrice={totalPrice}
+              cart={true}
+            />
           </div>
         </div>
       </React.Fragment>
@@ -185,4 +169,7 @@ class Cart extends Component {
   }
 }
 
-export default Cart;
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Cart);
