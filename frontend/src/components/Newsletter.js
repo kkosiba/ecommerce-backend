@@ -15,7 +15,7 @@ export default class Newsletter extends Component {
   handleSubmit = e => {
     e.preventDefault();
     axios
-      .post(`${API_PATH}newsletter/add/`, { email: this.state.email })
+      .post(`${API_PATH}subscribers/`, { email: this.state.email })
       .then(res => alert("Successfully subscribed!"))
       .catch(err =>
         alert(`The email ${this.state.email} is already a subscriber!`)
