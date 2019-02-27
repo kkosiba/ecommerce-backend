@@ -5,11 +5,14 @@ import * as actions from "../../store/actions";
 import { Link } from "react-router-dom";
 
 import OrderSummary from "./OrderSummary";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const mapStateToProps = state => {
   return {
     cartItems: state.store.cart.items,
-    cartSubtotal: state.store.cart.subtotal
+    cartSubtotal: state.store.cart.subtotal,
+    tax: state.store.tax,
+    shipping: state.checkout.shipping
   };
 };
 
@@ -23,32 +26,36 @@ const mapDispatchToProps = dispatch => {
     incProductQuantity: item => dispatch(actions.incProductQuantity(item)),
     decProductQuantity: item => dispatch(actions.decProductQuantity(item)),
     emptyCart: () => dispatch(actions.emptyCart()),
-    calculateCart: () => dispatch(actions.calculateCart())
+    calculateCart: () => dispatch(actions.calculateCart()),
+    setShipping: value => dispatch(actions.setShipping(value))
   };
 };
 
 class Cart extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      tax: 0.2,
-      shipping: 5.0
-    };
-  }
-
+  
   componentDidMount() {
     this.props.calculateCart();
   }
 
   componentDidUpdate() {
     this.props.calculateCart();
+    if (this.props.cartSubtotal >= 100) {
+      this.props.setShipping(0);
+      alert("You are eligible for FREE delivery!")
+    } else {
+      this.props.setShipping(5);
+    }
   }
 
   render() {
-    const subtotal = this.props.cartSubtotal;
-    const afterTax = this.state.tax * subtotal;
-    const totalPrice = subtotal + afterTax + this.state.shipping;
     const cart = this.props.cartItems;
+    
+    const subtotal = this.props.cartSubtotal;
+    const shipping = this.props.shipping;
+    const tax = this.props.tax;
+
+    const afterTax = tax * subtotal;
+    const totalPrice = subtotal + afterTax + shipping;
 
     return cart.length === 0 ? (
       <React.Fragment>
@@ -63,18 +70,18 @@ class Cart extends Component {
           <div className="col-lg-8">
             <div className="cart">
               <div className="cart-wrapper">
-                <div className="cart-header text-center">
+                <div className="cart-header text-uppercase text-center font-weight-bold">
                   <div className="row">
                     <div className="col-5">Item</div>
                     <div className="col-2">Price</div>
-                    <div className="col-2">Quantity</div>
+                    <div className="ml-1 col-2">Quantity</div>
                     <div className="col-2">Total</div>
                     <div className="col-1"> </div>
                   </div>
                 </div>
-                <div className="cart-body">
+                <div className="border-bottom">
                   {cart.map((item, index) => (
-                    <div className="cart-item" key={item.id}>
+                    <div className="p-4 border-top" key={item.id}>
                       <div className="row d-flex align-items-center text-center">
                         <div className="col-5">
                           <div className="d-flex align-items-center">
@@ -100,7 +107,7 @@ class Cart extends Component {
                                 this.props.decProductQuantity(item)
                               }
                             >
-                              <i className="far fa-minus-square" />
+                              <FontAwesomeIcon icon={["far", "minus-square"]} />
                             </div>
                             <input
                               disabled
@@ -120,7 +127,7 @@ class Cart extends Component {
                                 this.props.incProductQuantity(item)
                               }
                             >
-                              <i className="far fa-plus-square" />
+                              <FontAwesomeIcon icon={["far", "plus-square"]} />
                             </div>
                           </div>
                         </div>
@@ -134,7 +141,10 @@ class Cart extends Component {
                               this.props.removeProductFromCart(item)
                             }
                           >
-                            <i className="far fa-times-circle text-danger" />
+                            <FontAwesomeIcon
+                              icon={["far", "times-circle"]}
+                              className="text-danger"
+                            />
                           </Link>
                         </div>
                       </div>
@@ -150,14 +160,14 @@ class Cart extends Component {
                 className="btn btn-sm btn-danger ml-auto"
                 onClick={() => this.props.emptyCart()}
               >
-                <i className="far fa-trash-alt" /> Empty cart
+                <FontAwesomeIcon icon="trash-alt" /> Empty cart
               </Link>
             </div>
           </div>
           <div className="col-lg-4">
             <OrderSummary
               subtotal={subtotal}
-              shipping={this.state.shipping}
+              shipping={shipping}
               afterTax={afterTax}
               totalPrice={totalPrice}
               cart={true}
