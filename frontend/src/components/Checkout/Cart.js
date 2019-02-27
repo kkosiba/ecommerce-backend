@@ -32,7 +32,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 class Cart extends Component {
-  
   componentDidMount() {
     this.props.calculateCart();
   }
@@ -41,7 +40,7 @@ class Cart extends Component {
     this.props.calculateCart();
     if (this.props.cartSubtotal >= 100) {
       this.props.setShipping(0);
-      alert("You are eligible for FREE delivery!")
+      alert("You are eligible for FREE delivery!");
     } else {
       this.props.setShipping(5);
     }
@@ -49,7 +48,7 @@ class Cart extends Component {
 
   render() {
     const cart = this.props.cartItems;
-    
+
     const subtotal = this.props.cartSubtotal;
     const shipping = this.props.shipping;
     const tax = this.props.tax;
