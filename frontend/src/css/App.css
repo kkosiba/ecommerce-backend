@@ -1,16 +1,46 @@
 /* CUSTOM CSS STYLES */
+@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro");
+
 html {
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
   margin: 0;
   padding: 0;
   overflow-x: hidden;
+
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 15px;
+  /* letter-spacing: -0.05em; */
 }
 
 .content {
   display: flex;
   min-height: 50vh;
   flex-direction: column;
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.grid li {
+  /* display: flex; */
+  padding: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .grid li {
+    /* padding: 2rem; */
+    width: 33%;
+  }
+}
+
+@media (min-width: 992px) {
+  .grid li {
+    /* padding: 2rem; */
+    width: 25%;
+  }
 }
 
 .item-grid li .card {
@@ -58,15 +88,31 @@ html {
   }
 }
 
-.btn:focus,
-.btn:active:focus,
-.btn.active:focus {
-  outline: none;
+.btn {
+  border-radius: 0;
+  border: 0
+}
+
+.form-control {
+  border-radius: 0;
+  /* border: 1px solid #000; */
+}
+
+.form-control:focus{
+  -webkit-box-shadow: none;
   box-shadow: none;
+}
+
+.custom-select {
+  border-radius: 0;
 }
 
 .product-image {
   max-width: 100px;
+}
+
+input[type="number"]:disabled {
+  background: #fff;
 }
 
 input[type="number"] {
@@ -84,17 +130,33 @@ input[type="number"] {
 }
 
 a {
-  color: #0090C8;
+  color: #0090c8;
   text-decoration: none;
 }
 
 a:hover {
-  opacity: .7;
+  opacity: 0.7;
   text-decoration: none;
 }
 
-.table > tbody > tr > td {
-  vertical-align: middle;
+@media (max-width: 576px) {
+  #searchBox {
+    margin-top: 15px;
+    margin-bottom: 10px;
+  }
+  #cartCount {
+    margin-bottom: 10px;
+  }
+  #authBtnGroup {
+    max-width: 290px;
+    margin-bottom: 10px;
+  }
+}
+
+@media (min-width: 768px) {
+  #cartCount {
+    margin-right: 10px;
+  }
 }
 
 .cart {
@@ -104,31 +166,28 @@ a:hover {
 
 @media (max-width: 991.98px) {
   .cart {
-      overflow-x: auto;
+    overflow-x: auto;
   }
 }
 
 @media (max-width: 991.98px) {
   .cart-wrapper {
-      min-width: 768px;
+    min-width: 768px;
   }
 }
 
 .cart-header {
-  text-transform: uppercase;
-  font-weight: bold;
   padding: 1.2rem 2rem;
-  border-bottom: 1px solid #e9ecef;
-  text-align: center !important;
 }
 
 .cart-body {
   padding: 0 2rem;
 }
+
 .cart-item {
+  padding-left: 1.5rem;
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
-  border-bottom: 1px solid #e9ecef;
 }
 
 .cart-title {
