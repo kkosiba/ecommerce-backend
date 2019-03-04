@@ -3,91 +3,108 @@ import { Link } from "react-router-dom";
 import Newsletter from "./Newsletter";
 
 import { Container } from "reactstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default class Footer extends Component {
   render() {
     return (
-      <footer className="bg-dark text-white">
+      <footer>
         <Container className="grey lighten-4 text-center text-dark py-2">
-          <Newsletter />
+          
         </Container>
-        <div className="container py-3">
-          <div className="d-flex flex-row flex-wrap">
-            <div className="mr-4">
-              <h4>Customer Service</h4>
-              <ul className="list-unstyled">
-                <li>
-                  <Link to="/order_tracking">Order Tracking</Link>
-                </li>
-                <li>
-                  <Link to="/returns_and_exchanges">Returns and Exchanges</Link>
-                </li>
-                <li>
-                  <Link to="/refunds">Refunds</Link>
-                </li>
-                <li>
-                  <Link to="/delivery_and_collections">
-                    Delivery & Collections
-                  </Link>
-                </li>
-              </ul>
-            </div>
-            <div className="ml-4">
-              <h4>Information</h4>
-              <ul className="list-unstyled">
-                <li>
-                  <Link to="/about">About Us</Link>
-                </li>
-                <li>
-                  <Link to="/terms">Terms of Use</Link>
-                </li>
-                <li>
-                  <Link to="/careers">Careers</Link>
-                </li>
-              </ul>
-            </div>
+        <div className="bg-light text-dark py-5">
+          <Container className="py-3">
+            <div className="d-flex flex-column flex-md-row flex-wrap">
+              <div className="mr-5">
+                <h5 className="font-weight-bold">Customer Service</h5>
+                <ul className="list-unstyled">
+                  <li>
+                    <Link to="/order_tracking">Order Tracking</Link>
+                  </li>
+                  <li>
+                    <Link to="/returns_and_exchanges">Returns and Exchanges</Link>
+                  </li>
+                  <li>
+                    <Link to="/refunds">Refunds</Link>
+                  </li>
+                  <li>
+                    <Link to="/delivery_and_collections">
+                      Delivery & Collections
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+              <div>
+                <h5 className="font-weight-bold">Information</h5>
+                <ul className="list-unstyled">
+                  <li>
+                    <Link to="/about">About Us</Link>
+                  </li>
+                  <li>
+                    <Link to="/terms">Terms of Use</Link>
+                  </li>
+                  <li>
+                    <Link to="/careers">Careers</Link>
+                  </li>
+                </ul>
+              </div>
 
-            <div className="ml-auto">
-              <h4>Get in Touch</h4>
-              <ul className="list-inline">
-                <li className="list-inline-item">
-                  <Link to="/">
-                    <i className="fab fa-twitter fa-2x pr-2" />
-                  </Link>
-                </li>
-                <li className="list-inline-item">
-                  <Link to="/">
-                    <i className="fab fa-facebook-f fa-2x pr-2" />
-                  </Link>
-                </li>
-                <li className="list-inline-item">
-                  <Link to="/">
-                    <i className="fab fa-linkedin fa-2x pr-2" />
-                  </Link>
-                </li>
-                <li className="list-inline-item">
-                  <Link to="/">
-                    <i className="fab fa-pinterest fa-2x" />
-                  </Link>
-                </li>
-              </ul>
+              <div className="ml-auto">
+                <Newsletter />
+                <ul className="list-inline mt-4">
+                  <li className="list-inline-item">
+                    <Link to="/">
+                      <FontAwesomeIcon
+                        icon={["fab", "twitter"]}
+                        size="2x"
+                        className="pr-2"
+                      />
+                    </Link>
+                  </li>
+                  <li className="list-inline-item">
+                    <Link to="/">
+                      <FontAwesomeIcon
+                        icon={["fab", "facebook-f"]}
+                        size="2x"
+                        className="pr-2"
+                      />
+                    </Link>
+                  </li>
+                  <li className="list-inline-item">
+                    <Link to="/">
+                      <FontAwesomeIcon
+                        icon={["fab", "linkedin"]}
+                        size="2x"
+                        className="pr-2"
+                      />
+                    </Link>
+                  </li>
+                  <li className="list-inline-item">
+                    <Link to="/">
+                      <FontAwesomeIcon
+                        icon={["fab", "pinterest"]}
+                        size="2x"
+                        className="pr-2"
+                      />
+                    </Link>
+                  </li>
+                </ul>
+              </div>
             </div>
-          </div>
+          </Container>
         </div>
-        <div className="copy">
-          <div className="row">
-            <div className="col-md-12 text-center">
-              <p>
-                <span className="block">
-                  Copyright &copy; 2019 by Author. All rights reserved
-                </span>
-                <br />
-                <span className="block">
-                  <Link to="#">Back to top</Link>
-                </span>
-              </p>
+
+        <div className="bg-dark text-light">
+          <Container className="py-4">
+            <div className="d-flex align-items-center">
+              <span>&copy; 2019 by eCommerce. All rights reserved. <Link to="#">Back to top</Link></span>
+              <div className="ml-auto">
+                <span className="mr-2"><FontAwesomeIcon icon={["fab", "cc-visa"]} size="2x" /></span>
+                <span className="mr-2"><FontAwesomeIcon icon={["fab", "cc-mastercard"]} size="2x" /></span>
+                <FontAwesomeIcon icon={["fab", "cc-paypal"]} size="2x" />
+              </div>
             </div>
-          </div>
+          </Container>
         </div>
       </footer>
     );

@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import SearchForm from "./Products/SearchForm";
 import jwt_decode from "jwt-decode"; // for decoding JWT tokens
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import {
   Navbar as NavBar,
   NavbarBrand,
@@ -54,11 +56,11 @@ class Navbar extends Component {
     return (
       <React.Fragment>
         <div className="bg-light text-center text-dark py-1">
-          <i className="fas fa-truck" />{" "}
+          <FontAwesomeIcon icon="truck" />{" "}
           <em>Free delivery on orders over £100!</em>
         </div>
-        <NavBar color="dark" dark expand="lg">
-          <Container className="py-1">
+        <NavBar color="dark" dark expand="md">
+          <Container className="mx-auto">
             <NavbarBrand
               tag={Link}
               to={"/"}
@@ -66,41 +68,50 @@ class Navbar extends Component {
             >
               eCommerce
             </NavbarBrand>
-            <NavbarToggler onClick={this.toggle} />
+            <NavbarToggler onClick={this.toggle} className="rounded-0" />
             <Collapse isOpen={this.state.isOpen} navbar>
-              <SearchForm />
-              <Nav className="ml-auto align-items-center">
+              <Nav className="align-items-center justify-content-center">
                 <NavItem>
-                  <Link to="/cart" className="text-light mr-3">
-                    <i className="fas fa-shopping-cart" />
-                    <span className="font-weight-bold"> Cart</span> (
-                    {this.cartItemCount()})
-                  </Link>
+                  <div id="searchBox">
+                    <SearchForm />
+                  </div>
                 </NavItem>
-
+              </Nav>
+              <Nav className="ml-auto align-items-center justify-content-center">
+                <NavItem>
+                  <div id="cartCount">
+                    <Link to="/cart" className="text-light">
+                      <FontAwesomeIcon icon="shopping-cart" />
+                      <span className="font-weight-bold"> Cart</span> (
+                      {this.cartItemCount()})
+                    </Link>
+                  </div>
+                </NavItem>
+              </Nav>
+              <Nav className="align-items-center justify-content-center">
                 <NavItem>
                   {this.props.isAuthenticated ? (
-                    <div className="btn-group">
+                    <div className="btn-group" id="authBtnGroup">
                       <Link to="/profile" className="btn btn-sm btn-success">
                         {decoded_token.username !== "" // if user has username...
                           ? decoded_token.username // display it or use email
                           : decoded_token.email}{" "}
-                        <i className="fas fa-user" />
+                        <FontAwesomeIcon icon="user" />
                       </Link>
                       <button
                         className="btn btn-sm btn-warning"
                         onClick={this.props.logout}
                       >
-                        Logout <i className="fas fa-sign-out-alt" />
+                        Logout <FontAwesomeIcon icon="sign-out-alt" />
                       </button>
                     </div>
                   ) : (
                     <div className="btn-group">
                       <Link to="/login" className="btn btn-sm btn-warning">
-                        Login <i className="fas fa-sign-in-alt" />
+                        Login <FontAwesomeIcon icon="sign-in-alt" />
                       </Link>
                       <Link to="/register" className="btn btn-sm btn-info">
-                        Register <i className="fas fa-user-plus" />
+                        Register <FontAwesomeIcon icon="user-plus" />
                       </Link>
                     </div>
                   )}

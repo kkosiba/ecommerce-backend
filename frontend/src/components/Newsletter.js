@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { InputGroup, InputGroupAddon, Input, Button } from "reactstrap";
 import axios from "axios";
 import { API_PATH } from "../backend_url";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default class Newsletter extends Component {
   constructor(props) {
@@ -25,9 +26,7 @@ export default class Newsletter extends Component {
   render() {
     return (
       <React.Fragment>
-        <h5 className="font-weight-bold text-white">
-          Subscribe to our newsletter!
-        </h5>
+        <h5 className="font-weight-bold">Subscribe to our newsletter!</h5>
         <form
           className="form-inline justify-content-center"
           onSubmit={this.handleSubmit}
@@ -40,7 +39,7 @@ export default class Newsletter extends Component {
             />
             <InputGroupAddon addonType="append">
               <Button className="btn btn-secondary">
-                Subscribe! <i className="fas fa-paper-plane" />
+                Subscribe! <FontAwesomeIcon icon="paper-plane" />
               </Button>
             </InputGroupAddon>
           </InputGroup>
