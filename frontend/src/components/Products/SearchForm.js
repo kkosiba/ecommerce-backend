@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 
 import { Form, Input, InputGroup, InputGroupAddon, Button } from "reactstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class SearchForm extends Component {
   constructor(props) {
@@ -19,18 +20,19 @@ class SearchForm extends Component {
 
   renderSearchForm = () => {
     return (
-      <Form inline onSubmit={this.handleSubmit}>
+      <Form inline onSubmit={this.handleSubmit} style={{ width:"290px" }}>
         <InputGroup>
           <Input
             bsSize="sm"
             type="text"
             placeholder="Search store..."
             label="Search store..."
+            className="border-0"
             onChange={e => this.setState({ query: e.target.value })}
           />
           <InputGroupAddon addonType="append">
-            <Button outline color="secondary" size="sm">
-              <i className="fas fa-search text-white" />
+            <Button outline color="secondary" size="sm" className="bg-white text-dark">
+              <FontAwesomeIcon icon="search" />
             </Button>
           </InputGroupAddon>
         </InputGroup>
