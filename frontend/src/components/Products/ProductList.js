@@ -1,25 +1,26 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import { fetchProducts } from "../../store/actions";
+
 import Product from "./Product";
 
-import { connect } from "react-redux";
-import { fetchProducts } from "../store/actions";
-
 const mapStateToProps = state => {
-  return { products: state.products };
+  return { products: state.store.products };
 };
 
-class ConnectedProductList extends Component {
-
+class ProductList extends Component {
   componentDidMount() {
     this.props.dispatch(fetchProducts());
   }
 
   render() {
     const { products } = this.props;
+
     return (
       <React.Fragment>
-        <h1>Product List</h1>
-        <ul className="item-grid list-unstyled mb-4">
+        <h1 className="mb-3 text-center">All Products</h1>
+        {/* <ul className="item-grid list-unstyled mb-4"> */}
+        <ul className="grid list-unstyled mb-4">
           {products.map(item => (
             <li key={item.id}>
               <Product item={item} />
@@ -31,6 +32,4 @@ class ConnectedProductList extends Component {
   }
 }
 
-const ProductList = connect(mapStateToProps)(ConnectedProductList)
-
-export default ProductList;
+export default connect(mapStateToProps)(ProductList);

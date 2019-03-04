@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { addProductToCart, removeProductFromCart } from "../store/actions";
+import { addProductToCart, removeProductFromCart } from "../../store/actions";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const mapStateToProps = state => {
   return { cart: state.store.cart };
@@ -30,7 +31,7 @@ class Product extends Component {
     const { item } = this.props;
 
     return (
-      <div className="card rounded-0">
+      <div className="card rounded-0 shadow">
         <Link to={`/product/${item.slug}`} className="text-dark">
           <img
             className="card-img-top rounded-0"
@@ -44,23 +45,29 @@ class Product extends Component {
             <strong>Price: £{item.price}</strong>
           </p>
           <div className="d-flex flex-row justify-content-center">
-            <button
-              type="submit"
-              className="btn btn-success"
-              onClick={() => this.props.addProductToCart(item)}
-            >
-              <i className="fas fa-cart-plus" />
-            </button>
-            {this.inCart() > 0 ? (
-              <button
-                type="submit"
-                className="btn btn-danger ml-1"
-                onClick={() => this.props.removeProductFromCart(item)}
-              >
-                <i className="far fa-trash-alt" />
-              </button>
+            {item.quantity === 0 ? (
+              <strong>Out of stock</strong>
             ) : (
-              ""
+              <div>
+                <button
+                  type="submit"
+                  className="btn btn-success"
+                  onClick={() => this.props.addProductToCart(item)}
+                >
+                  <FontAwesomeIcon icon="cart-plus" />
+                </button>
+                {this.inCart() > 0 ? (
+                  <button
+                    type="submit"
+                    className="btn btn-danger ml-1"
+                    onClick={() => this.props.removeProductFromCart(item)}
+                  >
+                    <FontAwesomeIcon icon="trash-alt" />
+                  </button>
+                ) : (
+                  ""
+                )}
+              </div>
             )}
           </div>
         </div>
