@@ -12,7 +12,7 @@ const mapStateToProps = state => {
     cartItems: state.store.cart.items,
     cartSubtotal: state.store.cart.subtotal,
     tax: state.store.tax,
-    shipping: state.checkout.shipping
+    shipping: state.store.shipping
   };
 };
 
@@ -32,31 +32,40 @@ const mapDispatchToProps = dispatch => {
 };
 
 class Cart extends Component {
-  componentDidMount() {
-    this.props.calculateCart();
-  }
 
-  componentDidUpdate() {
+  componentDidMount() {
     this.props.calculateCart();
     if (this.props.cartSubtotal >= 100) {
       this.props.setShipping(0);
-      alert("You are eligible for FREE delivery!");
+      // alert("You are eligible for FREE delivery!");
+    } else {
+      this.props.setShipping(5);
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    this.props.calculateCart();
+    if (this.props.cartSubtotal >= 100) {
+      this.props.setShipping(0);
+      // alert("You are eligible for FREE delivery!");
     } else {
       this.props.setShipping(5);
     }
   }
 
   render() {
-    const cart = this.props.cartItems;
+    const cart = {
+      // contains all relevant information from the cart
+      items: this.props.cartItems,
+      subtotal: this.props.cartSubtotal,
+      shipping: this.props.shipping,
+      tax: this.props.tax,
+      afterTax: this.props.tax * this.props.cartSubtotal,
+      totalPrice:
+        (1.0 + this.props.tax) * this.props.cartSubtotal + this.props.shipping
+    };
 
-    const subtotal = this.props.cartSubtotal;
-    const shipping = this.props.shipping;
-    const tax = this.props.tax;
-
-    const afterTax = tax * subtotal;
-    const totalPrice = subtotal + afterTax + shipping;
-
-    return cart.length === 0 ? (
+    return cart.items.length === 0 ? (
       <React.Fragment>
         <h3 className="text-center mt-2">
           Your cart is empty. Why not add something? :)
@@ -79,7 +88,7 @@ class Cart extends Component {
                   </div>
                 </div>
                 <div className="border-bottom">
-                  {cart.map((item, index) => (
+                  {cart.items.map((item, index) => (
                     <div className="p-4 border-top" key={item.id}>
                       <div className="row d-flex align-items-center text-center">
                         <div className="col-5">
@@ -165,10 +174,10 @@ class Cart extends Component {
           </div>
           <div className="col-lg-4">
             <OrderSummary
-              subtotal={subtotal}
-              shipping={shipping}
-              afterTax={afterTax}
-              totalPrice={totalPrice}
+              subtotal={cart.subtotal}
+              shipping={cart.shipping}
+              afterTax={cart.afterTax}
+              totalPrice={cart.totalPrice}
               cart={true}
             />
           </div>
