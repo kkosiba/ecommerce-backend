@@ -25,8 +25,14 @@ html {
 }
 
 .grid li {
-  /* display: flex; */
+  display: flex;
   padding: 0.5rem;
+}
+
+.card-img-top {
+  width: 100%;
+  height: 20vw;
+  object-fit: cover;
 }
 
 @media (min-width: 768px) {
@@ -90,7 +96,7 @@ html {
 
 .btn {
   border-radius: 0;
-  border: 0
+  border: 0;
 }
 
 .form-control {
@@ -98,7 +104,7 @@ html {
   /* border: 1px solid #000; */
 }
 
-.form-control:focus{
+.form-control:focus {
   -webkit-box-shadow: none;
   box-shadow: none;
 }
@@ -195,4 +201,32 @@ a:hover {
   color: rgb(22, 22, 22);
   font-weight: bold;
   text-align: left !important;
+}
+
+.radios .radio {
+  padding: 1.2rem;
+  background-color: #f8f9fa;
+  /* border: 1px solid white; */
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.radios input[type="radio"] {
+  display: none;
+}
+
+.radios input[type="radio"]:checked + .radio {
+  background-color: #343a40;
+  color: #f8f9fa;
+}
+
+.deliverySelection {
+  width: 50%;
+}
+
+@media (max-width: 576px) {
+  .deliverySelection {
+    width: 100%
+  }
 }
