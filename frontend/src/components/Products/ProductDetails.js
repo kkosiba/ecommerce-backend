@@ -86,7 +86,7 @@ class ProductDetails extends Component {
           <div className="col-md-6">
             <div className="card rounded-0">
               <img
-                className="card-img-top rounded-0"
+                className="w-100 rounded-0"
                 src={product.picture}
                 alt={product.name}
               />
