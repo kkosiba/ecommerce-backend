@@ -1,22 +1,32 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { fetchProducts } from "../../store/actions";
+import { fetchProducts } from "../../store/actions/storeActions";
 
 import Product from "./Product";
 
 const mapStateToProps = state => {
-  return { products: state.store.products };
+  return state.store;
 };
 
 class ProductList extends Component {
+
   componentDidMount() {
+    // console.log(this.state.loading);
     this.props.dispatch(fetchProducts());
+    //   console.log(this.state.loading);
+    // } catch (error) {
+    //   console.log("Error loading products.")
+    // }
   }
 
   render() {
-    const { products } = this.props;
+    const { products, loading, /* error */ } = this.props;
 
-    return (
+    return loading ? (
+      <React.Fragment>
+        <h1 className="mb-3 text-center">LOADING!</h1>
+      </React.Fragment>
+    ) : (
       <React.Fragment>
         <h1 className="mb-3 text-center">All Products</h1>
         {/* <ul className="item-grid list-unstyled mb-4"> */}

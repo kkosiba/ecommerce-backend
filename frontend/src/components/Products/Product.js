@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { addProductToCart, removeProductFromCart } from "../../store/actions";
+import { addProductToCart, removeProductFromCart } from "../../store/actions/storeActions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const mapStateToProps = state => {
@@ -19,12 +19,8 @@ function mapDispatchToProps(dispatch) {
 class Product extends Component {
   inCart = () => {
     const { item, cart } = this.props;
-    const res = cart.items.find(e => e.id === item.id);
-    if (res) {
-      return res.quantity;
-    } else {
-      return 0;
-    }
+    const res = cart.find(e => e.id === item.id);
+    return res ? res.quantity : 0;
   };
 
   render() {

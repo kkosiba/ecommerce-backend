@@ -3,20 +3,20 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 import { connect } from "react-redux";
-import * as actions from "../../store/actions";
+import { addProductToCart, removeProductFromCart } from "../../store/actions/storeActions";
 
 import { API_PATH } from "../../backend_url";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Default from "../Default";
 
 const mapStateToProps = state => {
-  return { cartItems: state.store.cart.items };
+  return { cart: state.store.cart };
 };
 
 function mapDispatchToProps(dispatch) {
   return {
-    addProductToCart: item => dispatch(actions.addProductToCart(item, 1)),
-    removeProductFromCart: item => dispatch(actions.removeProductFromCart(item))
+    addProductToCart: item => dispatch(addProductToCart(item, 1)),
+    removeProductFromCart: item => dispatch(removeProductFromCart(item))
   };
 }
 
@@ -42,13 +42,9 @@ class ProductDetails extends Component {
   }
 
   inCart = () => {
-    const items = this.props.cartItems;
-    const res = items.find(e => e.id === this.state.product.id);
-    if (res) {
-      return res.quantity;
-    } else {
-      return 0;
-    }
+    const { cart } = this.props;
+    const res = cart.find(e => e.id === this.state.product.id);
+    return res ? res.quantity : 0;
   };
 
   quantityRange = product => {

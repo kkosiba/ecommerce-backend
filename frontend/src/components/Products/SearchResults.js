@@ -2,12 +2,12 @@ import React, { Component } from "react";
 // import { withRouter } from "react-router-dom";
 
 import { connect } from "react-redux";
-import { fetchProducts } from "../../store/actions";
+import { fetchProducts } from "../../store/actions/storeActions";
 
 import Product from "./Product";
 
 const mapStateToProps = state => {
-  return { products: state.store.products };
+  return state.store;
 };
 
 class SearchResults extends Component {
