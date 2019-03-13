@@ -1,21 +1,12 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import { Field, reduxForm } from "redux-form";
 import validate from "../Utilities/validate";
 import RenderField from "./RenderField";
 import { Link } from "react-router-dom";
 
-import { Form, FormGroup, Button /* Collapse,*/ } from "reactstrap";
+import { Form, FormGroup, Button, Row /* Collapse,*/ } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-const mapStateToProps = state => {
-  return {
-    cartItems: state.store.cart.items,
-    cartSubtotal: state.store.cart.subtotal,
-    tax: state.store.tax,
-    shipping: state.store.shipping
-  };
-};
 
 class Address extends Component {
   constructor(props) {
@@ -44,7 +35,7 @@ class Address extends Component {
           <h6 className="text-uppercase mb-3 font-weight-bold">
             Invoice address
           </h6>
-          <div className="row">
+          <Row>
             <FormGroup className="col-md-6">
               <Field
                 name="firstName"
@@ -93,7 +84,7 @@ class Address extends Component {
                 label="Phone Number"
               />
             </FormGroup>
-          </div>
+          </Row>
           {/* <div className="ml-5 my-2">
                 <Input type="checkbox" onClick={this.toggle} /> Use a different
                 shipping address
@@ -177,7 +168,9 @@ class Address extends Component {
   }
 }
 
-Address = connect(mapStateToProps)(Address);
+Address.propTypes = {
+  handleSubmit: PropTypes.func.isRequired
+}
 
 export default reduxForm({
   form: "checkout",
