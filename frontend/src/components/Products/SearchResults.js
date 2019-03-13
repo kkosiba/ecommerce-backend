@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 // import { withRouter } from "react-router-dom";
 
 import { connect } from "react-redux";
@@ -51,5 +52,11 @@ class SearchResults extends Component {
     );
   }
 }
+
+SearchResults.propTypes = {
+  match: PropTypes.object,
+  products: PropTypes.array,
+  dispatch: PropTypes.func.isRequired
+};
 
 export default connect(mapStateToProps)(SearchResults);

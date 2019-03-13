@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
 
 import { Form, Input, InputGroup, InputGroupAddon, Button } from "reactstrap";
@@ -20,7 +21,7 @@ class SearchForm extends Component {
 
   renderSearchForm = () => {
     return (
-      <Form inline onSubmit={this.handleSubmit} style={{ width:"290px" }}>
+      <Form inline onSubmit={this.handleSubmit} style={{ width: "290px" }}>
         <InputGroup>
           <Input
             bsSize="sm"
@@ -31,7 +32,12 @@ class SearchForm extends Component {
             onChange={e => this.setState({ query: e.target.value })}
           />
           <InputGroupAddon addonType="append">
-            <Button outline color="secondary" size="sm" className="bg-white text-dark">
+            <Button
+              outline
+              color="secondary"
+              size="sm"
+              className="bg-white text-dark"
+            >
               <FontAwesomeIcon icon="search" />
             </Button>
           </InputGroupAddon>
@@ -44,5 +50,11 @@ class SearchForm extends Component {
     return <React.Fragment>{this.renderSearchForm()}</React.Fragment>;
   }
 }
+
+SearchForm.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired
+  }).isRequired
+};
 
 export default withRouter(SearchForm);

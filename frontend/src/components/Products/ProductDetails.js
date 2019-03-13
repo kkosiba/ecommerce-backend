@@ -1,9 +1,13 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
 import { connect } from "react-redux";
-import { addProductToCart, removeProductFromCart } from "../../store/actions/storeActions";
+import {
+  addProductToCart,
+  removeProductFromCart
+} from "../../store/actions/storeActions";
 
 import { API_PATH } from "../../backend_url";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -71,12 +75,12 @@ class ProductDetails extends Component {
 
   render() {
     const { product, productExists } = this.state;
-    
+
     if (!productExists) {
       return <Default />;
     } else {
       const productQuantityRange = this.quantityRange(product);
-  
+
       return (
         <div className="row">
           <div className="col-md-6">
@@ -100,15 +104,15 @@ class ProductDetails extends Component {
                 </p>
                 <p className="card-text pt-2">
                   <strong>Availability:</strong>
-                  {product.quantity > 0 ? (
-                      product.quantity > 20 ? " Plenty in stock!" : " Just a few left!"
-                  ) : (
-                    " Out of stock"
-                  )}
+                  {product.quantity > 0
+                    ? product.quantity > 20
+                      ? " Plenty in stock!"
+                      : " Just a few left!"
+                    : " Out of stock"}
                 </p>
-  
+
                 <hr />
-  
+
                 <div className="input-group justify-content-center">
                   <div className="input-group-prepend">
                     <button className="btn btn-info" type="button">
@@ -171,6 +175,12 @@ class ProductDetails extends Component {
     }
   }
 }
+
+ProductDetails.propTypes = {
+  cart: PropTypes.array,
+  addProductToCart: PropTypes.func.isRequired,
+  removeProductFromCart: PropTypes.func.isRequired
+};
 
 export default connect(
   mapStateToProps,

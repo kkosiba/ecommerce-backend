@@ -1,8 +1,12 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
-import { addProductToCart, removeProductFromCart } from "../../store/actions/storeActions";
+import {
+  addProductToCart,
+  removeProductFromCart
+} from "../../store/actions/storeActions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const mapStateToProps = state => {
@@ -71,6 +75,13 @@ class Product extends Component {
     );
   }
 }
+
+Product.propTypes = {
+  cart: PropTypes.array,
+  item: PropTypes.object,
+  addProductToCart: PropTypes.func.isRequired,
+  removeProductFromCart: PropTypes.func.isRequired
+};
 
 export default connect(
   mapStateToProps,
