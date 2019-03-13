@@ -1,6 +1,7 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import * as actions from "../../store/actions";
+import * as actions from "../../store/actions/storeActions";
 
 import { Link } from "react-router-dom";
 
@@ -8,12 +9,7 @@ import OrderSummary from "./OrderSummary";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const mapStateToProps = state => {
-  return {
-    cartItems: state.store.cart.items,
-    cartSubtotal: state.store.cart.subtotal,
-    tax: state.store.tax,
-    shipping: state.store.shipping
-  };
+  return state.store;
 };
 
 const mapDispatchToProps = dispatch => {
@@ -32,40 +28,28 @@ const mapDispatchToProps = dispatch => {
 };
 
 class Cart extends Component {
-
-  componentDidMount() {
+  calculateCartSetShipping() {
     this.props.calculateCart();
-    if (this.props.cartSubtotal >= 100) {
-      this.props.setShipping(0);
+    if (this.props.subtotal >= 100) {
+      this.props.setShipping("free");
       // alert("You are eligible for FREE delivery!");
     } else {
-      this.props.setShipping(5);
+      this.props.setShipping("standard");
     }
+  }
+
+  componentDidMount() {
+    this.calculateCartSetShipping();
   }
 
   componentDidUpdate(prevProps, prevState) {
-    this.props.calculateCart();
-    if (this.props.cartSubtotal >= 100) {
-      this.props.setShipping(0);
-      // alert("You are eligible for FREE delivery!");
-    } else {
-      this.props.setShipping(5);
-    }
+    this.calculateCartSetShipping();
   }
 
   render() {
-    const cart = {
-      // contains all relevant information from the cart
-      items: this.props.cartItems,
-      subtotal: this.props.cartSubtotal,
-      shipping: this.props.shipping,
-      tax: this.props.tax,
-      afterTax: this.props.tax * this.props.cartSubtotal,
-      totalPrice:
-        (1.0 + this.props.tax) * this.props.cartSubtotal + this.props.shipping
-    };
+    const { cart } = this.props;
 
-    return cart.items.length === 0 ? (
+    return cart.length === 0 ? (
       <React.Fragment>
         <h3 className="text-center mt-2">
           Your cart is empty. Why not add something? :)
@@ -88,7 +72,7 @@ class Cart extends Component {
                   </div>
                 </div>
                 <div className="border-bottom">
-                  {cart.items.map((item, index) => (
+                  {cart.map((item, index) => (
                     <div className="p-4 border-top" key={item.id}>
                       <div className="row d-flex align-items-center text-center">
                         <div className="col-5">
@@ -122,12 +106,6 @@ class Cart extends Component {
                               className="form-control rounded-0"
                               type="number"
                               value={item.quantity}
-                              onChange={e =>
-                                this.props.updateProductQuantity(
-                                  item,
-                                  e.target.value
-                                )
-                              }
                             />
                             <div
                               className="p-1"
@@ -173,19 +151,24 @@ class Cart extends Component {
             </div>
           </div>
           <div className="col-lg-4">
-            <OrderSummary
-              subtotal={cart.subtotal}
-              shipping={cart.shipping}
-              afterTax={cart.afterTax}
-              totalPrice={cart.totalPrice}
-              cart={true}
-            />
+            <OrderSummary isCartComponent={true} />
           </div>
         </div>
       </React.Fragment>
     );
   }
 }
+
+Cart.propTypes = {
+  subtotal: PropTypes.number,
+  cart: PropTypes.array,
+  calculateCart: PropTypes.func.isRequired,
+  decProductQuantity: PropTypes.func.isRequired,
+  emptyCart: PropTypes.func.isRequired,
+  incProductQuantity: PropTypes.func.isRequired,
+  removeProductFromCart: PropTypes.func.isRequired,
+  setShipping: PropTypes.func.isRequired
+};
 
 export default connect(
   mapStateToProps,
