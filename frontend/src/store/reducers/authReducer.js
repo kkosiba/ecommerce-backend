@@ -2,7 +2,9 @@ import {
   AUTH_START,
   AUTH_SUCCESS,
   AUTH_FAIL,
-  AUTH_LOGOUT
+  AUTH_LOGOUT,
+  AUTH_CLEAR_ERRORS
+
 } from "../actions/authActions";
 import { updateObject } from "../utility";
 
@@ -25,6 +27,9 @@ export default function authReducer(state = initialState, action) {
 
     case AUTH_LOGOUT:
       return updateObject(state, { token: null });
+
+    case AUTH_CLEAR_ERRORS:
+      return updateObject(state, { error: null, loading: false });
 
     default:
       return state;

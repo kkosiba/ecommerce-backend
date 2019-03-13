@@ -5,6 +5,8 @@ export const AUTH_START = "AUTH_START";
 export const AUTH_SUCCESS = "AUTH_SUCCESS";
 export const AUTH_FAIL = "AUTH_FAIL";
 export const AUTH_LOGOUT = "AUTH_LOGOUT";
+export const AUTH_CLEAR_ERRORS = "AUTH_CLEAR_ERRORS";
+
 
 export const authStart = () => {
   return {
@@ -33,6 +35,12 @@ export const authLogout = () => {
   localStorage.removeItem("expirationDate");
   return {
     type: AUTH_LOGOUT
+  };
+};
+
+export const authClearErrors = () => {
+  return {
+    type: AUTH_CLEAR_ERRORS
   };
 };
 
