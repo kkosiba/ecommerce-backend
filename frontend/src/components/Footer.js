@@ -9,9 +9,6 @@ export default class Footer extends Component {
   render() {
     return (
       <footer>
-        <Container className="grey lighten-4 text-center text-dark py-2">
-          
-        </Container>
         <div className="bg-light text-dark py-5">
           <Container className="py-3">
             <div className="d-flex flex-column flex-md-row flex-wrap">
@@ -22,7 +19,9 @@ export default class Footer extends Component {
                     <Link to="/order_tracking">Order Tracking</Link>
                   </li>
                   <li>
-                    <Link to="/returns_and_exchanges">Returns and Exchanges</Link>
+                    <Link to="/returns_and_exchanges">
+                      Returns and Exchanges
+                    </Link>
                   </li>
                   <li>
                     <Link to="/refunds">Refunds</Link>
@@ -97,10 +96,17 @@ export default class Footer extends Component {
         <div className="bg-dark text-light">
           <Container className="py-4">
             <div className="d-flex align-items-center">
-              <span>&copy; 2019 by eCommerce. All rights reserved. <Link to="#">Back to top</Link></span>
+              <span>
+                &copy; 2019 by eCommerce. All rights reserved.{" "}
+                <Link to="#">Back to top</Link>
+              </span>
               <div className="ml-auto">
-                <span className="mr-2"><FontAwesomeIcon icon={["fab", "cc-visa"]} size="2x" /></span>
-                <span className="mr-2"><FontAwesomeIcon icon={["fab", "cc-mastercard"]} size="2x" /></span>
+                <span className="mr-2">
+                  <FontAwesomeIcon icon={["fab", "cc-visa"]} size="2x" />
+                </span>
+                <span className="mr-2">
+                  <FontAwesomeIcon icon={["fab", "cc-mastercard"]} size="2x" />
+                </span>
                 <FontAwesomeIcon icon={["fab", "cc-paypal"]} size="2x" />
               </div>
             </div>
