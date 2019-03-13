@@ -22,10 +22,9 @@ const initialState = {
   cart: [], // items in cart
   subtotal: 0,
   tax: 0.2, // 20% tax
-  shipping: 5.0 // default shipping is £5
+  shipping: "standard" // standard shipping is £5
 };
 
-// utilities
 export const addProductToCart = (state, action) => {
   const itemInCart = state.cart.find(e => e.id === action.item.id);
   // check if the item is in the cart already
@@ -94,9 +93,11 @@ export const emptyCart = (state, action) => {
 };
 
 export const calculateCart = (state, action) => {
-  let result = 0.0;
-  state.cart.map(item => (result += item.price * item.quantity));
-  return updateObject(state, { cart: state.cart, subtotal: result });
+  let subtotal = 0;
+  state.cart.map(item => (subtotal += item.price * item.quantity));
+  return updateObject(state, {
+    subtotal: subtotal,
+  });
 };
 
 export const setShipping = (state, action) => {
