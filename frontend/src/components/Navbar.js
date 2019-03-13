@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import { Link } from "react-router-dom";
@@ -14,14 +15,24 @@ import {
   NavItem,
   NavbarToggler,
   Collapse,
-  Container
+  Container,
+  ButtonGroup,
+  Button
 } from "reactstrap";
+
+import { authLogout } from "../store/actions/authActions";
 
 const mapStateToProps = state => {
   return {
+    cart: state.store.cart,
     token: state.auth.token,
-    isAuthenticated: state.auth.token !== null,
-    cartItems: state.store.cart.items
+    isAuthenticated: state.auth.token !== null
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    authLogout: () => dispatch(authLogout())
   };
 };
 
@@ -43,7 +54,7 @@ class Navbar extends Component {
 
   cartItemCount = () => {
     let result = 0;
-    this.props.cartItems.map(item => (result += item.quantity));
+    this.props.cart.map(item => (result += item.quantity));
     return result;
   };
 
@@ -91,29 +102,29 @@ class Navbar extends Component {
               <Nav className="align-items-center justify-content-center">
                 <NavItem>
                   {this.props.isAuthenticated ? (
-                    <div className="btn-group" id="authBtnGroup">
+                    <ButtonGroup id="authBtnGroup">
                       <Link to="/profile" className="btn btn-sm btn-success">
                         {decoded_token.username !== "" // if user has username...
                           ? decoded_token.username // display it or use email
                           : decoded_token.email}{" "}
                         <FontAwesomeIcon icon="user" />
                       </Link>
-                      <button
+                      <Button
                         className="btn btn-sm btn-warning"
-                        onClick={this.props.logout}
+                        onClick={this.props.authLogout}
                       >
                         Logout <FontAwesomeIcon icon="sign-out-alt" />
-                      </button>
-                    </div>
+                      </Button>
+                    </ButtonGroup>
                   ) : (
-                    <div className="btn-group">
+                    <ButtonGroup>
                       <Link to="/login" className="btn btn-sm btn-warning">
                         Login <FontAwesomeIcon icon="sign-in-alt" />
                       </Link>
                       <Link to="/register" className="btn btn-sm btn-info">
                         Register <FontAwesomeIcon icon="user-plus" />
                       </Link>
-                    </div>
+                    </ButtonGroup>
                   )}
                 </NavItem>
               </Nav>
@@ -125,4 +136,14 @@ class Navbar extends Component {
   }
 }
 
-export default connect(mapStateToProps)(Navbar);
+Navbar.propTypes = {
+  cart: PropTypes.array,
+  isAuthenticated: PropTypes.bool,
+  authLogout: PropTypes.func,
+  token: PropTypes.string
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Navbar);
