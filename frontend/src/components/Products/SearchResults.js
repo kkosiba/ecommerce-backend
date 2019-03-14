@@ -31,7 +31,7 @@ class SearchResults extends Component {
       return <h6 className="pt-2">No products.</h6>;
     } else {
       return (
-        <ul className="item-grid list-unstyled mb-4">
+        <ul className="grid list-unstyled mb-4">
           {products.map(item => (
             <li key={item.id}>
               <Product item={item} />
