@@ -10,7 +10,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const mapStateToProps = state => {
-  return { cart: state.store.cart };
+  return state.store;
 };
 
 function mapDispatchToProps(dispatch) {
