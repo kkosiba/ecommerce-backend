@@ -223,10 +223,20 @@ a:hover {
 
 .deliverySelection {
   width: 50%;
+  height: 10rem;
+}
+
+.deliverySelection .radio {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: justify;
 }
 
 @media (max-width: 576px) {
   .deliverySelection {
-    width: 100%
+    width: 100%;
+    height: 10rem;
   }
 }
