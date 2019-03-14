@@ -13,6 +13,8 @@ export const DEC_PRODUCT_QUANTITY = "DEC_PRODUCT_QUANTITY";
 export const EMPTY_CART = "EMPTY_CART";
 export const CALCULATE_CART = "CALCULATE_CART";
 export const SET_SHIPPING = "SET_SHIPPING";
+export const TOGGLE_CHECKOUT_COMPLETE = "TOGGLE_CHECKOUT_COMPLETE";
+
 
 export const fetchProducts = (query = "") => {
   return dispatch => {
@@ -109,5 +111,11 @@ export const setShipping = value => {
   return {
     type: SET_SHIPPING,
     value
+  };
+};
+
+export const toggleCheckoutComplete = () => {
+  return {
+    type: TOGGLE_CHECKOUT_COMPLETE
   };
 };

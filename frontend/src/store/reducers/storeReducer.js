@@ -9,7 +9,8 @@ import {
   DEC_PRODUCT_QUANTITY,
   EMPTY_CART,
   CALCULATE_CART,
-  SET_SHIPPING
+  SET_SHIPPING,
+  TOGGLE_CHECKOUT_COMPLETE
 } from "../actions/storeActions";
 
 import { updateObject } from "../utility";
@@ -22,7 +23,8 @@ const initialState = {
   cart: [], // items in cart
   subtotal: 0,
   tax: 0.2, // 20% tax
-  shipping: "standard" // standard shipping is £5
+  shipping: "standard", // standard shipping is £5
+  isCheckoutComplete: false
 };
 
 export const addProductToCart = (state, action) => {
@@ -104,6 +106,10 @@ export const setShipping = (state, action) => {
   return updateObject(state, { shipping: action.value });
 };
 
+export const toggleCheckoutComplete = (state, action) => {
+  return updateObject(state, { isCheckoutComplete: !state.isCheckoutComplete });
+};
+
 // reducer
 export default function storeReducer(state = initialState, action) {
   switch (action.type) {
@@ -143,6 +149,9 @@ export default function storeReducer(state = initialState, action) {
 
     case SET_SHIPPING:
       return setShipping(state, action);
+
+    case TOGGLE_CHECKOUT_COMPLETE:
+      return toggleCheckoutComplete(state,action);
 
     default:
       return state;
