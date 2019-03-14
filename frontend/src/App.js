@@ -1,6 +1,11 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import PropTypes from "prop-types";
+import { Router, Switch, Route } from "react-router-dom";
 import { LastLocationProvider } from "react-router-last-location";
+
+// custom history to enable users redirecting from outside of components
+import { history } from "./history";
+
 import { connect } from "react-redux";
 
 import { authCheckState } from "./store/actions/authActions";
@@ -17,7 +22,6 @@ import SearchResults from "./components/Products/SearchResults";
 
 import Cart from "./components/Checkout/Cart";
 import Checkout from "./components/Checkout/Checkout";
-import OrderSuccess from "./components/Checkout/OrderSuccess";
 
 import About from "./components/About";
 import Default from "./components/Default";
@@ -94,18 +98,18 @@ library.add(
 
 const mapDispatchToProps = dispatch => {
   return {
-    onTryAutoSignup: () => dispatch(authCheckState())
+    authCheckState: () => dispatch(authCheckState())
   };
 };
 
 class App extends Component {
   componentDidMount() {
-    this.props.onTryAutoSignup();
+    this.props.authCheckState();
   }
 
   render() {
     return (
-      <Router>
+      <Router history={history}>
         <LastLocationProvider>
           <ScrollToTop>
             <Navbar />
@@ -117,13 +121,12 @@ class App extends Component {
 
                 {/* <PrivateRoute path="/profile" component={Profile} /> */}
 
-                <Route path="/product/:slug" component={ProductDetails} />
-                <Route path="/search/:query" component={SearchResults} />
-                <Route path="/cart" component={Cart} />
+                <Route exact path="/product/:slug" component={ProductDetails} />
+                <Route exact path="/search/:query" component={SearchResults} />
+                <Route exact path="/cart" component={Cart} />
                 <PrivateRoute exact path="/checkout" component={Checkout} />
-                <PrivateRoute exact path="/checkout/success" component={OrderSuccess} />
-                <Route path="/about" component={About} />
-                <Route component={Default} />
+                <Route exact path="/about" component={About} />
+                <Route exact component={Default} />
               </Switch>
             </Container>
 
@@ -133,6 +136,10 @@ class App extends Component {
       </Router>
     );
   }
+}
+
+App.propTypes = {
+  onTryAutoSignup: PropTypes.func
 }
 
 export default connect(
