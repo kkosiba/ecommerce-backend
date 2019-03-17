@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import OrderFinalSuccess from "./OrderFinalSuccess";
 import OrderFinalCancelled from "./OrderFinalCancelled";
@@ -12,7 +13,7 @@ class OrderFinal extends Component {
   render() {
     const { paymentStatus } = this.props;
 
-    switch(paymentStatus) {
+    switch (paymentStatus) {
       case "success":
         return <OrderFinalSuccess />;
       case "cancelled":
@@ -22,5 +23,9 @@ class OrderFinal extends Component {
     }
   }
 }
+
+OrderFinal.propTypes = {
+  paymentStatus: PropTypes.string
+};
 
 export default connect(mapStateToProps)(OrderFinal);
