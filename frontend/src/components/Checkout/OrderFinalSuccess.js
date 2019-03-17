@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import {
   setPayment,
@@ -58,6 +59,10 @@ class OrderFinalSuccess extends Component {
     );
   }
 }
+
+OrderFinalSuccess.propTypes = {
+  resetCheckoutForm: PropTypes.func.isRequired
+};
 
 export default connect(
   mapStateToProps,
