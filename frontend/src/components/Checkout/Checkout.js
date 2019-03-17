@@ -1,39 +1,34 @@
 import React, { Component } from "react";
-// import { withLastLocation } from 'react-router-last-location';
-// import { Redirect } from "react-router-dom";
-// import axios from "axios";
-
+import PropTypes from "prop-types";
+import { Prompt } from "react-router-dom";
 import { connect } from "react-redux";
-import * as actions from "../../store/actions";
-
+import {
+  setPayment,
+  toggleCheckoutComplete,
+  emptyCart
+} from "../../store/actions/storeActions";
+import { reset } from "redux-form";
 import Address from "./Address";
 import Delivery from "./Delivery";
 import Payment from "./Payment";
 import OrderReview from "./OrderReview";
-import OrderSuccess from "./OrderSuccess";
-
-import CheckoutNavbar from "./CheckoutNavbar";
+import OrderFinal from "./OrderFinal";
 import OrderSummary from "./OrderSummary";
-
-import { formValueSelector } from "redux-form";
-
-const selector = formValueSelector("checkout");
+import CheckoutNavbar from "./CheckoutNavbar";
+import { Row, Col } from "reactstrap";
 
 const mapStateToProps = state => {
-  return {
-    cartItems: state.store.cart.items,
-    cartSubtotal: state.store.cart.subtotal,
-    tax: state.store.tax,
-    shipping: state.store.shipping,
-    checkoutComplete: state.store.checkoutComplete,
-    firstName: selector(state, "firstName")
-  };
+  return state.store;
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    emptyCart: () => dispatch(actions.emptyCart()),
-    toggleCheckout: () => dispatch(actions.toggleCheckout())
+    setPayment: value => dispatch(setPayment(value)),
+    // placeOrder: values => dispatch(placeOrder(values)), // NOT YET IMPLEMENTED
+    // updateStock: data => dispatch(updateStock(data)), // NOT YET IMPLEMENTED
+    emptyCart: () => dispatch(emptyCart()),
+    toggleCheckoutComplete: () => dispatch(toggleCheckoutComplete()),
+    resetCheckoutForm: () => dispatch(reset("checkout"))
   };
 };
 
@@ -45,10 +40,26 @@ class Checkout extends Component {
     this.handlePayment = this.handlePayment.bind(this);
 
     this.state = {
-      page: 1,
-      isComplete: false
+      page: 1
     };
   }
+
+  componentDidMount() {
+    const { cart } = this.props;
+    try {
+      const serializedCart = JSON.stringify(cart);
+      localStorage.setItem("cart", serializedCart);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  componentWillUnmount() {
+    this.props.resetCheckoutForm();
+    if (this.props.isCheckoutComplete) this.props.toggleCheckoutComplete();
+    this.props.setPayment("");
+  }
+
   nextPage() {
     this.setState({ page: this.state.page + 1 });
   }
@@ -57,29 +68,17 @@ class Checkout extends Component {
     this.setState({ page: this.state.page - 1 });
   }
 
-  handlePayment() {
-    this.props.toggleCheckout(); // once payment goes through, mark checkout as complete
-    this.setState({ isComplete: this.props.checkoutComplete });
+  handlePayment(values) {
+    this.props.toggleCheckoutComplete();
   }
 
   render() {
-    const cart = {
-      // contains all relevant information from the cart
-      items: this.props.cartItems,
-      subtotal: this.props.cartSubtotal,
-      shipping: this.props.shipping,
-      tax: this.props.tax,
-      afterTax: this.props.tax * this.props.cartSubtotal,
-      totalPrice:
-        (1.0 + this.props.tax) * this.props.cartSubtotal + this.props.shipping
-    };
+    const { page } = this.state;
+    const { cart, isCheckoutComplete } = this.props;
 
-    // const { onSubmit } = this.props;
-    const { page, isComplete } = this.state;
-
-    if (isComplete) {
-      return <OrderSuccess cart={cart} />;
-    } else if (cart.items.length === 0) {
+    if (isCheckoutComplete) {
+      return <OrderFinal />;
+    } else if (cart.length === 0) {
       return (
         <React.Fragment>
           <h3 className="text-center mt-2">
@@ -90,59 +89,49 @@ class Checkout extends Component {
     } else {
       return (
         <React.Fragment>
+          <Prompt message="Are you sure you want to leave? Your checkout data will be lost." />
           <h3 className="mb-4">Checkout</h3>
-          <div className="row">
-            <div className="col-lg-8">
-              {page === 1 && (
-                <div>
-                  <CheckoutNavbar active={1} />
-                  <Address onSubmit={this.nextPage} />
-                </div>
-              )}
+          <Row>
+            <Col lg="8">
+              <CheckoutNavbar active={page} />
+              {page === 1 && <Address onSubmit={this.nextPage} />}
               {page === 2 && (
-                <div>
-                  <CheckoutNavbar active={2} />
-                  <Delivery
-                    cart={cart}
-                    previousPage={this.previousPage}
-                    onSubmit={this.nextPage}
-                  />
-                </div>
+                <Delivery
+                  previousPage={this.previousPage}
+                  onSubmit={this.nextPage}
+                />
               )}
               {page === 3 && (
-                <div>
-                  <CheckoutNavbar active={3} />
-                  <OrderReview
-                    cart={cart}
-                    previousPage={this.previousPage}
-                    onSubmit={this.nextPage}
-                  />
-                </div>
+                <OrderReview
+                  previousPage={this.previousPage}
+                  onSubmit={this.nextPage}
+                />
               )}
               {page === 4 && (
-                <div>
-                  <CheckoutNavbar active={4} />
-                  <Payment
-                    previousPage={this.previousPage}
-                    onSubmit={this.handlePayment}
-                  />
-                </div>
+                <Payment
+                  previousPage={this.previousPage}
+                  onSubmit={this.handlePayment}
+                />
               )}
-            </div>
+            </Col>
             <div className="col-lg-4">
-              <OrderSummary
-                subtotal={cart.subtotal}
-                shipping={cart.shipping}
-                afterTax={cart.afterTax}
-                totalPrice={cart.totalPrice}
-              />
+              <OrderSummary />
             </div>
-          </div>
+          </Row>
         </React.Fragment>
       );
     }
   }
 }
+
+Checkout.propTypes = {
+  cart: PropTypes.array.isRequired,
+  isCheckoutComplete: PropTypes.bool,
+  resetCheckoutForm: PropTypes.func.isRequired,
+  setPayment: PropTypes.func.isRequired,
+  toggleCheckoutComplete: PropTypes.func.isRequired
+};
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps
