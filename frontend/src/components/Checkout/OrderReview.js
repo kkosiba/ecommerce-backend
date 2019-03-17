@@ -1,20 +1,12 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { reduxForm } from "redux-form";
-// import validate from "./validate";
-
-import { Button, Form } from "reactstrap";
+import { Row, Col, Button, Form } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-// import PayPal from "./PayPal";
-
 const mapStateToProps = state => {
-  return {
-    cartItems: state.store.cart.items,
-    cartSubtotal: state.store.cart.subtotal,
-    tax: state.store.tax,
-    shipping: state.store.shipping
-  };
+  return state.store;
 };
 
 class OrderReview extends Component {
@@ -27,18 +19,18 @@ class OrderReview extends Component {
           <div className="cart">
             <div className="cart-wrapper">
               <div className="cart-header text-uppercase text-center font-weight-bold">
-                <div className="row">
-                  <div className="col-5">Item</div>
-                  <div className="col-2">Price</div>
-                  <div className="col-2">Quantity</div>
-                  <div className="col-2">Total</div>
-                </div>
+                <Row>
+                  <Col xs="5">Item</Col>
+                  <Col xs="2">Price</Col>
+                  <Col xs="2">Quantity</Col>
+                  <Col xs="2">Total</Col>
+                </Row>
               </div>
               <div className="cart-body">
-                {cart.items.map((item, index) => (
+                {cart.map((item, index) => (
                   <div className="p-4 border-top" key={item.id}>
-                    <div className="row d-flex align-items-center text-center">
-                      <div className="col-5">
+                    <Row className="d-flex align-items-center text-center">
+                      <Col xs="5">
                         <div className="d-flex align-items-center">
                           <img
                             className="product-image"
@@ -47,13 +39,15 @@ class OrderReview extends Component {
                           />
                           <span className="cart-title">{item.name}</span>
                         </div>
-                      </div>
-                      <div className="col-2">£{item.price}</div>
-                      <div className="ml-2 col-2">{item.quantity}</div>
-                      <div className="ml-1 col-2 text-center">
+                      </Col>
+                      <Col xs="2">£{item.price}</Col>
+                      <Col xs="2" className="ml-2">
+                        {item.quantity}
+                      </Col>
+                      <Col xs="2" className="ml-1 text-center">
                         £{parseFloat(item.price * item.quantity).toFixed(2)}
-                      </div>
-                    </div>
+                      </Col>
+                    </Row>
                   </div>
                 ))}
               </div>
@@ -79,6 +73,12 @@ class OrderReview extends Component {
     );
   }
 }
+
+OrderReview.propTypes = {
+  cart: PropTypes.array,
+  handleSubmit: PropTypes.func,
+  previousPage: PropTypes.func
+};
 
 OrderReview = connect(mapStateToProps)(OrderReview);
 
