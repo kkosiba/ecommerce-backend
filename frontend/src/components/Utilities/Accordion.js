@@ -50,7 +50,7 @@ const AccordionItem = ({ children, isOpen, onClick }) => (
 
 const AccordionHeader = ({ children, onClick }) => (
   <CardHeader className="border-0">
-    <h6 className="mb-0 font-weight-bold">
+    <h6 className="mb-0 font-weight-bold" style={{cursor: "pointer"}}>
       <span onClick={onClick}>
         {children}
       </span>
