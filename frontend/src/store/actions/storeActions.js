@@ -14,7 +14,9 @@ export const EMPTY_CART = "EMPTY_CART";
 export const CALCULATE_CART = "CALCULATE_CART";
 export const SET_SHIPPING = "SET_SHIPPING";
 export const TOGGLE_CHECKOUT_COMPLETE = "TOGGLE_CHECKOUT_COMPLETE";
-
+export const TOGGLE_DIFFERENT_BILLING_ADDRESS =
+  "TOGGLE_DIFFERENT_BILLING_ADDRESS";
+export const SET_PAYMENT = "SET_PAYMENT";
 
 export const fetchProducts = (query = "") => {
   return dispatch => {
@@ -24,7 +26,7 @@ export const fetchProducts = (query = "") => {
         .get(`${API_PATH}products/`)
         .then(res => {
           // to simulate server latency
-          setTimeout(() => dispatch(fetchProductsSuccess(res.data)),1000);
+          setTimeout(() => dispatch(fetchProductsSuccess(res.data)), 1000);
         })
         .catch(err => dispatch(fetchProductsFail(err)));
     } else {
@@ -117,5 +119,18 @@ export const setShipping = value => {
 export const toggleCheckoutComplete = () => {
   return {
     type: TOGGLE_CHECKOUT_COMPLETE
+  };
+};
+
+export const toggleDifferentBillingAddress = () => {
+  return {
+    type: TOGGLE_DIFFERENT_BILLING_ADDRESS
+  };
+};
+
+export const setPayment = value => {
+  return {
+    type: SET_PAYMENT,
+    value
   };
 };

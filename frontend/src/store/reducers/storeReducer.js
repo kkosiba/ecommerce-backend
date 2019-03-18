@@ -10,7 +10,9 @@ import {
   EMPTY_CART,
   CALCULATE_CART,
   SET_SHIPPING,
-  TOGGLE_CHECKOUT_COMPLETE
+  TOGGLE_CHECKOUT_COMPLETE,
+  TOGGLE_DIFFERENT_BILLING_ADDRESS,
+  SET_PAYMENT
 } from "../actions/storeActions";
 
 import { updateObject } from "../utility";
@@ -24,7 +26,11 @@ const initialState = {
   subtotal: 0,
   tax: 0.2, // 20% tax
   shipping: "standard", // standard shipping is £5
-  isCheckoutComplete: false
+  isDifferentBillingAddress: false,
+
+  paymentStatus: "",
+  isCheckoutComplete: false,
+  didPaymentGoThrough: false
 };
 
 export const addProductToCart = (state, action) => {
@@ -98,7 +104,7 @@ export const calculateCart = (state, action) => {
   let subtotal = 0;
   state.cart.map(item => (subtotal += item.price * item.quantity));
   return updateObject(state, {
-    subtotal: subtotal,
+    subtotal: subtotal
   });
 };
 
@@ -108,6 +114,16 @@ export const setShipping = (state, action) => {
 
 export const toggleCheckoutComplete = (state, action) => {
   return updateObject(state, { isCheckoutComplete: !state.isCheckoutComplete });
+};
+
+export const toggleDifferentBillingAddress = (state, action) => {
+  return updateObject(state, {
+    isDifferentBillingAddress: !state.isDifferentBillingAddress
+  });
+};
+
+export const setPayment = (state, action) => {
+  return updateObject(state, { paymentStatus: action.value });
 };
 
 // reducer
@@ -151,7 +167,13 @@ export default function storeReducer(state = initialState, action) {
       return setShipping(state, action);
 
     case TOGGLE_CHECKOUT_COMPLETE:
-      return toggleCheckoutComplete(state,action);
+      return toggleCheckoutComplete(state, action);
+
+    case TOGGLE_DIFFERENT_BILLING_ADDRESS:
+      return toggleDifferentBillingAddress(state, action);
+
+    case SET_PAYMENT:
+      return setPayment(state, action);
 
     default:
       return state;
