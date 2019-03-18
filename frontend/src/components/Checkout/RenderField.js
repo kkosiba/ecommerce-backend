@@ -17,7 +17,7 @@ const RenderField = ({ input, label, type, meta: { touched, error } }) => (
 );
 
 RenderField.propTypes = {
-  input: PropTypes.array,
+  input: PropTypes.object,
   label: PropTypes.string,
   type: PropTypes.string
 };
