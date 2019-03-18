@@ -1,16 +1,18 @@
-from rest_framework import viewsets, permissions
-# from .serializers import CartSerializer
-# from carts.models import Cart, CartItem
+from rest_framework import generics, status
+from rest_framework import permissions
+# from rest_framework.response import Response
 
+from orders.models import Order
+from .serializers import OrderSerializer
+from .permissions import IsPostOrIsAdmin
 
-class OrdersViewSet(viewsets.ModelViewSet):
-    pass
-    # permission_classes = [permissions.IsAuthenticated, ]
-    # # permissions.IsOwner,
-    # serializer_class = CartSerializer
+class Orders(generics.ListCreateAPIView):
+    """
+    API view for listing (admin) or creating (authenticated user) orders.
+    """
 
-    # def get_queryset(self):
-    #     return self.request.user.cart
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
 
-    # def perform_create(self, serializer):
-    #     serializer.save(owner=self.request.user)
+    # GET for admin, POST for authenticated
+    permission_classes = (permissions.IsAuthenticated, IsPostOrIsAdmin, )
