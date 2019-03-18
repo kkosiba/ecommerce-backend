@@ -3,17 +3,18 @@ eCommerce Project in Django with REST Framework and React+Redux.
 
 This project is built using Django REST Framework to provide the backend API, which is consumed by the React frontend. All API calls are made via [axios](https://github.com/axios/axios).
 
-The deployed version is available at ... (TO DO...)
+The deployed version is available at ....
 
 Features
 --------
-1. Products are fetched from the products API endpoint available at `localhost:8000/api/products/`.
-2. Simple newsletter functionality: superuser can view the list of all subscribers in Django admin panel; any visitor can subscribe. The relevant API endpoint is available at `localhost:8000/api/newsletter/`.
+1. Products are fetched from the products API endpoint available at `/api/products/`.
+2. Simple newsletter functionality: superuser can view the list of all subscribers in Django admin panel; any visitor can subscribe. The relevant API endpoint is available at `/api/newsletter/`.
 3. Fully operational shopping cart: adding & removing products, incrementing/decrementing quantity of an item in cart (limited by stock availibility), clearing cart.
-4. Four-step checkout process: selection of invoice and/or shipping addresses, delivery method, payment method (currently only PayPal), finalizing order.
-4. Payments processed via [PayPal's sandbox](https://developer.paypal.com/developer/accounts/). Dummy buyer account for testing has credentials: 
+4. Four-step checkout process: selection of shipping addresses, delivery method, payment method (currently only PayPal supported via [PayPal's sandbox](https://developer.paypal.com/developer/accounts/)), finalizing order.
 
-`(login, password): (ecommerce.paypal.test@gmail.com, ecommercetest)`
+Dummy buyer account for testing has credentials: 
+
+`(login, password): (ecommerce.paypal.test1@gmail.com, ecommercetest)`
 
 Once the payment goes through it is being POSTed to `localhost:8000/api/orders/` API endpoint for further processing. At the same time, cart is cleared and invoice is displayed.
 
@@ -79,3 +80,11 @@ If everything goes well, it will pull essential packages. Then, one can run fron
 `npm start`
 
 For PayPal to work, one needs to provide `REACT_APP_PAYPAL_SANDBOX_ID` environment variable in `frontend/.env.development`. The ID can be obtained [here](https://developer.paypal.com/developer/accounts/).
+
+
+## To do
+1. Implement API endpoint to accept POST request with order JSON.
+2. Implement password recovery.
+
+## Known issues
+1. Succesful login/registration does not redirect user to the previously visited page.
