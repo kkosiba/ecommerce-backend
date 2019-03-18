@@ -1,162 +1,167 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import * as actions from "../../store/actions";
-
-import { Link } from "react-router-dom";
-
-import CheckoutNavbar from "./CheckoutNavbar";
-import OrderSummary from "./OrderSummary";
+import { Field, FormSection, reduxForm } from "redux-form";
+import RenderField from "./RenderField";
+import validate from "../Utilities/Validate";
+import { toggleDifferentBillingAddress } from "../../store/actions/storeActions";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-import { Form, FormGroup, Label, /* Collapse,*/ Input } from "reactstrap";
+import { Button, Form, FormGroup, Row, Collapse } from "reactstrap";
 import { Accordion } from "../Utilities/Accordion";
-
-// for input formatting
-// import Cleave from "cleave.js/react";
-
-// import { Button } from "reactstrap";
+import PayPal from "./PayPal";
+// import CardPayment from "./CardPayment";
 
 const mapStateToProps = state => {
   return {
-    cartItems: state.store.cart.items,
-    cartSubtotal: state.store.cart.subtotal,
-    tax: state.store.tax,
-    shipping: state.store.shipping
+    paymentStatus: state.store.paymentStatus,
+    initialValues: {
+      isDifferentBilling: state.store.isDifferentBillingAddress
+    }
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    toggleStage: stage => dispatch(actions.toggleStage(stage))
+    toggleDifferentBillingAddress: () =>
+      dispatch(toggleDifferentBillingAddress())
   };
 };
 
 class Payment extends Component {
+  constructor(props) {
+    super(props);
+    this.toggle = this.toggle.bind(this);
+
+    this.state = {
+      collapse: false
+    };
+  }
+
+  toggle() {
+    this.setState({ collapse: !this.state.collapse });
+    this.props.toggleDifferentBillingAddress();
+  }
 
   render() {
-    const cart = this.props.cartItems;
+    const { handleSubmit, previousPage } = this.props;
 
-    const subtotal = this.props.cartSubtotal;
-    const shipping = this.props.shipping;
-    const tax = this.props.tax;
-
-    const afterTax = tax * subtotal;
-    const totalPrice = subtotal + afterTax + shipping;
-
-    return cart.length === 0 ? (
+    return (
       <React.Fragment>
-        <h3 className="text-center mt-2">
-          Add some products to the cart first, then come back here :)
-        </h3>
-      </React.Fragment>
-    ) : (
-      <React.Fragment>
-        <h3 className="mb-4">Checkout</h3>
-        <div className="row">
-          <div className="col-lg-8">
-            <CheckoutNavbar active={3} />
+        <Form onSubmit={handleSubmit}>
+          <Accordion open={1}>
+            <Accordion.Item>
+              <Accordion.Header>
+                Pay by card (TO BE IMPLEMENTED)
+              </Accordion.Header>
+              <Accordion.Body>
+                {/* <CardPayment /> */}
+                <div className="my-2">
+                  <Field
+                    name="isDifferentBilling"
+                    type="checkbox"
+                    component="input"
+                    onClick={this.toggle}
+                  />{" "}
+                  Use a different billing address
+                </div>
+                <Collapse isOpen={this.state.collapse}>
+                  <FormSection name="billingAddress">
+                    <Row>
+                      <FormGroup className="col-md-6">
+                        <Field
+                          name="firstName"
+                          type="text"
+                          component={RenderField}
+                          label="First Name"
+                        />
+                      </FormGroup>
+                      <FormGroup className="col-md-6">
+                        <Field
+                          name="lastName"
+                          type="text"
+                          component={RenderField}
+                          label="Last Name"
+                        />
+                      </FormGroup>
+                      <FormGroup className="col-md-6">
+                        <Field
+                          name="city"
+                          type="text"
+                          component={RenderField}
+                          label="City"
+                        />
+                      </FormGroup>
+                      <FormGroup className="col-md-6">
+                        <Field
+                          name="street"
+                          type="text"
+                          component={RenderField}
+                          label="Street"
+                        />
+                      </FormGroup>
+                      <FormGroup className="col-md-6">
+                        <Field
+                          name="postcode"
+                          type="text"
+                          component={RenderField}
+                          label="Postcode"
+                        />
+                      </FormGroup>
+                      <FormGroup className="col-md-6">
+                        <Field
+                          name="phoneNumber"
+                          type="text"
+                          component={RenderField}
+                          label="Phone Number"
+                        />
+                      </FormGroup>
+                    </Row>
+                  </FormSection>
+                </Collapse>
+                <div className="d-flex">
+                  <Button type="submit" className="btn btn-dark ml-auto">
+                    Order & Pay
+                  </Button>
+                </div>
+              </Accordion.Body>
+            </Accordion.Item>
+            <Accordion.Item>
+              <Accordion.Header>PayPal</Accordion.Header>
+              <Accordion.Body>
+                <PayPal />
+              </Accordion.Body>
+            </Accordion.Item>
+          </Accordion>
 
-            <Accordion open={0}>
-              <Accordion.Item>
-                <Accordion.Header>Pay by card</Accordion.Header>
-                <Accordion.Body>
-                  <div className="row">
-                    <FormGroup className="col-md-6">
-                      <Label>Name on card</Label>
-                      <Input
-                        type="text"
-                        placeholder="Name on card"
-                        // onChange={e =>
-                        //   this.setState({
-                        //     invoiceAddress: { fullName: e.target.value }
-                        //   })
-                        // }
-                      />
-                    </FormGroup>
-                    <FormGroup className="col-md-6">
-                      <Label>Card number</Label>
-                      <Input
-                        type="text"
-                        placeholder="Card number"
-                        // onChange={e =>
-                        //   this.setState({
-                        //     invoiceAddress: { fullName: e.target.value }
-                        //   })
-                        // }
-                      />
-                    </FormGroup>
-                    <FormGroup className="col-md-6">
-                      <Label>Expiry date</Label>
-                      <Input
-                        type="text"
-                        placeholder="MM/YY"
-                        // onChange={e =>
-                        //   this.setState({
-                        //     invoiceAddress: { fullName: e.target.value }
-                        //   })
-                        // }
-                      />
-                    </FormGroup>
-                    <FormGroup className="col-md-6">
-                      <Label>CVC/CVV</Label>
-                      <Input
-                        type="text"
-                        placeholder="000"
-                        // onChange={e =>
-                        //   this.setState({
-                        //     invoiceAddress: { fullName: e.target.value }
-                        //   })
-                        // }
-                      />
-                    </FormGroup>
-                  </div>
-                </Accordion.Body>
-              </Accordion.Item>
-              <Accordion.Item>
-                <Accordion.Header>PayPal</Accordion.Header>
-                <Accordion.Body>
-                  <div className="ml-4">
-                    <Label>
-                      <Input
-                        type="radio"
-                        name="paypal"
-                        // onChange={e =>
-                        //   this.setState({
-                          //     invoiceAddress: { fullName: e.target.value }
-                          //   })
-                          // }
-                      />
-                      Choose PayPal
-                    </Label>
-                  </div>
-                </Accordion.Body>
-              </Accordion.Item>
-            </Accordion>
-
-            <div className="my-4 d-flex justify-content-between flex-column flex-lg-row">
-              <Link to="/checkout/step2" className="btn btn-link text-muted">
-                <FontAwesomeIcon icon="angle-left" />
-                <span className="ml-2">Go back</span>
-              </Link>
-              <Link className="btn btn-dark" to="/checkout/step4">
-                <span className="mr-2">Review your order</span>
-                <FontAwesomeIcon icon="angle-right" />
-              </Link>
-            </div>
-          </div>
-          <div className="col-lg-4">
-            <OrderSummary
-              subtotal={subtotal}
-              shipping={shipping}
-              afterTax={afterTax}
-              totalPrice={totalPrice}
-            />
-          </div>
-        </div>
+          <Button
+            type="button"
+            className="btn btn-link text-muted bg-white my-4"
+            onClick={previousPage}
+          >
+            <FontAwesomeIcon icon="angle-left" />
+            <span className="ml-2">Go back</span>
+          </Button>
+        </Form>
       </React.Fragment>
     );
   }
 }
+
+Payment.propTypes = {
+  handleSubmit: PropTypes.func.isRequired,
+  previousPage: PropTypes.func.isRequired,
+  toggleDifferentBillingAddress: PropTypes.func.isRequired
+};
+
+Payment = reduxForm({
+  form: "checkout",
+  destroyOnUnmount: false,
+  forceUnregisterOnUnmount: true, // unregister fields on unmount
+  keepDirtyOnReinitialize: true,
+  updateUnregisteredFields: true,
+  enableReinitialize: true,
+  validate
+})(Payment);
 
 export default connect(
   mapStateToProps,
