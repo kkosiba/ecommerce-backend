@@ -1,23 +1,31 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { formValueSelector } from "redux-form";
-
-// const selector = formValueSelector("checkout");
 
 const mapStateToProps = state => {
-  return {
-    cartItems: state.store.cart.items,
-    cartSubtotal: state.store.cart.subtotal,
-    shipping: state.store.shipping,
-    // shippingFromCheckoutForm: selector(state, "checkout") ? selector(state, "checkout") : null
-  };
+  return state.store;
+};
+
+const mapShippingStringToNumeric = value => {
+  switch (value) {
+    case "free":
+    case "collection":
+      return 0.0;
+    case "express":
+      return 10.0;
+    default:
+      return 5.0;
+  }
 };
 
 class OrderSummary extends Component {
   render() {
-    const { subtotal, afterTax, totalPrice, shipping, cart } = this.props;
+    const { subtotal, tax, shipping, isCartComponent } = this.props;
+    const shippingNumeric = mapShippingStringToNumeric(shipping);
+    const afterTax = tax * subtotal;
+    const total = subtotal + afterTax + shippingNumeric;
 
     return (
       <React.Fragment>
@@ -34,8 +42,8 @@ class OrderSummary extends Component {
           <div className="d-flex px-2 my-4">
             <span>Shipping</span>
             <span className="ml-auto">
-              {shipping > 0 ? (
-                `£${parseFloat(shipping).toFixed(2)}`
+              {shippingNumeric > 0 ? (
+                `£${parseFloat(shippingNumeric).toFixed(2)}`
               ) : (
                 <strong>FREE</strong>
               )}
@@ -50,19 +58,19 @@ class OrderSummary extends Component {
           <div className="d-flex px-2 my-4">
             <span>Total</span>
             <span className="ml-auto font-weight-bold">
-              £{parseFloat(totalPrice).toFixed(2)}
+              £{parseFloat(total).toFixed(2)}
             </span>
           </div>
 
           <div
             className={`d-flex justify-content-${
-              cart ? "between" : "center"
+              isCartComponent ? "between" : "center"
             } flex-column flex-lg-row`}
           >
             <Link to="/" className="btn btn-sm btn-default">
               <FontAwesomeIcon icon="angle-left" /> Continue shopping
             </Link>
-            {cart ? (
+            {isCartComponent ? (
               <Link to="/checkout" className="btn btn-sm btn-dark">
                 Checkout <FontAwesomeIcon icon="angle-right" />
               </Link>
@@ -75,5 +83,12 @@ class OrderSummary extends Component {
     );
   }
 }
+
+OrderSummary.propTypes = {
+  isCartComponent: PropTypes.bool,
+  shipping: PropTypes.string.isRequired,
+  subtotal: PropTypes.number.isRequired,
+  tax: PropTypes.number.isRequired
+};
 
 export default connect(mapStateToProps)(OrderSummary);
