@@ -1,41 +1,43 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { Field, reduxForm } from "redux-form";
-import validate from "../Utilities/validate";
-
 import { connect } from "react-redux";
-import * as actions from "../../store/actions";
-
-import { Form, Label, Button } from "reactstrap";
+import { setShipping } from "../../store/actions/storeActions";
+import { Form, Label, Button, Tooltip } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const mapStateToProps = state => {
   return {
-    cartItems: state.store.cart.items,
-    cartSubtotal: state.store.cart.subtotal,
-    tax: state.store.tax,
-    shipping: state.store.shipping
+    subtotal: state.store.subtotal,
+    // to initialize redux-form from redux store
+    initialValues: {
+      shipping: state.store.shipping
+    }
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    setShipping: value => dispatch(actions.setShipping(value))
+    setShipping: value => dispatch(setShipping(value))
   };
 };
-
-// const renderError = ({ meta: { touched, error } }) =>
-//   touched && error ? <span>{error}</span> : false;
 
 class Delivery extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      option: "standard" // default delivery option
+      option: "standard", // default delivery option
+      tooltipOpen: false
     };
+    this.toggleTooltip = this.toggleTooltip.bind(this);
+  }
+
+  toggleTooltip() {
+    this.setState({ tooltipOpen: !this.state.tooltipOpen });
   }
 
   componentDidMount() {
-    if (this.props.cartSubtotal >= 100) {
+    if (this.props.subtotal >= 100) {
       this.setState({ option: "free" });
     }
   }
@@ -44,19 +46,21 @@ class Delivery extends Component {
     await this.setState({ option: e.target.value });
     switch (this.state.option) {
       case "free":
+        this.props.setShipping("free");
+        break;
       case "collection":
-        this.props.setShipping(0);
+        this.props.setShipping("collection");
         break;
       case "express":
-        this.props.setShipping(10.0);
+        this.props.setShipping("express");
         break;
       default:
-        this.props.setShipping(5.0);
+        this.props.setShipping("standard");
     }
   };
 
   render() {
-    const { handleSubmit, previousPage, cart } = this.props;
+    const { handleSubmit, previousPage, subtotal } = this.props;
 
     return (
       <React.Fragment>
@@ -69,23 +73,35 @@ class Delivery extends Component {
                 name="shipping"
                 value="free"
                 component="input"
-                disabled={cart.subtotal < 100}
-                checked={this.state.option === "free" && cart.subtotal >= 100}
+                disabled={subtotal < 100}
+                checked={this.state.option === "free" && subtotal >= 100}
                 onChange={this.handleOptionChange}
               />
               <Label className="radio" htmlFor="free">
-                <strong className="d-block text-uppercase mb-2">
+                <span
+                  id="tooltip"
+                  className="d-block text-uppercase font-weight-bold"
+                >
                   Free standard delivery
-                </strong>
-                <span className="text-muted text-sm">
-                  {cart.subtotal < 100
-                    ? `This option will activate once you add items worth £${parseFloat(
-                        100 - cart.subtotal
-                      ).toFixed(2)} or more.`
-                    : "You are eligible for FREE delivery!"}
                 </span>
-                <br />
-                <span className="text-muted text-sm">
+                <span className="text-muted my-2">
+                  {subtotal < 100 ? (
+                    <Tooltip
+                      trigger="hover"
+                      autohide={false}
+                      placement="bottom"
+                      isOpen={this.state.tooltipOpen}
+                      target="tooltip"
+                      toggle={this.toggleTooltip}
+                    >
+                      This option will activate once you add items worth £
+                      {parseFloat(100 - subtotal).toFixed(2)} or more.
+                    </Tooltip>
+                  ) : (
+                    "You are eligible for FREE delivery!"
+                  )}
+                </span>
+                <span className="text-muted">
                   Approximately 3-5 working days.
                 </span>
               </Label>
@@ -105,7 +121,7 @@ class Delivery extends Component {
                 <strong className="d-block text-uppercase mb-2">
                   Standard delivery - £5
                 </strong>
-                <span className="text-muted text-sm">
+                <span className="text-muted">
                   Approximately 3-5 working days.
                 </span>
               </Label>
@@ -124,7 +140,7 @@ class Delivery extends Component {
                 <strong className="d-block text-uppercase mb-2">
                   Express delivery - £10
                 </strong>
-                <span className="text-muted text-sm">
+                <span className="text-muted ">
                   Fastest option. Delivered within one working day.
                 </span>
               </Label>
@@ -141,10 +157,10 @@ class Delivery extends Component {
                 onChange={this.handleOptionChange}
               />
               <Label className="radio" htmlFor="collection">
-                <strong className="d-block text-uppercase mb-2">
+                <span className="d-block text-uppercase mb-2 font-weight-bold">
                   Collection
-                </strong>
-                <span className="text-muted text-sm">
+                </span>
+                <span className="text-muted">
                   Collect your order in person.
                 </span>
               </Label>
@@ -170,14 +186,23 @@ class Delivery extends Component {
   }
 }
 
-Delivery = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Delivery);
+Delivery.propTypes = {
+  subtotal: PropTypes.number.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
+  previousPage: PropTypes.func.isRequired,
+  setShipping: PropTypes.func.isRequired
+};
 
-export default reduxForm({
+Delivery = reduxForm({
   form: "checkout",
   destroyOnUnmount: false,
   forceUnregisterOnUnmount: true, // unregister fields on unmount
-  validate
+  keepDirtyOnReinitialize: true,
+  updateUnregisteredFields: true,
+  enableReinitialize: true
 })(Delivery);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Delivery);
