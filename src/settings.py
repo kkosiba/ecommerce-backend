@@ -61,7 +61,7 @@ INSTALLED_APPS = [
 
     'accounts',
     # 'addresses',
-
+    'payments',
     'newsletter',
 ]
 
@@ -85,7 +85,7 @@ ROOT_URLCONF = 'src.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates', ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -223,6 +223,9 @@ REST_USE_JWT = True
 
 # db_from_env = dj_database_url.config(conn_max_age=600)
 # DATABASES['default'].update(db_from_env)
+
+STRIPE_SECRET_KEY = 'sk_test_paFKxBYKN52Xlis2GQ3bmt6h00FNbIGLap'
+STRIPE_PUBLISHABLE_KEY = 'pk_test_67GPkLu3pZ7ox2x91a9W4z4A001eANPQFQ'
 
 # Activate Django-Heroku.
 django_heroku.settings(locals())
