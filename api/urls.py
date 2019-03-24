@@ -6,5 +6,6 @@ urlpatterns = [
     # path('addresses/', include('addresses.api.urls')),
     # path('carts/', include('carts.api.urls')),
     # path('orders/', include('orders.api.urls')),
+    path('payments/', include('payments.urls')),
     path('subscribers/', include('newsletter.api.urls')),
 ]
