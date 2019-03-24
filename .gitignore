@@ -7,3 +7,6 @@ __pycache__/
 *.pyc
 
 db.sqlite3
+
+# production settings
+production.py
