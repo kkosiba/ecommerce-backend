@@ -1,90 +1,65 @@
-# eCommerce-django
-eCommerce Project in Django with REST Framework and React+Redux.
+# ecommerce-backend
+Django backend for eCommerce project
 
-This project is built using Django REST Framework to provide the backend API, which is consumed by the React frontend. All API calls are made via [axios](https://github.com/axios/axios).
-
-The deployed version is available at ....
+This project is built using Django REST Framework to provide the backend API for eCommerce project. The deployed API is available on [Heroku](https://ecommerce-backend-django.herokuapp.com/). The frontend is available [here](https://github.com/ncunx/ecommerce-frontend). 
 
 Features
 --------
-1. Products are fetched from the products API endpoint available at `/api/products/`.
+1. Products API endpoint available at `/api/products/`.
+2. Custom user authentication using JSON Web Tokens. The API is available at `/api/accounts/`.
 2. Simple newsletter functionality: superuser can view the list of all subscribers in Django admin panel; any visitor can subscribe. The relevant API endpoint is available at `/api/newsletter/`.
-3. Fully operational shopping cart: adding & removing products, incrementing/decrementing quantity of an item in cart (limited by stock availibility), clearing cart.
-4. Four-step checkout process: selection of shipping addresses, delivery method, payment method (currently only PayPal supported via [PayPal's sandbox](https://developer.paypal.com/developer/accounts/)), finalizing order.
-
-Dummy buyer account for testing has credentials: 
-
-`(login, password): (ecommerce.paypal.test1@gmail.com, ecommercetest)`
-
-Once the payment goes through it is being POSTed to `localhost:8000/api/orders/` API endpoint for further processing. At the same time, cart is cleared and invoice is displayed.
-
+3. [Stripe](https://stripe.com/) payments API endpoint available at `/api/payments/`.
 
 Main requirements
 ------------
 
 1. `python` 3.5, 3.6, 3.7
-2. `Django` 2.1.5
+2. `Django` 2.1.7
 3. `PostgreSQL` 11.1
 
-This project also uses a few external packages (see `requirements.txt` file for details).
-For instance, tag support is provided by [django-taggit](https://github.com/alex/django-taggit),
-image processing if thanks to [Pillow](https://github.com/python-pillow/Pillow).
+This project also uses other packages (see `requirements.txt` file for details).
+For instance, tag support is provided by [django-taggit](https://github.com/alex/django-taggit) and image processing is thanks to [Pillow](https://github.com/python-pillow/Pillow).
 
-How to set up
------
+## How to set up
 
 Firstly, create a new directory and change to it:
 
-`mkdir eCommerce-django && cd eCommerce-django`
+`mkdir ecommerce-backend && cd ecommerce-backend`
 
 Then, clone this repository to the current directory:
 
-`git clone https://github.com/ncunx/eCommerce-django.git .`
+`git clone https://github.com/ncunx/ecommerce-backend.git .`
 
-### Setting up backend
 
-For the backend to work, one needs to setup PostgreSQL on a local machine. This process may vary from one OS to another, eg. on Arch Linux one can follow a straightforward guide [here](https://wiki.archlinux.org/index.php/PostgreSQL).
+For the backend to work, one needs to setup database like SQLite or PostgreSQL on a local machine. This project uses PostgreSQL by default (see [Django documentation](https://docs.djangoproject.com/en/2.1/ref/settings/#databases) for different setup). This process may vary from one OS to another, eg. on Arch Linux one can follow a straightforward guide [here](https://wiki.archlinux.org/index.php/PostgreSQL).
 
-The database settings are specified in `backend/src/src/settings.py`. In particular the default database name is `eCommerceDjango`, which can be created from the PostgreSQL shell by running `createdb eCommerceDjango`.
+The database settings are specified in `src/settings/local.py`. In particular the default database name is `eCommerceDjango`, which can be created from the PostgreSQL shell by running `createdb eCommerceDjango`.
 
-Next, in the `backend` directory set up a virtual environment and activate it:
+Next, set up a virtual environment and activate it:
 
 `python3 -m venv env && source env/bin/activate`
 
-Install required packages (from the `backend/src/` directory):
+Install required packages:
 
 `pip3 install -r requirements.txt`
 
-Next, in `backend/src/` run:
+Next, perform migration:
 
-`python3 manage.py migrate`
+`python3 manage.py migrate --settings=src.settings.local`
 
-to apply migrations. One may want to create a superuser account and create some products from Django admin panel. One can also use data provided in `products/fixtures.json` by running:
+At this point, one may want to create a superuser account and create some products. One can also use sample data provided in `products/fixtures.json` by running:
 
-`python3 manage.py loaddata products/fixtures.json`
+`python3 manage.py loaddata products/fixtures.json --settings=src.settings.local`
 
-The backend is set up. Run a local server with
+The backend is now ready. Run a local server with
 
-`python3 manage.py runserver`
+`python3 manage.py runserver --settings=src.settings.local`
 
-The backend API should be available at `localhost:8000/api/`.
+The backend should be available at `localhost:8000`.
 
-### Setting up frontend
-
-For the frontend it is enough to navigate to `frontend` directory (`eCommerce-django/frontend`) and run
-
-`npm install`
-
-If everything goes well, it will pull essential packages. Then, one can run frontend on `localhost:3000` by issuing
-
-`npm start`
-
-For PayPal to work, one needs to provide `REACT_APP_PAYPAL_SANDBOX_ID` environment variable in `frontend/.env.development`. The ID can be obtained [here](https://developer.paypal.com/developer/accounts/).
-
+In order to use [Stripe payments](https://stripe.com/) one needs to create an account and obtain a pair of keys (available in the dashboard after signing in). These keys should replace `STRIPE_SECRET_KEY` and `STRIPE_PUBLISHABLE_KEY` values in `src/settings/local.py`.
 
 ## To do
-1. Implement API endpoint to accept POST request with order JSON.
-2. Implement password recovery.
 
-## Known issues
-1. Succesful login/registration does not redirect user to the previously visited page.
+1. Implement an API endpoint at `/api/orders/` to accept POST request with order JSON from authenticated user, and GET requests from superuser (for further processing).
+2. Implement password recovery.
