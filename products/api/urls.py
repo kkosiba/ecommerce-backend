@@ -5,8 +5,6 @@ from rest_framework.routers import DefaultRouter
 from products.api.views import ProductViewSet
 
 router = DefaultRouter()
-router.register('', ProductViewSet)
+router.register("", ProductViewSet)
 
-urlpatterns = [
-    path('', include(router.urls)),
-]
+urlpatterns = [path("", include(router.urls))]

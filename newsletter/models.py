@@ -6,8 +6,8 @@ class Subscriber(models.Model):
     joined_date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        verbose_name = 'Subscriber'
-        verbose_name_plural = 'Subscribers'
+        verbose_name = "Subscriber"
+        verbose_name_plural = "Subscribers"
 
     def __str__(self):
         return self.email
