@@ -14,13 +14,25 @@ Main requirements
 ------------
 
 1. `python` 3.5, 3.6, 3.7
-2. `Django` 2.1.7
+2. `Django` 2.1.8
 3. `PostgreSQL` 11.1
 
 This project also uses other packages (see `requirements.txt` file for details).
 For instance, tag support is provided by [django-taggit](https://github.com/alex/django-taggit) and image processing is thanks to [Pillow](https://github.com/python-pillow/Pillow).
 
 ## How to set up
+
+### Setup using Docker
+
+The easiest way to get backend up and running is via [Docker](https://www.docker.com/). See [docs](https://docs.docker.com/get-started/) to get started. Once set up run the following command:
+
+`docker-compose up`
+
+This command takes care of populating products list with sample data.
+
+It may take a while for the process to complete, as Docker needs to pull required dependencies. Once it is done, the application should be accessible at `0.0.0.0:8000`.
+
+### Manual setup
 
 Firstly, create a new directory and change to it:
 
@@ -49,7 +61,7 @@ Next, perform migration:
 
 At this point, one may want to create a superuser account and create some products. One can also use sample data provided in `products/fixtures.json` by running:
 
-`python3 manage.py loaddata products/fixtures.json --settings=src.settings.local`
+`python3 manage.py loaddata products/fixture.json --settings=src.settings.local`
 
 The backend is now ready. Run a local server with
 
