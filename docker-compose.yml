@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  db:
+    image: postgres
+  migration:
+    build: .
+    command: python3 manage.py migrate --settings=src.settings.local-docker
+    volumes:
+      - .:/usr/src/app
+    depends_on:
+      - db
+  load_fixtures:
+    build: .
+    command: python3 manage.py loaddata products/fixture.json --settings=src.settings.local-docker
+    volumes:
+      - .:/usr/src/app
+    depends_on:
+      - migration
+  web:
+    build: .
+    command: python3 manage.py runserver 0.0.0.0:8000 --settings=src.settings.local-docker
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - migration
+      - load_fixtures
