@@ -7,7 +7,7 @@ from .serializers import SubscriberSerializer
 from .views import Subscribers
 
 # Create your tests here.
-class CreateSubscriber(TestCase):
+class CreateViewSubscribersTest(TestCase):
     def setUp(self):
         self.client = APIClient()
 
