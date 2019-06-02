@@ -77,8 +77,7 @@ class CreateViewSubscribersTest(TestCase):
 
     def test_create_existing_subscriber(self):
         # Create sample subscriber
-        self.subscriber = Subscriber.objects.create(email="samplesubscriber@abc.com")
-        self.subscriber.save()
+        Subscriber.objects.create(email="samplesubscriber@abc.com")
 
         response = self.client.post(
             path="/api/subscribers/", data={"email": "samplesubscriber@abc.com"}
@@ -87,3 +86,7 @@ class CreateViewSubscribersTest(TestCase):
             response.data.get("email")[0], "Subscriber with this email already exists."
         )
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_string_representation(self):
+        subscriber = Subscriber.objects.create(email="samplesubscriber@abc.com")
+        self.assertEqual(str(subscriber), "samplesubscriber@abc.com")
