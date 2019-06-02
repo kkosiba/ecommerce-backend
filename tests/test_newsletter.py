@@ -3,8 +3,8 @@ from rest_framework import status
 from rest_framework.test import APIClient
 from newsletter.models import Subscriber
 from accounts.models import CustomUser
-from .serializers import SubscriberSerializer
-from .views import Subscribers
+from newsletter.api.serializers import SubscriberSerializer
+from newsletter.api.views import Subscribers
 
 # Create your tests here.
 class CreateViewSubscribersTest(TestCase):
