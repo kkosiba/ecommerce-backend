@@ -6,7 +6,7 @@ import django_heroku
 
 SECRET_KEY = os.environ.get("SECRET_KEY", "")
 
-DEBUG = os.environ.get("DEBUG", "")
+DEBUG = False
 
 ALLOWED_HOSTS = ["https://ecommerce-backend-django.herokuapp.com/", ]
 
