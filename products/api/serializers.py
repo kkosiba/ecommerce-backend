@@ -4,6 +4,8 @@ from products.models import Product, Category
 
 
 class CategorySerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField()
+
     class Meta:
         model = Category
         fields = ("id", "name")
