@@ -1,6 +1,7 @@
 env/
 __pycache__/
-
+htmlcov
+.coverage
 .vscode
 
 *.log
