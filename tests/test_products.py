@@ -1,5 +1,6 @@
 from django.test import TestCase
 from products.models import Category, Product
+from products.api.serializers import CategorySerializer, ProductSerializer
 
 
 class ProductsModelTest(TestCase):
@@ -10,7 +11,19 @@ class ProductsModelTest(TestCase):
         self.test_product.save()
         self.test_product.category.create(name="Test Category")
 
-    def test_string_representation(self):
+    def test_category_string_representation(self):
+        test_category = Category.objects.get(name="Test Category")
+        self.assertEqual(str(test_category), "Test Category")
+
+    # UNCOMMENT ONCE get_absolute_url IS UNCOMMENTED IN Category MODEL
+    # def test_get_absolute_url(self):
+    #     from django.urls import reverse
+
+    #     test_category = Category.objects.get(name="Test Category")
+    #     response = self.client.post(reverse("products:category", kwargs={"name": test_category.name}))
+    #     self.assertEqual(response.status_code, 200)
+
+    def test_product_string_representation(self):
         test_product = Product.objects.get(name="Test Product")
         self.assertEqual(str(test_product), "Test Product")
 
@@ -42,7 +55,18 @@ class ProductsModelTest(TestCase):
 
 
 class ProductsAPISerializersTest(TestCase):
-    pass
+    def test_product_category_valid(self):
+        """Test if serializer works as expected"""
+        serializer = CategorySerializer(data={"id": 1, "name": "Test Category"})
+        self.assertTrue(serializer.is_valid())
+        self.assertEqual(serializer.validated_data, {"id": 1, "name": "Test Category"})
+        self.assertEqual(serializer.errors, {})
+
+    def test_product_category_invalid(self):
+        """Test if serializer 'breaks' with incomplete data"""
+        serializer = CategorySerializer(data={"name": "Test Category Incomplete"})
+        self.assertFalse(serializer.is_valid())
+        self.assertNotEqual(serializer.errors, {})
 
 
 class ProductAPIViewsTest(TestCase):
