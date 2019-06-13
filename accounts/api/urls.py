@@ -1,10 +1,8 @@
 from django.urls import include, path
-
-# from .views import CustomLoginView
+from .views import CustomRegisterView
 
 
 urlpatterns = [
     path("", include("rest_auth.urls")),
-    # path('login/', CustomLoginView.as_view(), name='login'),
     path("register/", include("rest_auth.registration.urls")),
 ]
