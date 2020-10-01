@@ -1,4 +1,4 @@
-# ecommerce-backend
+# E-Commerce-Backend An Amzing Project
 Django backend for eCommerce project
 
 This project is built using Django REST Framework to provide the backend API for eCommerce project. The deployed API is available on [Heroku](https://ecommerce-backend-django.herokuapp.com/). The frontend is available [here](https://github.com/ncunx/ecommerce-frontend). 
