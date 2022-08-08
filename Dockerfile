@@ -1,5 +1,4 @@
-FROM python:3
-WORKDIR /usr/src/app
-ADD requirements.txt /usr/src/app
-RUN pip install -r requirements.txt
-ADD . /usr/src/app
+FROM python:3.10
+WORKDIR /usr/ecommerce/backend
+ADD . /usr/ecommerce/backend
+RUN pip install -r requirements/base.txt
