@@ -1,25 +1,33 @@
-version: '3'
+version: '3.9'
 
 services:
   db:
     image: postgres
+    environment:
+      - "POSTGRES_HOST_AUTH_METHOD=trust"
   migration:
     build: .
-    command: python3 manage.py migrate --settings=src.settings.local-docker
+    command: ["./wait-for-it.sh", "db:5432", "--", "python", "manage.py", "migrate"]
+    environment:
+      - "DJANGO_SETTINGS_MODULE=src.settings.local-docker"
     volumes:
       - .:/usr/src/app
     depends_on:
       - db
   load_fixtures:
     build: .
-    command: python3 manage.py loaddata products/fixture.json --settings=src.settings.local-docker
+    command: ["./wait-for-it.sh", "db:5432", "--", "python", "manage.py", "loaddata", "products/fixture.json"]
+    environment:
+      - "DJANGO_SETTINGS_MODULE=src.settings.local-docker"
     volumes:
       - .:/usr/src/app
     depends_on:
       - migration
   web:
     build: .
-    command: python3 manage.py runserver 0.0.0.0:8000 --settings=src.settings.local-docker
+    command: ["./wait-for-it.sh", "db:5432", "--", "python", "manage.py", "runserver", "0.0.0.0:8000"]
+    environment:
+      - "DJANGO_SETTINGS_MODULE=src.settings.local-docker"
     volumes:
       - .:/usr/src/app
     ports:
