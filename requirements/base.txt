@@ -1,0 +1,12 @@
+dj-database-url
+Django>=3.2,<4
+django-allauth
+django-cors-headers
+django-rest-auth
+django-taggit
+# django-webpack-loader
+djangorestframework
+djangorestframework-jwt
+Pillow
+psycopg2
+stripe
