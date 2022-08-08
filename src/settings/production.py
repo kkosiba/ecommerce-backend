@@ -1,6 +1,4 @@
-# Production settings
-
-from .base import *
+from src.settings.base import *
 
 import django_heroku
 
@@ -11,12 +9,6 @@ DEBUG = False
 ALLOWED_HOSTS = ["https://ecommerce-backend-django.herokuapp.com/", ]
 
 INSTALLED_APPS += ["storages"]
-
-# STATIC_URL = "/static/"
-# STATIC_ROOT = os.path.join(BASE_DIR, "static")
-
-# MEDIA_URL = "/media/"
-# MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend' # todo: use mailgun
 

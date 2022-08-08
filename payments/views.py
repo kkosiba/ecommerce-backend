@@ -8,7 +8,7 @@ import stripe
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
-# Create your views here.
+
 @require_http_methods(["POST"])
 @csrf_exempt
 def charge_view(request):
