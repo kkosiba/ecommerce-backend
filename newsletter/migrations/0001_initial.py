@@ -7,20 +7,27 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Subscriber',
+            name="Subscriber",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('email', models.EmailField(max_length=254, unique=True)),
-                ('joined_date', models.DateTimeField(auto_now_add=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("email", models.EmailField(max_length=254, unique=True)),
+                ("joined_date", models.DateTimeField(auto_now_add=True)),
             ],
             options={
-                'verbose_name': 'Subscriber',
-                'verbose_name_plural': 'Subscribers',
+                "verbose_name": "Subscriber",
+                "verbose_name_plural": "Subscribers",
             },
         ),
     ]

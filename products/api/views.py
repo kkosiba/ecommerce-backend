@@ -1,8 +1,9 @@
 from rest_framework import viewsets
-from rest_framework.filters import SearchFilter, OrderingFilter
+from rest_framework.filters import OrderingFilter, SearchFilter
 
-from .serializers import ProductSerializer, CategorySerializer
-from products.models import Product, Category
+from products.models import Category, Product
+
+from .serializers import CategorySerializer, ProductSerializer
 
 
 class CategoryViewSet(viewsets.ModelViewSet):

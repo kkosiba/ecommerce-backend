@@ -1,10 +1,12 @@
 from django.test import TestCase
 from rest_framework import status
 from rest_framework.test import APIClient
-from newsletter.models import Subscriber
+
 from accounts.models import CustomUser
 from newsletter.api.serializers import SubscriberSerializer
 from newsletter.api.views import Subscribers
+from newsletter.models import Subscriber
+
 
 # Create your tests here.
 class CreateViewSubscribersTest(TestCase):

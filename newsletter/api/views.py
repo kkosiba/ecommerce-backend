@@ -1,9 +1,9 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
 
-from newsletter.models import Subscriber
-from newsletter.api.serializers import SubscriberSerializer
 from newsletter.api.permissions import IsPostOrIsAdmin
+from newsletter.api.serializers import SubscriberSerializer
+from newsletter.models import Subscriber
 
 
 class Subscribers(generics.ListCreateAPIView):

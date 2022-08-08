@@ -1,19 +1,33 @@
 from django.contrib import admin
-from products.models import Product, Category
+
+from products.models import Category, Product
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('name', 'price', 'quantity', 'featured', )
-    list_filter = ('name', 'price', 'quantity', 'featured', )
-    list_editable = ('price', 'quantity', )
+    list_display = (
+        "name",
+        "price",
+        "quantity",
+        "featured",
+    )
+    list_filter = (
+        "name",
+        "price",
+        "quantity",
+        "featured",
+    )
+    list_editable = (
+        "price",
+        "quantity",
+    )
 
     # sets up slug to be generated from product name
-    prepopulated_fields = {'slug': ('name', )}
+    prepopulated_fields = {"slug": ("name",)}
 
 
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', )
-    list_display_links = ('name', )
+    list_display = ("name",)
+    list_display_links = ("name",)
 
 
 admin.site.register(Product, ProductAdmin)

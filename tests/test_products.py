@@ -1,6 +1,7 @@
 from django.test import TestCase
-from products.models import Category, Product
+
 from products.api.serializers import CategorySerializer, ProductSerializer
+from products.models import Category, Product
 
 
 class ProductsModelTest(TestCase):
@@ -36,7 +37,9 @@ class ProductsModelTest(TestCase):
         self.assertTrue(test_product.is_available)
 
     def test_product_with_too_long_name(self):
-        import random, string
+        import random
+        import string
+
         from django.db.utils import DataError
 
         long_name = "".join(random.choice(string.ascii_lowercase) for n in range(151))
@@ -45,7 +48,9 @@ class ProductsModelTest(TestCase):
             Product.objects.create(name=long_name, slug="long-name")
 
     def test_product_with_too_long_slug(self):
-        import random, string
+        import random
+        import string
+
         from django.db.utils import DataError
 
         long_slug = "".join(random.choice(string.ascii_lowercase) for n in range(201))

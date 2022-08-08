@@ -1,8 +1,8 @@
 from django.db import models
 from django.urls import reverse
-
 # tags
 from taggit.managers import TaggableManager
+
 
 # Create your models here.
 class Category(models.Model):
