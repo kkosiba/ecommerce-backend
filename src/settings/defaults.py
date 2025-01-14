@@ -1,8 +1,20 @@
-# Base settings for the project
-
 import os
 
+from decouple import config
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+PROJECT_ENVIRONMENT = config("PROJECT_ENVIRONMENT")
+
+SECRET_KEY = config("DJANGO_SECRET_KEY")
+
+DEBUG = PROJECT_ENVIRONMENT == "development"
+
+ALLOWED_HOSTS = (
+    ["0.0.0.0", "localhost"]
+    if PROJECT_ENVIRONMENT == "development"
+    else config("ALLOWED_HOSTS", cast=lambda v: [s.strip() for s in v.split(",")])
+)
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -63,6 +75,17 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "src.wsgi.application"
+
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": config("POSTGRES_DB"),
+        "USER": config("POSTGRES_USER"),
+        "PASSWORD": config("POSTGRES_PASSWORD"),
+        "HOST": config("POSTGRES_HOST"),
+        "PORT": config("POSTGRES_PORT"),
+    }
+}
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -134,3 +157,45 @@ REST_AUTH_REGISTER_SERIALIZERS = {
 }
 
 REST_USE_JWT = True
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+STRIPE_SECRET_KEY = config("STRIPE_SECRET_KEY")
+STRIPE_PUBLISHABLE_KEY = config("STRIPE_PUBLISHABLE_KEY")
+
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+if PROJECT_ENVIRONMENT != "production":
+    STATIC_URL = "/static/"
+    STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
+    # Media files
+    MEDIA_URL = "/media/"
+    MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+
+if PROJECT_ENVIRONMENT == "production":
+    import django_heroku
+
+    INSTALLED_APPS += ["storages"]
+
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, "static"),
+    ]
+    STATICFILES_STORAGE = "src.storage_backends.StaticStorage"
+    DEFAULT_FILE_STORAGE = "src.storage_backends.MediaStorage"
+
+    AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID", "")
+    AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY", "")
+    AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME", "")
+    AWS_S3_CUSTOM_DOMAIN = "%s.s3.amazonaws.com" % AWS_STORAGE_BUCKET_NAME
+    AWS_S3_OBJECT_PARAMETERS = {
+        "CacheControl": "max-age=86400",
+    }
+    AWS_PRELOAD_METADATA = True
+    STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, "static")
+    ADMIN_MEDIA_PREFIX = "https://%s/%s/admin/" % (AWS_S3_CUSTOM_DOMAIN, "static")
+    MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, "media")
+
+    # Activate Django-Heroku.
+    django_heroku.settings(locals())

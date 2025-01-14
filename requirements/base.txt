@@ -1,4 +1,4 @@
-dj-database-url
+python-decouple
 Django>=3.2,<4
 django-allauth==0.54.0
 django-cors-headers
