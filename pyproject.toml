@@ -1,0 +1,52 @@
+[project]
+name = "eCommerce"
+version = "0.0.1"
+dependencies = []
+requires-python = ">=3.13,<3.14"
+authors = [
+  { name = "Kamil Kosiba", email = "kamil.kosiba@outlook.com" }
+]
+maintainers = [
+  { name = "Kamil Kosiba", email = "kamil.kosiba@outlook.com" }
+]
+description = "Django backend for eCommerce project"
+readme = "README.md"
+keywords = ["api", "backend", "payments", "newsletter", "accounts", "stripe"]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.13",
+]
+
+[project.optional-dependencies]
+base = [
+  # django-webpack-loader
+  "Django>=4.2,<5",
+  "Pillow",
+  "django-allauth==0.54.0",
+  "django-cors-headers",
+  "dj-rest-auth",
+  "django-taggit",
+  "djangorestframework",
+  "djangorestframework-simplejwt",
+  "psycopg2",
+  "python-decouple",
+  "stripe",
+]
+development = [
+  "pylint",
+  "coverage",
+]
+production = [
+  "boto3",
+  "django-heroku",
+  "django-storages",
+  "gunicorn",
+]
+
+[project.urls]
+Repository = "https://github.com/kkosiba/ecommerce-backend"
+
+[tool.setuptools]
+py-modules = []
