@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+
 # tags
 from taggit.managers import TaggableManager
 

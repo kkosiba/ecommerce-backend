@@ -37,32 +37,32 @@ def charge_view(request):
             json.dumps({"message": err.get("message")}), status=e.http_status
         )
 
-    except stripe.error.RateLimitError as e:
+    except stripe.error.RateLimitError:
         # Too many requests made to the API too quickly
         return HttpResponse(json.dumps({"message": "Too many requests to the API."}))
 
-    except stripe.error.InvalidRequestError as e:
+    except stripe.error.InvalidRequestError:
         # invalid parameters were supplied to Stripe"s API
         return HttpResponse(json.dumps({"message": "Invalid parameters."}))
 
-    except stripe.error.AuthenticationError as e:
+    except stripe.error.AuthenticationError:
         # Authentication with Stripe"s API failed
         # (maybe you changed API keys recently)
         return HttpResponse(json.dumps({"message": "Authentication failed."}))
 
-    except stripe.error.APIConnectionError as e:
+    except stripe.error.APIConnectionError:
         # Network communication with Stripe failed
         return HttpResponse(
             json.dumps({"message": "Network communication failed, try again."})
         )
 
-    except stripe.error.StripeError as e:
+    except stripe.error.StripeError:
         # Display a very generic error to the user, and maybe
         # send yourself an email
         return HttpResponse(json.dumps({"message": "Provider error!"}))
 
     # Something else happened, completely unrelated to Stripe
-    except Exception as e:
+    except Exception:
         return HttpResponse(
             json.dumps({"message": "Unable to process payment, try again."})
         )

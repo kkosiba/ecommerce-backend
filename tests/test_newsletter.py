@@ -4,7 +4,6 @@ from rest_framework.test import APIClient
 
 from accounts.models import CustomUser
 from newsletter.api.serializers import SubscriberSerializer
-from newsletter.api.views import Subscribers
 from newsletter.models import Subscriber
 
 
