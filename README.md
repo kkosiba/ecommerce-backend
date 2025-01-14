@@ -13,9 +13,9 @@ Features
 Main requirements
 ------------
 
-1. `python` 3.7, 3.8, 3.9, 3.10
-2. `Django` >=3.2,<4
-3. `PostgreSQL` 11.1
+1. `python` 3.13
+2. `Django` 4.2+
+3. `PostgreSQL` 16+
 
 This project also uses other packages (see `requirements.txt` file for details).
 For instance, tag support is provided by [django-taggit](https://github.com/alex/django-taggit) and image processing is thanks to [Pillow](https://github.com/python-pillow/Pillow).

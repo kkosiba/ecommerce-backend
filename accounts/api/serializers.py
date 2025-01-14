@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from rest_auth.serializers import LoginSerializer
+from dj_rest_auth.serializers import LoginSerializer
 from rest_framework import serializers
 
 try:
@@ -26,7 +26,7 @@ class CustomLoginSerializer(LoginSerializer):
 
 class CustomRegisterSerializer(serializers.Serializer):
     """
-    Modified RegisterSerializer class from rest_auth
+    Modified RegisterSerializer class from dj_rest_auth
     """
 
     username = None
