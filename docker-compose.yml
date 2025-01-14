@@ -1,38 +1,48 @@
-version: '3.9'
-
 services:
   db:
     image: postgres
-    environment:
-      - "POSTGRES_HOST_AUTH_METHOD=trust"
+    env_file: .env
+    healthcheck:
+      test: ["CMD", "pg_isready", "-d", $POSTGRES_DB, "-U", $POSTGRES_USER]
+      interval: 10s
+      retries: 5
+      start_period: 5s
+    restart: always
+
   migration:
     build: .
-    command: ["./wait-for-it.sh", "db:5432", "--", "python", "manage.py", "migrate"]
-    environment:
-      - "DJANGO_SETTINGS_MODULE=src.settings.local-docker"
+    command: ["python", "manage.py", "migrate"]
+    env_file: .env
     volumes:
       - .:/usr/src/app
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+
   load_fixtures:
     build: .
-    command: ["./wait-for-it.sh", "db:5432", "--", "python", "manage.py", "loaddata", "products/fixture.json"]
-    environment:
-      - "DJANGO_SETTINGS_MODULE=src.settings.local-docker"
+    command: ["python", "manage.py", "loaddata", "products/fixture.json"]
+    env_file: .env
     volumes:
       - .:/usr/src/app
     depends_on:
-      - migration
-  web:
+      db:
+        condition: service_healthy
+      migration:
+        condition: service_completed_successfully
+
+  backend:
     build: .
-    command: ["./wait-for-it.sh", "db:5432", "--", "python", "manage.py", "runserver", "0.0.0.0:8000"]
-    environment:
-      - "DJANGO_SETTINGS_MODULE=src.settings.local-docker"
+    command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+    env_file: .env
     volumes:
       - .:/usr/src/app
     ports:
       - "8000:8000"
     depends_on:
-      - db
-      - migration
-      - load_fixtures
+      db:
+        condition: service_healthy
+      migration:
+        condition: service_completed_successfully
+      load_fixtures:
+        condition: service_completed_successfully
