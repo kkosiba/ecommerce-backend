@@ -20,7 +20,7 @@ defusedxml==0.7.1
     # via python3-openid
 dj-rest-auth==7.0.1
     # via eCommerce (pyproject.toml)
-django==4.2.18
+django==5.1.5
     # via
     #   dj-rest-auth
     #   django-allauth

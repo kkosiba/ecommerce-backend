@@ -8,9 +8,9 @@ asgiref==3.8.1
     # via
     #   django
     #   django-cors-headers
-boto3==1.35.98
+boto3==1.35.99
     # via eCommerce (pyproject.toml)
-botocore==1.35.98
+botocore==1.35.99
     # via
     #   boto3
     #   s3transfer
@@ -28,7 +28,7 @@ dj-database-url==2.3.0
     # via django-heroku
 dj-rest-auth==7.0.1
     # via eCommerce (pyproject.toml)
-django==4.2.18
+django==5.1.5
     # via
     #   dj-database-url
     #   dj-rest-auth

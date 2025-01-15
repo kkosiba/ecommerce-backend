@@ -22,7 +22,7 @@ classifiers = [
 [project.optional-dependencies]
 base = [
   # django-webpack-loader
-  "Django>=4.2,<5",
+  "Django>=5.1,<5.2",
   "Pillow",
   "django-allauth==0.54.0",
   "django-cors-headers",
