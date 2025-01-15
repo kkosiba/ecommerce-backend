@@ -7,11 +7,10 @@ from newsletter.models import Subscriber
 
 class Subscribers(generics.ListCreateAPIView):
     """
-    API view for listing all existing subscribers.
+    API view for listing all existing subscribers (for admins)
+    and create new ones (for everyone).
 
-    Only safe requests allowed.
-
-    Visible only to users for which user.is_staff returns True.
+    GET only to users for which user.is_staff returns True.
     """
 
     queryset = Subscriber.objects.all()

@@ -2,12 +2,9 @@ from django.contrib.auth import get_user_model
 from dj_rest_auth.serializers import LoginSerializer
 from rest_framework import serializers
 
-try:
-    from allauth.account.adapter import get_adapter
-    from allauth.account.utils import setup_user_email
-    from allauth.utils import email_address_exists
-except ImportError:
-    raise ImportError("allauth needs to be added to INSTALLED_APPS.")
+from allauth.account.adapter import get_adapter
+from allauth.account.utils import setup_user_email
+from allauth.utils import email_address_exists
 
 User = get_user_model()
 

@@ -1,17 +1,12 @@
 from django.db import models
 from django.urls import reverse
 
-# tags
 from taggit.managers import TaggableManager
 
 
 # Create your models here.
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
-    # parent = models.ForeignKey('self',
-    #                            on_delete=models.CASCADE,
-    #                            null=True,
-    #                            blank=True)
 
     class Meta:
         verbose_name_plural = "Categories"

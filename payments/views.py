@@ -1,8 +1,6 @@
-import json
-
 import stripe
 from django.conf import settings
-from django.http import HttpResponse
+from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 
@@ -19,50 +17,36 @@ def charge_view(request):
             source=request.POST.get("source", ""),
         )
         if charge["status"] == "succeeded":
-            return HttpResponse(
-                json.dumps({"message": "Your transaction has been successful."})
-            )
-        else:
-            raise stripe.error.CardError
+            return JsonResponse({"message": "Your transaction has been successful."})
+        raise stripe.error.CardError
 
-    except stripe.error.CardError as e:
+    except stripe.error.CardError as error:
         # Since it's a decline, stripe.error.CardError will be caught
-        body = e.json_body
-        err = body.get("error", {})
-        print("Status is: %s" % e.http_status)
-        print("Type is: %s" % err.get("type"))
-        print("Code is: %s" % err.get("code"))
-        print("Message is %s" % err.get("message"))
-        return HttpResponse(
-            json.dumps({"message": err.get("message")}), status=e.http_status
-        )
+        error_message = error.json_body.get("error", {}).get("message")
+        return JsonResponse({"message": error_message}, status=error.http_status)
 
     except stripe.error.RateLimitError:
         # Too many requests made to the API too quickly
-        return HttpResponse(json.dumps({"message": "Too many requests to the API."}))
+        return JsonResponse({"message": "Too many requests to the API."})
 
     except stripe.error.InvalidRequestError:
-        # invalid parameters were supplied to Stripe"s API
-        return HttpResponse(json.dumps({"message": "Invalid parameters."}))
+        # invalid parameters were supplied to Stripe's API
+        return JsonResponse({"message": "Invalid parameters."})
 
     except stripe.error.AuthenticationError:
-        # Authentication with Stripe"s API failed
+        # Authentication with Stripe's API failed
         # (maybe you changed API keys recently)
-        return HttpResponse(json.dumps({"message": "Authentication failed."}))
+        return JsonResponse({"message": "Authentication failed."})
 
     except stripe.error.APIConnectionError:
         # Network communication with Stripe failed
-        return HttpResponse(
-            json.dumps({"message": "Network communication failed, try again."})
-        )
+        return JsonResponse({"message": "Network communication failed, try again."})
 
     except stripe.error.StripeError:
         # Display a very generic error to the user, and maybe
         # send yourself an email
-        return HttpResponse(json.dumps({"message": "Provider error!"}))
+        return JsonResponse({"message": "Provider error!"})
 
     # Something else happened, completely unrelated to Stripe
     except Exception:
-        return HttpResponse(
-            json.dumps({"message": "Unable to process payment, try again."})
-        )
+        return JsonResponse({"message": "Unable to process payment, try again."})
