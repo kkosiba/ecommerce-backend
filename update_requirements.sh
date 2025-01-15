@@ -5,7 +5,7 @@
 # to be executed from the repository root.
 
 function cleanup() {
-  rm -rf *.egg_info
+  rm -rf *.egg-info
 }
 
 trap cleanup EXIT
