@@ -47,3 +47,45 @@ In order to use [Stripe payments](https://stripe.com/) one needs to create an
 account and obtain a pair of keys (available in the dashboard after signing in).
 These keys should replace `STRIPE_SECRET_KEY` and `STRIPE_PUBLISHABLE_KEY`
 values in `src/settings/defaults.py`.
+
+## Deployment
+
+There is a production-ready Docker image `production.dockerfile` available.
+
+It can be deployed in a Kubernetes cluster for example.
+
+To build it manually:
+
+```shell
+docker build --file production.dockerfile .
+```
+
+To run this image, you need to set the environment correctly. You can use a `.env` file like this:
+
+```dotenv
+PROJECT_ENVIRONMENT=production
+
+# Django settings
+
+DJANGO_SECRET_KEY="f41z(gp#mm7ktjo1bfux-n*0!mlti$9d1@k_sws@&kl*@tfi21"
+DJANGO_SETTINGS_MODULE=src.settings.defaults
+
+# Database settings
+
+POSTGRES_DB=
+POSTGRES_USER=
+POSTGRES_PASSWORD=
+POSTGRES_HOST=
+POSTGRES_PORT=5432
+
+# Stripe
+
+STRIPE_SECRET_KEY=
+STRIPE_PUBLISHABLE_KEY=
+```
+
+You can then run the image like this:
+
+```shell
+docker run --env-file .env -d <image-name>
+```
