@@ -175,8 +175,6 @@ if PROJECT_ENVIRONMENT != "production":
 
 
 if PROJECT_ENVIRONMENT == "production":
-    import django_heroku
-
     INSTALLED_APPS += ["storages"]
 
     STATICFILES_DIRS = [
@@ -196,6 +194,3 @@ if PROJECT_ENVIRONMENT == "production":
     STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, "static")
     ADMIN_MEDIA_PREFIX = "https://%s/%s/admin/" % (AWS_S3_CUSTOM_DOMAIN, "static")
     MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, "media")
-
-    # Activate Django-Heroku.
-    django_heroku.settings(locals())

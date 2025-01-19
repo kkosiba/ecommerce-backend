@@ -8,9 +8,9 @@ asgiref==3.8.1
     # via
     #   django
     #   django-cors-headers
-boto3==1.35.99
+boto3==1.36.2
     # via eCommerce (pyproject.toml)
-botocore==1.35.99
+botocore==1.36.2
     # via
     #   boto3
     #   s3transfer
@@ -24,17 +24,13 @@ cryptography==44.0.0
     # via pyjwt
 defusedxml==0.7.1
     # via python3-openid
-dj-database-url==2.3.0
-    # via django-heroku
 dj-rest-auth==7.0.1
     # via eCommerce (pyproject.toml)
 django==5.1.5
     # via
-    #   dj-database-url
     #   dj-rest-auth
     #   django-allauth
     #   django-cors-headers
-    #   django-heroku
     #   django-storages
     #   django-taggit
     #   djangorestframework
@@ -43,8 +39,6 @@ django==5.1.5
 django-allauth==0.54.0
     # via eCommerce (pyproject.toml)
 django-cors-headers==4.6.0
-    # via eCommerce (pyproject.toml)
-django-heroku==0.3.1
     # via eCommerce (pyproject.toml)
 django-storages==1.14.4
     # via eCommerce (pyproject.toml)
@@ -72,9 +66,7 @@ packaging==24.2
 pillow==11.1.0
     # via eCommerce (pyproject.toml)
 psycopg2==2.9.10
-    # via
-    #   django-heroku
-    #   eCommerce (pyproject.toml)
+    # via eCommerce (pyproject.toml)
 pycparser==2.22
     # via cffi
 pyjwt[crypto]==2.10.1
@@ -94,7 +86,7 @@ requests==2.32.3
     #   stripe
 requests-oauthlib==2.0.0
     # via django-allauth
-s3transfer==0.10.4
+s3transfer==0.11.1
     # via boto3
 six==1.17.0
     # via python-dateutil
@@ -103,12 +95,8 @@ sqlparse==0.5.3
 stripe==11.4.1
     # via eCommerce (pyproject.toml)
 typing-extensions==4.12.2
-    # via
-    #   dj-database-url
-    #   stripe
+    # via stripe
 urllib3==2.3.0
     # via
     #   botocore
     #   requests
-whitenoise==6.8.2
-    # via django-heroku
