@@ -1,8 +1,8 @@
-import os
+from pathlib import Path
 
 from decouple import config
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = Path(__file__).parents[1]
 
 PROJECT_ENVIRONMENT = config("PROJECT_ENVIRONMENT")
 
@@ -58,7 +58,7 @@ TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         "DIRS": [
-            os.path.join(BASE_DIR, "templates"),
+            BASE_DIR / "templates",
         ],
         "APP_DIRS": True,
         "OPTIONS": {
@@ -167,30 +167,30 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 if PROJECT_ENVIRONMENT != "production":
     STATIC_URL = "/static/"
-    STATIC_ROOT = os.path.join(BASE_DIR, "static")
+    STATIC_ROOT = BASE_DIR / "static"
 
     # Media files
     MEDIA_URL = "/media/"
-    MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+    MEDIA_ROOT = BASE_DIR / "media"
 
 
 if PROJECT_ENVIRONMENT == "production":
     INSTALLED_APPS += ["storages"]
 
     STATICFILES_DIRS = [
-        os.path.join(BASE_DIR, "static"),
+        BASE_DIR / "static",
     ]
     STATICFILES_STORAGE = "src.storage_backends.StaticStorage"
     DEFAULT_FILE_STORAGE = "src.storage_backends.MediaStorage"
 
-    AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID", "")
-    AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY", "")
-    AWS_STORAGE_BUCKET_NAME = os.environ.get("AWS_STORAGE_BUCKET_NAME", "")
-    AWS_S3_CUSTOM_DOMAIN = "%s.s3.amazonaws.com" % AWS_STORAGE_BUCKET_NAME
+    AWS_ACCESS_KEY_ID = config("AWS_ACCESS_KEY_ID")
+    AWS_SECRET_ACCESS_KEY = config("AWS_SECRET_ACCESS_KEY")
+    AWS_STORAGE_BUCKET_NAME = config("AWS_STORAGE_BUCKET_NAME")
+    AWS_S3_CUSTOM_DOMAIN = f"{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com"
     AWS_S3_OBJECT_PARAMETERS = {
         "CacheControl": "max-age=86400",
     }
     AWS_PRELOAD_METADATA = True
-    STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, "static")
-    ADMIN_MEDIA_PREFIX = "https://%s/%s/admin/" % (AWS_S3_CUSTOM_DOMAIN, "static")
-    MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, "media")
+    STATIC_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/static/"
+    ADMIN_MEDIA_PREFIX = f"https://{AWS_S3_CUSTOM_DOMAIN}/static/admin/"
+    MEDIA_URL = f"https://{AWS_S3_CUSTOM_DOMAIN}/media/"
