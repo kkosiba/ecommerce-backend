@@ -10,21 +10,23 @@ services:
     restart: always
 
   migration:
-    build: .
+    build:
+      dockerfile: development.dockerfile
     command: ["python", "manage.py", "migrate"]
     env_file: .env
     volumes:
-      - .:/usr/src/app
+      - .:/opt/project/backend
     depends_on:
       db:
         condition: service_healthy
 
   load_fixtures:
-    build: .
+    build:
+      dockerfile: development.dockerfile
     command: ["python", "manage.py", "loaddata", "products/fixture.json"]
     env_file: .env
     volumes:
-      - .:/usr/src/app
+      - .:/opt/project/backend
     depends_on:
       db:
         condition: service_healthy
@@ -32,11 +34,12 @@ services:
         condition: service_completed_successfully
 
   backend:
-    build: .
+    build:
+      dockerfile: development.dockerfile
     command: ["python", "manage.py", "runserver", "0.0.0.0:8000"]
     env_file: .env
     volumes:
-      - .:/usr/src/app
+      - .:/opt/project/backend
     ports:
       - "8000:8000"
     depends_on:
