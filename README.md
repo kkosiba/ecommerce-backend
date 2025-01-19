@@ -45,8 +45,8 @@ at `http://localhost:8000`.
 
 In order to use [Stripe payments](https://stripe.com/) one needs to create an
 account and obtain a pair of keys (available in the dashboard after signing in).
-These keys should replace `STRIPE_SECRET_KEY` and `STRIPE_PUBLISHABLE_KEY`
-values in `src/settings/defaults.py`.
+These keys need to be set in a `.env` file, see the `Deployment` section below
+for the example contents of such file.
 
 ## Deployment
 
