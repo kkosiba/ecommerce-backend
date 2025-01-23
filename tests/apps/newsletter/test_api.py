@@ -11,13 +11,15 @@ from src.apps.newsletter.models import Subscriber
 def create_users():
     # Create superuser
     superuser = CustomUser.objects.create_superuser(
-        username="Superuser Testing",
+        first_name="Superuser",
+        last_name="Testing",
         email="superuser@testing.com",
         password="superusertestingpassword",
     )
     # Create regular user
     user = CustomUser.objects.create_user(
-        username="Regular User",
+        first_name="Regular",
+        last_name="User",
         email="regularuser@testing.com",
         password="regularusertestingpassword",
     )

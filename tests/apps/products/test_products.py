@@ -1,8 +1,8 @@
 # TODO: update these tests
 from django.test import TestCase
 
-from apps.products.api.serializers import CategorySerializer
-from apps.products.models import Category, Product
+from src.apps.products.api.serializers import CategorySerializer
+from src.apps.products.models import Category, Product
 
 
 class ProductsModelTest(TestCase):
