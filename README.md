@@ -35,7 +35,7 @@ The easiest way to get backend up and running is via
 [docs](https://docs.docker.com/get-started/) to get started. Once set up run
 the following command:
 
-`docker-compose up`
+`make run`
 
 This command takes care of populating products list with the sample data.
 
@@ -47,6 +47,14 @@ In order to use [Stripe payments](https://stripe.com/) one needs to create an
 account and obtain a pair of keys (available in the dashboard after signing in).
 These keys need to be set in a `.env` file, see the `Deployment` section below
 for the example contents of such file.
+
+### Tests
+
+To run Django tests run the following command:
+
+```
+make test
+```
 
 ## Deployment
 
