@@ -50,16 +50,22 @@ djangorestframework-simplejwt==5.4.0
     # via eCommerce (pyproject.toml)
 idna==3.10
     # via requests
+iniconfig==2.0.0
+    # via pytest
 isort==5.13.2
     # via pylint
 mccabe==0.7.0
     # via pylint
 oauthlib==3.2.2
     # via requests-oauthlib
+packaging==24.2
+    # via pytest
 pillow==11.1.0
     # via eCommerce (pyproject.toml)
 platformdirs==4.3.6
     # via pylint
+pluggy==1.5.0
+    # via pytest
 psycopg2==2.9.10
     # via eCommerce (pyproject.toml)
 pycparser==2.22
@@ -69,6 +75,12 @@ pyjwt[crypto]==2.10.1
     #   django-allauth
     #   djangorestframework-simplejwt
 pylint==3.3.3
+    # via eCommerce (pyproject.toml)
+pytest==8.3.4
+    # via
+    #   eCommerce (pyproject.toml)
+    #   pytest-django
+pytest-django==4.9.0
     # via eCommerce (pyproject.toml)
 python-decouple==3.8
     # via eCommerce (pyproject.toml)

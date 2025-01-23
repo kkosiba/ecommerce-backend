@@ -37,6 +37,8 @@ base = [
 development = [
   "pylint",
   "coverage",
+  "pytest",
+  "pytest-django",
 ]
 production = [
   "boto3",
