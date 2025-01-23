@@ -8,9 +8,9 @@ asgiref==3.8.1
     # via
     #   django
     #   django-cors-headers
-boto3==1.36.2
+boto3==1.36.4
     # via eCommerce (pyproject.toml)
-botocore==1.36.2
+botocore==1.36.4
     # via
     #   boto3
     #   s3transfer
