@@ -1,3 +1,4 @@
+# TODO: update these tests
 from django.test import TestCase
 
 from apps.products.api.serializers import CategorySerializer
