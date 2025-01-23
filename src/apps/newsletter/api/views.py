@@ -1,8 +1,8 @@
 from rest_framework import generics
 
-from newsletter.api.permissions import IsPostOrIsAdmin
-from newsletter.api.serializers import SubscriberSerializer
-from newsletter.models import Subscriber
+from .permissions import IsPostOrIsAdmin
+from .serializers import SubscriberSerializer
+from ..models import Subscriber
 
 
 class Subscribers(generics.ListCreateAPIView):

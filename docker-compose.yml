@@ -23,7 +23,7 @@ services:
   load_fixtures:
     build:
       dockerfile: development.dockerfile
-    command: ["python", "manage.py", "loaddata", "products/fixture.json"]
+    command: ["python", "manage.py", "loaddata", "src/apps/products/fixture.json"]
     env_file: .env
     volumes:
       - .:/opt/project/backend

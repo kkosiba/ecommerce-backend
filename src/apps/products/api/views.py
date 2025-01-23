@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from rest_framework.filters import OrderingFilter, SearchFilter
 
-from products.models import Category, Product
+from ..models import Category, Product
 
 from .serializers import CategorySerializer, ProductSerializer
 

@@ -20,10 +20,17 @@ from django.contrib import admin
 from django.urls import include, path
 from django.views.generic.base import TemplateView
 
+
+API_PREFIX = "api"
+
+
 urlpatterns = [
     path("", TemplateView.as_view(template_name="base.html"), name="index"),
-    path("api/", include("api.urls")),
     path("admin/", admin.site.urls),
+    path(f"{API_PREFIX}/accounts/", include("src.apps.accounts.api.urls")),
+    path(f"{API_PREFIX}/products/", include("src.apps.products.api.urls")),
+    path(f"{API_PREFIX}/payments/", include("src.apps.payments.urls")),
+    path(f"{API_PREFIX}/subscribers/", include("src.apps.newsletter.api.urls")),
 ]
 
 # to load static/media files in development environment

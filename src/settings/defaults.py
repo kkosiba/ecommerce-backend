@@ -24,7 +24,6 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "corsheaders",
-    "products",
     "taggit",
     "rest_framework",
     "rest_framework.authtoken",
@@ -34,9 +33,10 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "dj_rest_auth.registration",
-    "accounts",
-    "payments",
-    "newsletter",
+    "src.apps.accounts",
+    "src.apps.payments",
+    "src.apps.newsletter",
+    "src.apps.products",
 ]
 
 SITE_ID = 1

@@ -30,7 +30,7 @@ COPY . ./
 
 RUN tar -czf \
     build.tar.gz \
-    accounts api newsletter payments products src gunicorn.conf.py
+    src gunicorn.conf.py
 
 # Prepare underlying system
 FROM python:3.13-slim AS app-system

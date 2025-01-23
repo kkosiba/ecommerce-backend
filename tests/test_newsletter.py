@@ -2,9 +2,9 @@ from django.test import TestCase
 from rest_framework import status
 from rest_framework.test import APIClient
 
-from accounts.models import CustomUser
-from newsletter.api.serializers import SubscriberSerializer
-from newsletter.models import Subscriber
+from apps.accounts.models import CustomUser
+from apps.newsletter.api.serializers import SubscriberSerializer
+from apps.newsletter.models import Subscriber
 
 
 # Create your tests here.
