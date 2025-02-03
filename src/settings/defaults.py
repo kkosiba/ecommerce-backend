@@ -50,6 +50,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = "src.urls"
@@ -137,6 +138,7 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTAuthentication",
         "rest_framework.authentication.SessionAuthentication",
         "rest_framework.authentication.BasicAuthentication",
+        "dj_rest_auth.jwt_auth.JWTCookieAuthentication",
     ),
 }
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
@@ -146,6 +148,7 @@ ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
 ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_EMAIL_VERIFICATION = "none"
 
 REST_AUTH_SERIALIZERS = {
     "USER_DETAILS_SERIALIZER": "accounts.api.serializers.CustomUserDetailsSerializer",
@@ -156,7 +159,10 @@ REST_AUTH_REGISTER_SERIALIZERS = {
     "REGISTER_SERIALIZER": "accounts.api.serializers.CustomRegisterSerializer",
 }
 
-REST_USE_JWT = True
+REST_AUTH = {
+    "USE_JWT": True,
+    "JWT_AUTH_COOKIE": "ecommerce-backend",
+}
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 

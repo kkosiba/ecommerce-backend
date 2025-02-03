@@ -7,21 +7,16 @@
 asgiref==3.8.1
     # via
     #   django
+    #   django-allauth
     #   django-cors-headers
 astroid==3.3.8
     # via pylint
-certifi==2024.12.14
+certifi==2025.1.31
     # via requests
-cffi==1.17.1
-    # via cryptography
 charset-normalizer==3.4.1
     # via requests
 coverage==7.6.10
     # via eCommerce (pyproject.toml)
-cryptography==44.0.0
-    # via pyjwt
-defusedxml==0.7.1
-    # via python3-openid
 dill==0.3.9
     # via pylint
 dj-rest-auth==7.0.1
@@ -35,7 +30,7 @@ django==5.1.5
     #   djangorestframework
     #   djangorestframework-simplejwt
     #   eCommerce (pyproject.toml)
-django-allauth==0.54.0
+django-allauth==65.3.1
     # via eCommerce (pyproject.toml)
 django-cors-headers==4.6.0
     # via eCommerce (pyproject.toml)
@@ -52,12 +47,10 @@ idna==3.10
     # via requests
 iniconfig==2.0.0
     # via pytest
-isort==5.13.2
+isort==6.0.0
     # via pylint
 mccabe==0.7.0
     # via pylint
-oauthlib==3.2.2
-    # via requests-oauthlib
 packaging==24.2
     # via pytest
 pillow==11.1.0
@@ -68,13 +61,9 @@ pluggy==1.5.0
     # via pytest
 psycopg2==2.9.10
     # via eCommerce (pyproject.toml)
-pycparser==2.22
-    # via cffi
-pyjwt[crypto]==2.10.1
-    # via
-    #   django-allauth
-    #   djangorestframework-simplejwt
-pylint==3.3.3
+pyjwt==2.10.1
+    # via djangorestframework-simplejwt
+pylint==3.3.4
     # via eCommerce (pyproject.toml)
 pytest==8.3.4
     # via
@@ -84,18 +73,11 @@ pytest-django==4.9.0
     # via eCommerce (pyproject.toml)
 python-decouple==3.8
     # via eCommerce (pyproject.toml)
-python3-openid==3.2.0
-    # via django-allauth
 requests==2.32.3
-    # via
-    #   django-allauth
-    #   requests-oauthlib
-    #   stripe
-requests-oauthlib==2.0.0
-    # via django-allauth
+    # via stripe
 sqlparse==0.5.3
     # via django
-stripe==11.4.1
+stripe==11.5.0
     # via eCommerce (pyproject.toml)
 tomlkit==0.13.2
     # via pylint
