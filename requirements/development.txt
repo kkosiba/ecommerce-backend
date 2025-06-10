@@ -73,7 +73,7 @@ pytest-django==4.9.0
     # via eCommerce (pyproject.toml)
 python-decouple==3.8
     # via eCommerce (pyproject.toml)
-requests==2.32.3
+requests==2.32.4
     # via stripe
 sqlparse==0.5.3
     # via django
