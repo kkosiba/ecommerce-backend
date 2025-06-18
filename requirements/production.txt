@@ -66,7 +66,7 @@ python-dateutil==2.9.0.post0
     # via botocore
 python-decouple==3.8
     # via eCommerce (pyproject.toml)
-requests==2.32.3
+requests==2.32.4
     # via stripe
 s3transfer==0.11.2
     # via boto3

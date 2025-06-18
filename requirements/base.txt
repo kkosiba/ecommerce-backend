@@ -47,7 +47,7 @@ pyjwt==2.10.1
     # via djangorestframework-simplejwt
 python-decouple==3.8
     # via eCommerce (pyproject.toml)
-requests==2.32.3
+requests==2.32.4
     # via stripe
 sqlparse==0.5.3
     # via django
