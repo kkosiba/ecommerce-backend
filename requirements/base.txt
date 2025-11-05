@@ -15,7 +15,7 @@ charset-normalizer==3.4.1
     # via requests
 dj-rest-auth==7.0.1
     # via eCommerce (pyproject.toml)
-django==5.1.7
+django==5.1.14
     # via
     #   dj-rest-auth
     #   django-allauth
