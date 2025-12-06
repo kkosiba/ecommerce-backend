@@ -78,7 +78,7 @@ stripe==11.5.0
     # via eCommerce (pyproject.toml)
 typing-extensions==4.12.2
     # via stripe
-urllib3==2.3.0
+urllib3==2.6.0
     # via
     #   botocore
     #   requests
