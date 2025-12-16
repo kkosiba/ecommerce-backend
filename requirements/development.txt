@@ -30,7 +30,7 @@ django==5.1.7
     #   djangorestframework
     #   djangorestframework-simplejwt
     #   eCommerce (pyproject.toml)
-django-allauth==65.3.1
+django-allauth==65.13.0
     # via eCommerce (pyproject.toml)
 django-cors-headers==4.6.0
     # via eCommerce (pyproject.toml)
