@@ -83,5 +83,5 @@ tomlkit==0.13.2
     # via pylint
 typing-extensions==4.12.2
     # via stripe
-urllib3==2.3.0
+urllib3==2.6.3
     # via requests
